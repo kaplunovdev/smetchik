@@ -1,0 +1,13 @@
+
+.navBottom{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.navBottomImg{
+    max-width: 50px;
+}
+.navBottomImg img{
+    max-width: 100%;
+}

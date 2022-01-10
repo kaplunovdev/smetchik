@@ -1,0 +1,9 @@
+
+.introBtn {
+    padding: 10px;
+    border: none;
+    color: white;
+    background: tomato;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
