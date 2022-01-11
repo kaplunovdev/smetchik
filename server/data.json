@@ -1,0 +1,14 @@
+[
+  {
+    "work": {
+      "plitka": 500,
+      "porebrik": 200,
+      "beton": 500
+    },
+    "price": {
+      "plitka": 800,
+      "porebrik": 250,
+      "beton": 3000
+    }
+  }
+]

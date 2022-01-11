@@ -3,27 +3,19 @@ const ADD_WORK = 'ADD_WORK';
 const initialState = {
     typeWork: [
         {
-            id: 1,
-            title: 'Укладка тротуарной плитки',
+            count: '',
         },
-        {
-            id: 2,
-            title: 'Монтаж поребрика',
-        },
-        {
-            id: 3,
-            title: 'Асфальтирование',
-        },
+
     ],
 }
 
-export const paymentReducer = (state = initialState, action)=>{
+export const paymentReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_WORK:
-
+            return {...state, count: action.payload}
         default:
             return state;
     }
 }
 
-export const addWork = (title) => ({type: ADD_WORK,title})
+export const addWork = (count) => ({type: ADD_WORK, count})
