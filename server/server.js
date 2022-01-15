@@ -3,11 +3,12 @@ const fs = require('fs');
 
 const app = express();
 const jsonParser = express.json()
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/"));
 
-const filePath = "data.json"
-app.post("/api/addPayment", jsonParser, (req, res) => {
-    if (!req.body) return res.sendStatus(400)
+const file = "data.json"
+app.post("http://localhost:3000/payment", jsonParser, (req, res) => {
+    if (!req.body) return res.send('Ошибка - нет тела запроса')
+    console.log(req.body)
     const workName = req.body.work
     const priceCount = req.body.price
 
@@ -19,7 +20,7 @@ app.post("/api/addPayment", jsonParser, (req, res) => {
             plitka: priceCount
         }
     }
-    let data = fs.readFileSync(filePath, "utf8")
+    let data = fs.readFileSync(file, "utf8")
 
     let result = JSON.parse(data)
 
@@ -28,7 +29,9 @@ app.post("/api/addPayment", jsonParser, (req, res) => {
     fs.writeFileSync("data.json", data);
     res.send(workResult)
 })
-
+app.get("http://localhost:3001/api", (req, res) => {
+    res.json({ message: "Hello from server!" });
+});
 
 
 app.listen(3001, function () {

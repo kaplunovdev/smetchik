@@ -7,3 +7,15 @@
     justify-content: space-between;
     min-height: 100%;
 }
+.error{
+    color:tomato;
+    font-size: 12px;
+}
+.errorInput{
+    border: 1px solid tomato;
+}
+.materialBtn{
+    padding: 5px;
+    border: 1px solid tomato;
+    cursor: pointer;
+}

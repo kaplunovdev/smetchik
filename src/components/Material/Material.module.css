@@ -1,0 +1,29 @@
+.formInputs input{
+    width: 50%;
+    display: flex;
+    flex-wrap: nowrap;
+    margin-bottom: 10px;
+}
+.formInputsItem{
+    display: flex;
+    flex-wrap: nowrap;
+
+}
+.formInputsItem span{
+    margin-left: 10px;
+
+}
+.formInputRatio input{
+    width: 10%;
+    margin-bottom: 0;
+
+}
+.formInputRatio{
+    margin-right: 5px;
+    display: flex;
+    align-items: center;
+
+}
+span.formInputRatio{
+    margin-left: 0;
+}

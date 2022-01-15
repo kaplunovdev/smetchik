@@ -1,9 +1,9 @@
 import React from "react";
-import Payment from "./Payment";
+import {Payment} from "./Payment";
 import {addWork} from "../../redux/paymentReducer";
 import {connect} from "react-redux";
 
-const PaymentContainer = (props) => {
+ const PaymentContainer = (props) => {
 
     return (
         <div>
