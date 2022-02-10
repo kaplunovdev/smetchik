@@ -1,17 +1,18 @@
 import React from "react";
 import style from './Intro.module.css'
 import {NavLink} from "react-router-dom";
+import {Button} from "@mui/material";
 
 const Intro = (props) => {
     return (
         <div>
             <div>
                 <NavLink to={'/payment'}>
-                    <button className={style.introBtn}>Расчет сметы</button>
+                    <Button>Расчет сметы</Button>
                 </NavLink>
             </div>
             <div>
-                <button className={style.introBtn}>Расчет материалов</button>
+                <Button>Расчет материалов</Button>
             </div>
         </div>
     )

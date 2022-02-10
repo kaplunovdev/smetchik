@@ -2,8 +2,10 @@ import React, {useEffect, useState} from "react";
 import style from './Payment.module.css'
 import NavBottom from "../NavBottom/NavBottom";
 import {getStorage, setStorage} from "../../localStorage/localStorage";
-import {Formik, Field} from 'formik';
+import {Formik} from 'formik';
 import {Material} from "../Material/Material";
+import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField} from "@mui/material";
+import {setCountPlitka} from "../../redux/paymentReducerPlitka";
 
 export const Payment = () => {
     const [works, setWorks] = useState({
@@ -28,6 +30,24 @@ export const Payment = () => {
         setWorks({plitkaPriceWork: e.target.value})
         setStorage('plitkaPriceWork', e.target.value)
     }
+
+    function createData(name, price, count) {
+        return {name, price, count};
+    }
+
+
+    const rows = [
+        createData('Плитка', works.plitkaPriceWork, works.plitkaCount),
+    ];
+    console.log(createData('Плитка', works.plitkaCount, works.plitkaPriceWork))
+
+    const result = (a, b) => {
+        return a * b
+    }
+
+
+
+
     return (
         <div className={style.paymentBox}>
             <Formik initialValues={{}}
@@ -57,37 +77,61 @@ export const Payment = () => {
                       isSubmitting,
 
                   }) => (
-
                     <form onSubmit={handleSubmit} className={style.paymentBox}>
                         <div>
-                            <p>Тротуарная плитка</p>
-                            Площадь укладки м2:
-                            <Field
-                                className={errors.countS && style.errorInput}
-                                value={works.plitkaCount}
-                                onChange={setDataCount}
-                                name='countS'
-                                type="input"
+                            <p style={{marginBottom: 15}}>Тротуарная плитка</p>
+                            <div style={{display: "flex", gap: 15}}>
+                                <TextField
+                                    className={errors.countS && style.errorInput}
+                                    value={works.plitkaCount}
+                                    onChange={setCountPlitka(rows.count)}
+                                    name='countS'
+                                    type="input"
+                                    label="Площадь укладки"
 
-                            />
-                            {errors.countS && <p className={style.error}>Заполните поле</p>}
-                            Стоимость 1м2:
-                            <Field
-                                className={errors.price && style.errorInput}
-                                value={works.plitkaPriceWork}
-                                onChange={setDataPrice}
-                                type="input"
-                                name='price'
-                            />
+                                />
+                                {errors.countS && <p className={style.error}>Заполните поле</p>}
+                                <TextField
+                                    className={errors.price && style.errorInput}
+                                    value={works.plitkaPriceWork}
+                                    onChange={setDataPrice}
+                                    type="input"
+                                    name='price'
+                                    label="Стоимость 1м2"
+                                />
+                            </div>
                             {errors.price && <p className={style.error}>Заполните поле</p>}
                         </div>
-                        <div>Стоимость работ:</div>
-                        <PaymentMaterial plitkaCount={works.plitkaCount} plitkaPriceWork={works.plitkaPriceWork}/>
+                        <TableContainer component={Paper} style={{marginBottom: 20}}>
+                            <Table sx={{minWidth: 300}} size="small" aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>Стоимость работ</TableRow>
+                                    <TableRow style={{background: '#29d9b085'}}>
+                                        <TableCell>Позиция</TableCell>
+                                        <TableCell>Кол-во</TableCell>
+                                        <TableCell align="right">Стоимость</TableCell>
+                                        <TableCell align="right">Всего</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {rows.map((row) => (
+                                        <TableRow
+                                            key={row.name}
+                                            sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                        >
+                                            <TableCell component="th" scope="row">{row.name}</TableCell>
+                                            <TableCell align="right">{row.count}</TableCell>
+                                            <TableCell align="right">{row.price}</TableCell>
+                                            <TableCell align="right">{result(row.count, row.price)}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
                         <div>
                             <button type="submit" disabled={isSubmitting}>Отправить</button>
                             <span className={style.materialBtn} onClick={materialToggle}>
                                 {!works.materialVisible ? 'Рассчитать материалы' : 'Скрыть материалы'}
-
                             </span>
                         </div>
                         {works.materialVisible && <Material/>}
@@ -95,6 +139,7 @@ export const Payment = () => {
                 )}
 
             < /Formik>
+
             <NavBottom/>
 
         </div>
@@ -102,74 +147,6 @@ export const Payment = () => {
 
     )
 }
-const PaymentMaterial = ({plitkaCount, plitkaPriceWork}) => {
 
-    const [material, setMaterial] = useState({
-        pricePlitka: 870,
-        plitkaCount: plitkaCount,
-        pricePesok: 600,
-        countPesok: 10,
-        priceSeben: 600,
-        countSeben: 10
-    })
-console.log(material.pricePlitka)
-    const price = getStorage('plitkaPriceWork')
-    const count = getStorage('plitkaCount')
-    const resultWork = count * price
-    useEffect(() => {
-        const count = getStorage('plitkaCount')
-        const price = getStorage('plitkaPriceWork')
-
-        setMaterial({plitkaCount: count})
-        console.log('RENDER')
-
-    },[plitkaCount,plitkaPriceWork])
-
-
-    return (
-        <div>
-            <table border={1}>
-                <tbody>
-                <tr bgcolor={'tomato'}>
-                    <td colSpan={3}>Работа</td>
-                </tr>
-                <tr>
-                    <td>Плитка</td>
-                    <td>Стоимость</td>
-                    <td>Итог</td>
-                </tr>
-                <tr>
-                    <td>{count}</td>
-                    <td>{price}</td>
-                    <td>{resultWork + '₽'}</td>
-                </tr>
-                </tbody>
-            </table>
-            <table border={1}>
-                <tbody>
-                <tr bgcolor={'tomato'}>
-                    <td colSpan={5}>Материалы</td>
-                </tr>
-                <tr>
-                    <td>Позиция</td>
-                    <td>Кол-во</td>
-                    <td>Цена ед.</td>
-                    <td>Всего</td>
-                </tr>
-
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td colSpan={4} align={"right"}>Result</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    )
-}
 
 
