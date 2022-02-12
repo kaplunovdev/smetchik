@@ -5,29 +5,33 @@ import {getStorage, setStorage} from "../../localStorage/localStorage";
 import {Formik} from 'formik';
 import {Material} from "../Material/Material";
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField} from "@mui/material";
-import {setCountPlitka} from "../../redux/paymentReducerPlitka";
+import {setCountPlitka, setPricePlitka} from "../../redux/paymentReducerPlitka";
+import {useDispatch, useSelector} from "react-redux";
 
-export const Payment = () => {
-    const [works, setWorks] = useState({
-        plitkaPriceWork: getStorage('plitkaPriceWork'),
-        plitkaCount: getStorage('plitkaCount'),
+export const Payment = (state) => {
+    const [materialPanel, setMaterialPanel] = useState({
         materialVisible: false
     })
-    useEffect(() => {
-        const count = getStorage('plitkaCount')
-        const price = getStorage('plitkaPriceWork')
-        setWorks({plitkaCount: count})
-        setWorks({plitkaPriceWork: price})
-    }, [])
+
     const materialToggle = () => {
-        setWorks({materialVisible: !works.materialVisible})
+        setMaterialPanel({materialVisible: !materialPanel.materialVisible})
     }
-    const setDataCount = (e) => {
-        setWorks({plitkaCount: e.target.value})
+
+     const count = useSelector(state=>state.paymentPage.plitkaCount)
+     const price = useSelector(state=>state.paymentPage.plitkaPrice)
+
+    const dispatch = useDispatch();
+    const setCount = (e) => {
+        const value = e.target.value
+       dispatch(setCountPlitka(value))
         setStorage('plitkaCount', e.target.value)
+
     }
-    const setDataPrice = (e) => {
-        setWorks({plitkaPriceWork: e.target.value})
+
+    const setPrice = (e) => {
+        const value = e.target.value
+
+        dispatch(setPricePlitka(value))
         setStorage('plitkaPriceWork', e.target.value)
     }
 
@@ -37,14 +41,19 @@ export const Payment = () => {
 
 
     const rows = [
-        createData('Плитка', works.plitkaPriceWork, works.plitkaCount),
+        createData('Плитка', price, count),
     ];
-    console.log(createData('Плитка', works.plitkaCount, works.plitkaPriceWork))
 
     const result = (a, b) => {
         return a * b
     }
 
+    let mapstateToProps=(state)=>{
+        return{
+            plitkaCount: count,
+            plitkaPrice: price,
+        }
+    }
 
 
 
@@ -83,8 +92,8 @@ export const Payment = () => {
                             <div style={{display: "flex", gap: 15}}>
                                 <TextField
                                     className={errors.countS && style.errorInput}
-                                    value={works.plitkaCount}
-                                    onChange={setCountPlitka(rows.count)}
+                                    value={count}
+                                    onChange={setCount}
                                     name='countS'
                                     type="input"
                                     label="Площадь укладки"
@@ -93,8 +102,8 @@ export const Payment = () => {
                                 {errors.countS && <p className={style.error}>Заполните поле</p>}
                                 <TextField
                                     className={errors.price && style.errorInput}
-                                    value={works.plitkaPriceWork}
-                                    onChange={setDataPrice}
+                                    value={price}
+                                    onChange={setPrice}
                                     type="input"
                                     name='price'
                                     label="Стоимость 1м2"
@@ -131,10 +140,10 @@ export const Payment = () => {
                         <div>
                             <button type="submit" disabled={isSubmitting}>Отправить</button>
                             <span className={style.materialBtn} onClick={materialToggle}>
-                                {!works.materialVisible ? 'Рассчитать материалы' : 'Скрыть материалы'}
+                                {!materialPanel.materialVisible ? 'Рассчитать материалы' : 'Скрыть материалы'}
                             </span>
                         </div>
-                        {works.materialVisible && <Material/>}
+                        {materialPanel.materialVisible && <Material/>}
                     </form>
                 )}
 
