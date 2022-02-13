@@ -5,25 +5,25 @@ import {getStorage, setStorage} from "../../localStorage/localStorage";
 import {Formik} from 'formik';
 import {Material} from "../Material/Material";
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField} from "@mui/material";
-import {setCountPlitka, setPricePlitka} from "../../redux/paymentReducerPlitka";
+import {
+    actionCountPlitkaWork,
+    actionPricePlitkaWork,
+    setCountPlitka,
+    setPricePlitka
+} from "../../redux/paymentReducerPlitka";
 import {useDispatch, useSelector} from "react-redux";
 
 export const Payment = (state) => {
-    const [materialPanel, setMaterialPanel] = useState({
-        materialVisible: false
-    })
 
-    const materialToggle = () => {
-        setMaterialPanel({materialVisible: !materialPanel.materialVisible})
-    }
+
 
      const count = useSelector(state=>state.paymentPage.plitkaCount)
-     const price = useSelector(state=>state.paymentPage.plitkaPrice)
+     const price = useSelector(state=>state.paymentPage.plitkaPriceWork)
 
     const dispatch = useDispatch();
     const setCount = (e) => {
         const value = e.target.value
-       dispatch(setCountPlitka(value))
+       dispatch(actionCountPlitkaWork(value))
         setStorage('plitkaCount', e.target.value)
 
     }
@@ -31,7 +31,7 @@ export const Payment = (state) => {
     const setPrice = (e) => {
         const value = e.target.value
 
-        dispatch(setPricePlitka(value))
+        dispatch(actionPricePlitkaWork(value))
         setStorage('plitkaPriceWork', e.target.value)
     }
 
@@ -39,22 +39,9 @@ export const Payment = (state) => {
         return {name, price, count};
     }
 
-
     const rows = [
         createData('Плитка', price, count),
     ];
-
-    const result = (a, b) => {
-        return a * b
-    }
-
-    let mapstateToProps=(state)=>{
-        return{
-            plitkaCount: count,
-            plitkaPrice: price,
-        }
-    }
-
 
 
     return (
@@ -111,6 +98,11 @@ export const Payment = (state) => {
                             </div>
                             {errors.price && <p className={style.error}>Заполните поле</p>}
                         </div>
+
+                        <div>
+                            {/*<button type="submit" disabled={isSubmitting}>Отправить</button>*/}
+                        </div>
+                         <Material/>
                         <TableContainer component={Paper} style={{marginBottom: 20}}>
                             <Table sx={{minWidth: 300}} size="small" aria-label="simple table">
                                 <TableHead>
@@ -131,19 +123,25 @@ export const Payment = (state) => {
                                             <TableCell component="th" scope="row">{row.name}</TableCell>
                                             <TableCell align="right">{row.count}</TableCell>
                                             <TableCell align="right">{row.price}</TableCell>
-                                            <TableCell align="right">{result(row.count, row.price)}</TableCell>
+                                            <TableCell align="right">{count*price}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
+
                             </Table>
+                            <Table style={{marginTop:10}} sx={{minWidth: 300}} size="small" aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>Стоимость материалов</TableRow>
+                                    <TableRow style={{background: 'rgb(60 181 255 / 52%)'}}>
+                                        <TableCell>Позиция</TableCell>
+                                        <TableCell>Кол-во</TableCell>
+                                        <TableCell align="right">Стоимость</TableCell>
+                                        <TableCell align="right">Всего</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                            </Table>
+
                         </TableContainer>
-                        <div>
-                            <button type="submit" disabled={isSubmitting}>Отправить</button>
-                            <span className={style.materialBtn} onClick={materialToggle}>
-                                {!materialPanel.materialVisible ? 'Рассчитать материалы' : 'Скрыть материалы'}
-                            </span>
-                        </div>
-                        {materialPanel.materialVisible && <Material/>}
                     </form>
                 )}
 

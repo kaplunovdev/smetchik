@@ -2,15 +2,27 @@ import React, {useState} from "react";
 import {Formik, Field} from "formik";
 import style from './Material.module.css'
 import {TextField} from "@mui/material";
+import {useDispatch, useSelector} from "react-redux";
+import {setStorage} from "../../localStorage/localStorage";
+import {
+    actionPriceCement, actionPriceCementRatio,
+    actionPricePesok,
+    actionPricePlitka,
+    actionPriceSheben,
+    actionPriceSmec
+} from "../../redux/paymentReducerPlitka";
 
 export const Material = () => {
+    const plitkaPrice = useSelector(state => state.paymentPage.plitkaPrice)
+    const plitkaPricePesok = useSelector(state => state.paymentPage.plitkaPricePesok)
+    const plitkaPriceSheben = useSelector(state => state.paymentPage.plitkaPriceSheben)
+    const plitkaSmecHeight = useSelector(state => state.paymentPage.plitkaSmecHeight)
+    const plitkaPriceCement = useSelector(state => state.paymentPage.plitkaPriceCement)
+    const plitkaPriceCementRatio = useSelector(state => state.paymentPage.plitkaPriceCementRatio)
 
 
-    const [plitkaM, setPlitkaM] = useState('500')
-    const [pesokM, setPesokM] = useState('500')
-    const [shebenM, setShebenM] = useState('650')
-    const [smesM, setSmesM] = useState('2,5')
-    const [cement, setCement] = useState('5')
+    const dispatch = useDispatch();
+
 
     return (
         <div>
@@ -19,24 +31,23 @@ export const Material = () => {
                 <div className={style.formInputsItem}>
                     <TextField
                         placeholder={'Стоимость плитки м2'}
-                        onChange={(event => setPlitkaM(event.target.value))}
-                        value={plitkaM}
+                        onChange={e=>dispatch(actionPricePlitka(e.target.value))}
+                        value={plitkaPrice}
                         label="Цена плитки"
-
                     />
                 </div>
                 <div className={style.formInputsItem}>
                     <TextField placeholder={'Слой песка (см)'}
-                               onChange={(event => setPesokM(event.target.value))}
-                               value={pesokM}
+                               onChange={e=>dispatch(actionPricePesok(e.target.value))}
+                               value={plitkaPricePesok}
                                label="Цена песка"
-
                     />
                 </div>
                 <div className={style.formInputsItem}>
                     <TextField placeholder={'Слой щебня (см)'}
-                               onChange={(event => setShebenM(event.target.value))}
-                               value={shebenM}
+                               onChange={e=>dispatch(actionPriceSheben(e.target.value))}
+                               value={plitkaPriceSheben}
+
                                label="Цена щебня"
                     />
 
@@ -44,24 +55,27 @@ export const Material = () => {
                 </div>
                 <div className={style.formInputsItem}>
                     <TextField placeholder={'Слой цементной смеси (см)'}
-                               onChange={(event => setSmesM(event.target.value))}
-                               value={smesM}
+                               onChange={e=>dispatch(actionPriceSmec(e.target.value))}
+                               value={plitkaSmecHeight}
                                label="Толщина смеси"
+                    />
+                </div>
+                <div className={style.formInputsItem}>
+                    <TextField placeholder={'Цена цемента'}
+                               onChange={e=>dispatch(actionPriceCement(e.target.value))}
+                               value={plitkaPriceCement}
+                               label="Цена цемента"
                     />
                 </div>
                 <div className={style.formInputsItem + ' ' + style.formInputRatio}>
                     <span className={style.formInputRatio}>1/</span>
                     <TextField placeholder={'Слой цементной смеси (см)'}
-                               onChange={(event => setCement(event.target.value))}
-                               value={cement}
-                               label="Цена цемента"
+                               onChange={e=>dispatch(actionPriceCementRatio(e.target.value))}
+                               value={plitkaPriceCementRatio}
+                               label="Соотношение"
                     />
-
                 </div>
-
-
             </div>
-
         </div>
     );
 };

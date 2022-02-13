@@ -77,7 +77,7 @@ select {
   }
 }
 .app{
-  max-width: 700px;
+  max-width: 770px;
   min-height: 500px;
   height: 100%;
   display: flex;
