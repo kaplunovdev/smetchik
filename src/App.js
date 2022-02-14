@@ -1,7 +1,6 @@
 import './App.css';
 import Intro from "./components/Intro/Intro";
 import {Route, Routes} from "react-router-dom";
-import PaymentContainer from "./components/Payment/PaymentContainer";
 import {Payment} from "./components/Payment/Payment";
 
 function App() {

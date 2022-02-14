@@ -1,36 +1,23 @@
-const PLITKA_COUNT_WORK = 'PLITKA_COUNT_WORK';
-const PLITKA_PRICE_WORK = 'PLITKA_PRICE_WORK';
 const PLITKA_PRICE = 'PLITKA_PRICE';
 const PLITKA_PRICE_PESOK = 'PLITKA_PRICE_PESOK';
 const PLITKA_PRICE_SHEBEN = 'PLITKA_PRICE_SHEBEN';
 const PLITKA_PRICE_SMES = 'PLITKA_PRICE_SMES';
 const PLITKA_PRICE_CEMENT = 'PLITKA_PRICE_CEMENT';
 const PLITKA_PRICE_CEMENT_RATIO = 'PLITKA_PRICE_CEMENT_RATIO';
-const PLITKA_IS_VISIBLE = 'PLITKA_IS_VISIBLE';
-const CLEAR_DATA = 'CLEAR_DATA';
 
 const initialState = {
-    plitkaCount: '',
-    plitkaPrice: '',
-    plitkaPriceWork: '',
-    plitkaPricePesok: '',
-    plitkaPriceSheben: '',
-    plitkaSmecHeight: '',
-    plitkaPriceCement: '',
-    plitkaPriceCementRatio: '',
-    isVisiblePlitka: false
+    plitkaCount: '120',
+    plitkaPrice: '800',
+    plitkaPriceWork: '500',
+    plitkaPricePesok: '650',
+    plitkaPriceSheben: '750',
+    plitkaSmecHeight: '2,5',
+    plitkaPriceCement: '350',
+    plitkaPriceCementRatio: '5',
 
 }
 
-// export const clearReducer = (state, action) => {
-//     if (action.type === 'CLEAR_DATA') {
-//         state = undefined;
-//     }
-//
-//     return paymentReducerPlitka(state, action);
-// };
-
-export const paymentReducerPlitka = (state = initialState, action) => {
+export const reducerMaterials = (state = initialState, action) => {
     switch (action.type) {
         case PLITKA_COUNT_WORK:
             return {...state, plitkaCount: action.count}
@@ -48,18 +35,6 @@ export const paymentReducerPlitka = (state = initialState, action) => {
             return {...state, plitkaPriceCement: action.price}
         case PLITKA_PRICE_CEMENT_RATIO:
             return {...state, plitkaPriceCementRatio: action.count}
-        case PLITKA_IS_VISIBLE:
-            return {...state, isVisiblePlitka: action.payload}
-        case CLEAR_DATA:
-            return {...state,
-                plitkaCount:'',
-                plitkaPriceWork:'',
-                plitkaPrice:'',
-                plitkaPricePesok:'',
-                plitkaPriceSheben:'',
-                plitkaSmec:'',
-                plitkaPriceCementRatio:'',
-            }
         default:
             return state;
     }
@@ -88,10 +63,4 @@ export const actionPriceCement = (price) =>
 
 export const actionPriceCementRatio = (count) =>
     ({type: PLITKA_PRICE_CEMENT_RATIO, count})
-
-export const actionIsVisible = (payload) =>
-    ({type: PLITKA_IS_VISIBLE, payload})
-
-export const clearData = () =>
-    ({type: CLEAR_DATA})
 

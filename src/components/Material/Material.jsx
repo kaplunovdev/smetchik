@@ -26,7 +26,6 @@ export const Material = () => {
 
     return (
         <div>
-            <p>Нужные материалы:</p>
             <div className={style.formInputs}>
                 <div className={style.formInputsItem}>
                     <TextField

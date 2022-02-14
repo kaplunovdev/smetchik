@@ -1,9 +1,10 @@
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
-import {paymentReducerPlitka} from "./paymentReducerPlitka";
+import {clearReducer, paymentReducerPlitka} from "./paymentReducerPlitka";
 import thunkMiddleware from "redux-thunk";
 
 const reducers = combineReducers({
     paymentPage: paymentReducerPlitka,
+
 })
 
 let store = createStore(

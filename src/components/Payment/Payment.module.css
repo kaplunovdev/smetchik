@@ -19,3 +19,19 @@
     border: 1px solid tomato;
     cursor: pointer;
 }
+.panelPlitka{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+
+
+}
+.panelPlitka svg{
+    fill: tomato;
+    font-size: 2rem;
+}
+.panelPlitka svg:hover{
+    opacity: 0.8;
+    transition: opacity .2s;
+}
