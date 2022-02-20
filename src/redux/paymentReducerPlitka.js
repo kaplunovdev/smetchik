@@ -9,11 +9,7 @@ const CLEAR_DATA = 'CLEAR_DATA';
 
 const initialState = {
     plitkaCount: '',
-    plitkaPrice: '',
     plitkaPriceWork: '',
-    plitkaPricePesok: '',
-    plitkaPriceSheben: '',
-    plitkaPriceCement: '',
     isVisiblePlitka: false
 
 }
@@ -26,15 +22,6 @@ export const paymentReducerPlitka = (state = initialState, action) => {
             return {...state, plitkaCount: action.count}
         case PLITKA_PRICE_WORK:
             return {...state, plitkaPriceWork: action.price}
-        case PLITKA_PRICE:
-            return {...state, plitkaPrice: action.price}
-        case PLITKA_PRICE_PESOK:
-            return {...state, plitkaPricePesok: action.price}
-        case PLITKA_PRICE_SHEBEN:
-            return {...state, plitkaPriceSheben: action.price}
-
-        case PLITKA_PRICE_CEMENT:
-            return {...state, plitkaPriceCement: action.price}
 
         case PLITKA_IS_VISIBLE:
             return {...state, isVisiblePlitka: action.payload}
@@ -42,11 +29,6 @@ export const paymentReducerPlitka = (state = initialState, action) => {
             return {...state,
                 plitkaCount:'',
                 plitkaPriceWork:'',
-                plitkaPrice:'',
-                plitkaPricePesok:'',
-                plitkaPriceSheben:'',
-                plitkaSmec:'',
-                plitkaPriceCementRatio:'',
             }
         default:
             return state;
@@ -58,19 +40,6 @@ export const actionCountPlitkaWork = (count) =>
 
 export const actionPricePlitkaWork = (price) =>
     ({type: PLITKA_PRICE_WORK, price})
-
-export const actionPricePlitka = (price) =>
-    ({type: PLITKA_PRICE, price})
-
-export const actionPricePesok = (price) =>
-    ({type: PLITKA_PRICE_PESOK, price})
-
-export const actionPriceSheben = (price) =>
-    ({type: PLITKA_PRICE_SHEBEN, price})
-
-
-export const actionPriceCement = (price) =>
-    ({type: PLITKA_PRICE_CEMENT, price})
 
 
 export const actionIsVisible = (payload) =>

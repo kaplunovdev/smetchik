@@ -1,25 +1,20 @@
-import React, {useState} from "react";
-import {Formik, Field} from "formik";
+import React from "react";
 import style from './Material.module.css'
 import {TextField} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
-import {setStorage} from "../../localStorage/localStorage";
 import {
-    actionPriceCement, actionPriceCementRatio,
-    actionPricePesok,
-    actionPricePlitka,
-    actionPriceSheben,
-    actionPriceSmec
-} from "../../redux/paymentReducerPlitka";
+    actionPriceCement,
+    actionPricePesok, actionPricePlitka,
+    actionPricePorebrik,
+    actionPriceSheben
+} from "../../redux/reducerMaterials";
 
 export const Material = () => {
-    const plitkaPrice = useSelector(state => state.paymentPage.plitkaPrice)
-    const plitkaPricePesok = useSelector(state => state.paymentPage.plitkaPricePesok)
-    const plitkaPriceSheben = useSelector(state => state.paymentPage.plitkaPriceSheben)
-    const plitkaSmecHeight = useSelector(state => state.paymentPage.plitkaSmecHeight)
-    const plitkaPriceCement = useSelector(state => state.paymentPage.plitkaPriceCement)
-    const plitkaPriceCementRatio = useSelector(state => state.paymentPage.plitkaPriceCementRatio)
-
+    const plitkaPrice = useSelector(state => state.materialPage.plitkaPrice)
+    const pricePesok = useSelector(state => state.materialPage.pricePesok)
+    const priceSheben = useSelector(state => state.materialPage.priceSheben)
+    const porebrikPrice = useSelector(state => state.materialPage.porebrikPrice)
+    const priceCement = useSelector(state => state.materialPage.priceCement)
 
     const dispatch = useDispatch();
 
@@ -29,35 +24,39 @@ export const Material = () => {
             <div className={style.formInputs}>
                 <div className={style.formInputsItem}>
                     <TextField
-                        placeholder={'Стоимость плитки м2'}
-                        onChange={e=>dispatch(actionPricePlitka(e.target.value))}
+
+                        onChange={e => dispatch(actionPricePlitka(e.target.value))}
                         value={plitkaPrice}
                         label="Цена плитки"
                     />
                 </div>
                 <div className={style.formInputsItem}>
-                    <TextField placeholder={'Слой песка (см)'}
-                               onChange={e=>dispatch(actionPricePesok(e.target.value))}
-                               value={plitkaPricePesok}
-                               label="Цена песка"
+                    <TextField
+                        onChange={e => dispatch(actionPricePesok(e.target.value))}
+                        value={pricePesok}
+                        label="Цена песка"
                     />
                 </div>
                 <div className={style.formInputsItem}>
-                    <TextField placeholder={'Слой щебня (см)'}
-                               onChange={e=>dispatch(actionPriceSheben(e.target.value))}
-                               value={plitkaPriceSheben}
-
-                               label="Цена щебня"
+                    <TextField
+                        onChange={e => dispatch(actionPriceSheben(e.target.value))}
+                        value={priceSheben}
+                        label="Цена щебня"
                     />
-
-
+                </div>
+                <div className={style.formInputsItem}>
+                    <TextField
+                        onChange={e => dispatch(actionPricePorebrik(e.target.value))}
+                        value={porebrikPrice}
+                        label="Цена поребрика "
+                    />
                 </div>
 
                 <div className={style.formInputsItem}>
-                    <TextField placeholder={'Цена цемента'}
-                               onChange={e=>dispatch(actionPriceCement(e.target.value))}
-                               value={plitkaPriceCement}
-                               label="Цена цемента"
+                    <TextField
+                        onChange={e => dispatch(actionPriceCement(e.target.value))}
+                        value={priceCement}
+                        label="Цена цемента"
                     />
                 </div>
 

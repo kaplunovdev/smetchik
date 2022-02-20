@@ -36,9 +36,17 @@
     transition: opacity .2s;
 }
 .title{
-    font-size: 30px;
+    font-size: 35px;
     text-transform: uppercase;
     color: tomato;
     text-align: center;
     margin-bottom: 20px;
+}
+.accordion{
+    display: flex;
+}
+.infoMaterials{
+    font-size: 12px;
+    color: green;
+
 }

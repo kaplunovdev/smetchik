@@ -63,24 +63,24 @@ export const Payment = (state) => {
 
     const count = useSelector(state => state.paymentPage.plitkaCount)
     const plitkaPriceWork = useSelector(state => state.paymentPage.plitkaPriceWork)
-    const plitkaPrice = useSelector(state => state.paymentPage.plitkaPrice)
-    const plitkaPriceCement = useSelector(state => state.paymentPage.plitkaPriceCement)
+    const plitkaPrice = useSelector(state => state.materialPage.plitkaPrice)
+    const porebrikPrice = useSelector(state => state.materialPage.porebrikPrice)
+    const priceCement = useSelector(state => state.materialPage.priceCement)
     const isVisiblePlitka = useSelector(state => state.paymentPage.isVisiblePlitka)
-    const plitkaPriceSheben = useSelector(state => state.paymentPage.plitkaPriceSheben)
-    const plitkaPricePesok = useSelector(state => state.paymentPage.plitkaPricePesok)
+    const isVisibleMaterials = useSelector(state => state.paymentPage.isVisiblePlitka)
+    const priceSheben = useSelector(state => state.materialPage.priceSheben)
+    const pricePesok = useSelector(state => state.materialPage.pricePesok)
     const totalWork = plitkaPriceWork * count;
 
 
     const setCount = (e) => {
         const value = e.target.value
         dispatch(actionCountPlitkaWork(value))
-        setStorage('plitkaCount', e.target.value)
     }
 
     const setPrice = (e) => {
         const value = e.target.value
         dispatch(actionPricePlitkaWork(value))
-        setStorage('plitkaPriceWork', e.target.value)
     }
 
 
@@ -102,9 +102,9 @@ export const Payment = (state) => {
 
     const materials = [
         plitkaPrice !== '' ? createData('Плитка', plitkaPrice, count) : null,
-        plitkaPriceCement !== '' ? createData('Цемент', plitkaPriceCement, materialsCount.cement) : null,
-        plitkaPriceSheben !== '' ? createData('Щебень', plitkaPriceSheben, materialsCount.sheben) : null,
-        plitkaPricePesok !== '' ? createData('Песок', plitkaPricePesok, materialsCount.pesok) : null,
+        priceCement !== '' ? createData('Цемент', priceCement, materialsCount.cement) : null,
+        priceSheben !== '' ? createData('Щебень', priceSheben, materialsCount.sheben) : null,
+        pricePesok !== '' ? createData('Песок', pricePesok, materialsCount.pesok) : null,
     ];
 
     const materialsFilter = materials.filter(elem => elem !== null)
@@ -169,7 +169,7 @@ export const Payment = (state) => {
                                 aria-expanded={open ? 'true' : undefined}
                                 onClick={handleClick}
                             >
-                                + Добавить материал
+                                + Добавить материалы
                             </Button>
                             <Menu
                                 id="work_control"
@@ -251,7 +251,6 @@ export const Payment = (state) => {
                                             </div>
                                             {errors.price && <p className={style.error}>Заполните поле</p>}
 
-                                            <Material/>
                                             {openModal && <Modal
                                                 open={openModal}
                                                 onClose={handleCloseModal}
@@ -265,7 +264,47 @@ export const Payment = (state) => {
                                 </Accordion>
                             }
 
+                            <Accordion expanded={expanded === 'materials'} onChange={handleChangeToogle('materials')}>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon/>}
 
+                                    aria-controls="panel1bh-content"
+                                    id="panel1bh-header"
+                                >
+
+                                    <Typography sx={{width: '33%', flexShrink: 0}}>
+                                        Стоимость материалов
+
+                                    </Typography>
+
+                                </AccordionSummary>
+
+                                <AccordionDetails>
+                                    <Typography className={style.accordion}>
+                                        <Material/>
+
+                                        <div className={style.panelPlitka}>
+                                            <TrashIcon onClick={() => setOpenModal(true)}/>
+                                        </div>
+                                        {errors.price && <p className={style.error}>Заполните поле</p>}
+
+
+                                        {openModal && <Modal
+                                            open={openModal}
+                                            onClose={handleCloseModal}
+                                            aria-labelledby="modal-modal-title"
+                                            aria-describedby="modal-modal-description"
+                                            tooglePlitkaPanel={tooglePlitkaPanel}
+                                        >
+                                        </Modal>}
+                                    </Typography>
+                                    {plitkaPrice === '' && pricePesok === '' &&
+                                        priceCement === '' && priceSheben === '' && porebrikPrice === '' &&
+                                        <p className={style.infoMaterials}>Заполните нужные вам поля</p>
+
+                                    }
+                                </AccordionDetails>
+                            </Accordion>
                         </div>
 
                         <div>
@@ -280,7 +319,7 @@ export const Payment = (state) => {
                                         <TableRow>Стоимость работ</TableRow>
                                         <TableRow style={{background: '#29d9b085'}}>
                                             <TableCell>Позиция</TableCell>
-                                            <TableCell>Кол-во</TableCell>
+                                            <TableCell align="right">Кол-во</TableCell>
                                             <TableCell align="right">Стоимость</TableCell>
                                             <TableCell align="right">Всего</TableCell>
                                         </TableRow>
@@ -301,7 +340,7 @@ export const Payment = (state) => {
                                 </Table>
                             }
 
-                            {count > 0 && plitkaPrice &&
+                            {plitkaPrice > 0 &&
                                 <Table style={{marginTop: 20}} sx={{minWidth: 300}} size="small"
                                        aria-label="simple table">
                                     <TableHead>
@@ -335,6 +374,7 @@ export const Payment = (state) => {
                                     </TableHead>
                                 </Table>
                             }
+
 
                         </TableContainer>
                     </form>
