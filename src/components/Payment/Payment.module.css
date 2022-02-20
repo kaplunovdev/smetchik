@@ -35,3 +35,10 @@
     opacity: 0.8;
     transition: opacity .2s;
 }
+.title{
+    font-size: 30px;
+    text-transform: uppercase;
+    color: tomato;
+    text-align: center;
+    margin-bottom: 20px;
+}

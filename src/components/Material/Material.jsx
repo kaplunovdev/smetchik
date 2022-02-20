@@ -52,13 +52,7 @@ export const Material = () => {
 
 
                 </div>
-                <div className={style.formInputsItem}>
-                    <TextField placeholder={'Слой цементной смеси (см)'}
-                               onChange={e=>dispatch(actionPriceSmec(e.target.value))}
-                               value={plitkaSmecHeight}
-                               label="Толщина смеси"
-                    />
-                </div>
+
                 <div className={style.formInputsItem}>
                     <TextField placeholder={'Цена цемента'}
                                onChange={e=>dispatch(actionPriceCement(e.target.value))}
@@ -66,14 +60,7 @@ export const Material = () => {
                                label="Цена цемента"
                     />
                 </div>
-                <div className={style.formInputsItem + ' ' + style.formInputRatio}>
-                    <span className={style.formInputRatio}>1/</span>
-                    <TextField placeholder={'Слой цементной смеси (см)'}
-                               onChange={e=>dispatch(actionPriceCementRatio(e.target.value))}
-                               value={plitkaPriceCementRatio}
-                               label="Соотношение"
-                    />
-                </div>
+
             </div>
         </div>
     );

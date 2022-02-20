@@ -85,7 +85,7 @@ export const Payment = (state) => {
 
 
     function createData(name, price, count) {
-            return {name, price, count};
+        return {name, price, count};
     }
 
     const works = [
@@ -101,10 +101,10 @@ export const Payment = (state) => {
 
 
     const materials = [
-        plitkaPrice !== '' ? createData('Плитка', plitkaPrice, count): null,
+        plitkaPrice !== '' ? createData('Плитка', plitkaPrice, count) : null,
         plitkaPriceCement !== '' ? createData('Цемент', plitkaPriceCement, materialsCount.cement) : null,
-        plitkaPriceSheben !== '' ? createData('Щебень', plitkaPriceSheben, materialsCount.sheben): null,
-        plitkaPricePesok !== '' ? createData('Песок', plitkaPricePesok, materialsCount.pesok): null,
+        plitkaPriceSheben !== '' ? createData('Щебень', plitkaPriceSheben, materialsCount.sheben) : null,
+        plitkaPricePesok !== '' ? createData('Песок', plitkaPricePesok, materialsCount.pesok) : null,
     ];
 
     const materialsFilter = materials.filter(elem => elem !== null)
@@ -123,6 +123,7 @@ export const Payment = (state) => {
 
     return (
         <div className={style.paymentBox}>
+            <h2 className={style.title}>Сметчик</h2>
             <Formik initialValues={{}}
                     validate={values => {
                         const errors = {};
@@ -153,17 +154,42 @@ export const Payment = (state) => {
                     <form onSubmit={handleSubmit} className={style.paymentBox}>
                         <div>
                             <Button
-                                id="demo-positioned-button"
-                                aria-controls={open ? 'demo-positioned-menu' : undefined}
+                                id="work"
+                                aria-controls={open ? 'work_control' : undefined}
                                 aria-haspopup="true"
                                 aria-expanded={open ? 'true' : undefined}
                                 onClick={handleClick}
                             >
                                 + Добавить работу
                             </Button>
+                            <Button
+                                id="material"
+                                aria-controls={open ? 'material_control' : undefined}
+                                aria-haspopup="true"
+                                aria-expanded={open ? 'true' : undefined}
+                                onClick={handleClick}
+                            >
+                                + Добавить материал
+                            </Button>
                             <Menu
-                                id="demo-positioned-menu"
-                                aria-labelledby="demo-positioned-button"
+                                id="work_control"
+                                aria-labelledby="work"
+                                anchorEl={anchorEl}
+                                open={open}
+                                onClose={handleClose}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'left',
+                                }}
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'left',
+                                }}
+                            >
+                            </Menu>
+                            <Menu
+                                id="material_control"
+                                aria-labelledby="material"
                                 anchorEl={anchorEl}
                                 open={open}
                                 onClose={handleClose}
@@ -224,6 +250,7 @@ export const Payment = (state) => {
 
                                             </div>
                                             {errors.price && <p className={style.error}>Заполните поле</p>}
+
                                             <Material/>
                                             {openModal && <Modal
                                                 open={openModal}

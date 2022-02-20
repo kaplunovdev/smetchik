@@ -1,9 +1,9 @@
-const PLITKA_PRICE = 'PLITKA_PRICE';
+const PLITKA_PRICE_WORK = 'PLITKA_PRICE_WORK';
 const PLITKA_PRICE_PESOK = 'PLITKA_PRICE_PESOK';
 const PLITKA_PRICE_SHEBEN = 'PLITKA_PRICE_SHEBEN';
 const PLITKA_PRICE_SMES = 'PLITKA_PRICE_SMES';
 const PLITKA_PRICE_CEMENT = 'PLITKA_PRICE_CEMENT';
-const PLITKA_PRICE_CEMENT_RATIO = 'PLITKA_PRICE_CEMENT_RATIO';
+const PLITKA_COUNT_WORK = 'PLITKA_COUNT_WORK';
 
 const initialState = {
     plitkaCount: '120',
@@ -11,9 +11,7 @@ const initialState = {
     plitkaPriceWork: '500',
     plitkaPricePesok: '650',
     plitkaPriceSheben: '750',
-    plitkaSmecHeight: '2,5',
     plitkaPriceCement: '350',
-    plitkaPriceCementRatio: '5',
 
 }
 
@@ -29,12 +27,8 @@ export const reducerMaterials = (state = initialState, action) => {
             return {...state, plitkaPricePesok: action.price}
         case PLITKA_PRICE_SHEBEN:
             return {...state, plitkaPriceSheben: action.price}
-        case PLITKA_PRICE_SMES:
-            return {...state, plitkaSmec: action.price}
         case PLITKA_PRICE_CEMENT:
             return {...state, plitkaPriceCement: action.price}
-        case PLITKA_PRICE_CEMENT_RATIO:
-            return {...state, plitkaPriceCementRatio: action.count}
         default:
             return state;
     }
@@ -55,8 +49,7 @@ export const actionPricePesok = (price) =>
 export const actionPriceSheben = (price) =>
     ({type: PLITKA_PRICE_SHEBEN, price})
 
-export const actionPriceSmec = (price) =>
-    ({type: PLITKA_PRICE_SMES, price})
+
 
 export const actionPriceCement = (price) =>
     ({type: PLITKA_PRICE_CEMENT, price})
