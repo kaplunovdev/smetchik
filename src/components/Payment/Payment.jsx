@@ -1,6 +1,5 @@
 import React from "react";
 import style from './Payment.module.css'
-import {setStorage} from "../../localStorage/localStorage";
 import {Formik} from 'formik';
 import {Material} from "../Material/Material";
 import Accordion from '@mui/material/Accordion';
@@ -25,12 +24,14 @@ import {
     TextField,
 } from "@mui/material";
 import {
+    actionClearDataPlitka,
     actionCountPlitkaWork,
-    actionIsVisible,
-    actionPricePlitkaWork,
-    clearData
+    actionIsVisiblePlitka,
+    actionPricePlitkaWork
 } from "../../redux/paymentReducerPlitka";
 import {useDispatch, useSelector} from "react-redux";
+import {actionClearDataMaterials, actionIsVisibleMaterials} from "../../redux/reducerMaterials";
+
 
 export const Payment = (state) => {
     const [openModal, setOpenModal] = React.useState(false);
@@ -43,17 +44,24 @@ export const Payment = (state) => {
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+    const openMaterials=(action)=>{
+        dispatch(actionIsVisibleMaterials(true))
+    }
+
     const handleClose = () => {
         setAnchorEl(null);
     };
     const clearDataPlitka = () => {
-        dispatch(clearData())
+        dispatch(actionClearDataPlitka(false))
+    }
+    const clearDataMaterials = () => {
+        dispatch(actionClearDataMaterials())
     }
     const tooglePlitkaPanel = (action) => {
-        dispatch(actionIsVisible(action))
+        dispatch(actionIsVisiblePlitka(action))
         handleClose();
         setOpenModal(false);
-        clearDataPlitka();
+       // clearDataPlitka();
     }
     const [expanded, setExpanded] = React.useState(false);
 
@@ -67,7 +75,7 @@ export const Payment = (state) => {
     const porebrikPrice = useSelector(state => state.materialPage.porebrikPrice)
     const priceCement = useSelector(state => state.materialPage.priceCement)
     const isVisiblePlitka = useSelector(state => state.paymentPage.isVisiblePlitka)
-    const isVisibleMaterials = useSelector(state => state.paymentPage.isVisiblePlitka)
+    const isVisibleMaterials = useSelector(state => state.materialPage.isVisible)
     const priceSheben = useSelector(state => state.materialPage.priceSheben)
     const pricePesok = useSelector(state => state.materialPage.pricePesok)
     const totalWork = plitkaPriceWork * count;
@@ -167,7 +175,8 @@ export const Payment = (state) => {
                                 aria-controls={open ? 'material_control' : undefined}
                                 aria-haspopup="true"
                                 aria-expanded={open ? 'true' : undefined}
-                                onClick={handleClick}
+                                onClick={openMaterials}
+                                disabled={isVisibleMaterials}
                             >
                                 + Добавить материалы
                             </Button>
@@ -254,57 +263,52 @@ export const Payment = (state) => {
                                             {openModal && <Modal
                                                 open={openModal}
                                                 onClose={handleCloseModal}
+                                                clearDataPlitka={clearDataPlitka}
                                                 aria-labelledby="modal-modal-title"
                                                 aria-describedby="modal-modal-description"
-                                                tooglePlitkaPanel={tooglePlitkaPanel}
                                             >
                                             </Modal>}
                                         </Typography>
                                     </AccordionDetails>
                                 </Accordion>
                             }
+                            {isVisibleMaterials &&
+                                <Accordion expanded={expanded === 'materials'} onChange={handleChangeToogle('materials')}>
+                                    <AccordionSummary
+                                        expandIcon={<ExpandMoreIcon/>}
 
-                            <Accordion expanded={expanded === 'materials'} onChange={handleChangeToogle('materials')}>
-                                <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon/>}
+                                        aria-controls="panel1bh-content"
+                                        id="panel1bh-header"
+                                    >
 
-                                    aria-controls="panel1bh-content"
-                                    id="panel1bh-header"
-                                >
+                                        <Typography sx={{width: '33%', flexShrink: 0}}>
+                                            Стоимость материалов
 
-                                    <Typography sx={{width: '33%', flexShrink: 0}}>
-                                        Стоимость материалов
+                                        </Typography>
 
-                                    </Typography>
+                                    </AccordionSummary>
 
-                                </AccordionSummary>
+                                    <AccordionDetails>
+                                        <Typography className={style.accordion}>
+                                            <Material/>
 
-                                <AccordionDetails>
-                                    <Typography className={style.accordion}>
-                                        <Material/>
-
-                                        <div className={style.panelPlitka}>
-                                            <TrashIcon onClick={() => setOpenModal(true)}/>
-                                        </div>
-                                        {errors.price && <p className={style.error}>Заполните поле</p>}
+                                            <div className={style.panelPlitka}>
+                                                <TrashIcon onClick={() => setOpenModal(true)}/>
+                                            </div>
+                                            {errors.price && <p className={style.error}>Заполните поле</p>}
 
 
-                                        {openModal && <Modal
-                                            open={openModal}
-                                            onClose={handleCloseModal}
-                                            aria-labelledby="modal-modal-title"
-                                            aria-describedby="modal-modal-description"
-                                            tooglePlitkaPanel={tooglePlitkaPanel}
-                                        >
-                                        </Modal>}
-                                    </Typography>
-                                    {plitkaPrice === '' && pricePesok === '' &&
-                                        priceCement === '' && priceSheben === '' && porebrikPrice === '' &&
-                                        <p className={style.infoMaterials}>Заполните нужные вам поля</p>
 
-                                    }
-                                </AccordionDetails>
-                            </Accordion>
+                                        </Typography>
+                                        {plitkaPrice === '' && pricePesok === '' &&
+                                            priceCement === '' && priceSheben === '' && porebrikPrice === '' &&
+                                            <p className={style.infoMaterials}>Заполните нужные вам поля</p>
+
+                                        }
+                                    </AccordionDetails>
+                                </Accordion>
+                            }
+
                         </div>
 
                         <div>

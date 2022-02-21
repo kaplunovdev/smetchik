@@ -5,7 +5,7 @@ const PLITKA_PRICE_PESOK = 'PLITKA_PRICE_PESOK';
 const PLITKA_PRICE_SHEBEN = 'PLITKA_PRICE_SHEBEN';
 const PLITKA_PRICE_CEMENT = 'PLITKA_PRICE_CEMENT';
 const PLITKA_IS_VISIBLE = 'PLITKA_IS_VISIBLE';
-const CLEAR_DATA = 'CLEAR_DATA';
+const CLEAR_DATA_PLITKA = 'CLEAR_DATA_PLITKA';
 
 const initialState = {
     plitkaCount: '',
@@ -25,10 +25,11 @@ export const paymentReducerPlitka = (state = initialState, action) => {
 
         case PLITKA_IS_VISIBLE:
             return {...state, isVisiblePlitka: action.payload}
-        case CLEAR_DATA:
+        case CLEAR_DATA_PLITKA:
             return {...state,
                 plitkaCount:'',
                 plitkaPriceWork:'',
+                isVisiblePlitka: false
             }
         default:
             return state;
@@ -42,9 +43,9 @@ export const actionPricePlitkaWork = (price) =>
     ({type: PLITKA_PRICE_WORK, price})
 
 
-export const actionIsVisible = (payload) =>
+export const actionIsVisiblePlitka = (payload) =>
     ({type: PLITKA_IS_VISIBLE, payload})
 
-export const clearData = () =>
-    ({type: CLEAR_DATA})
+export const actionClearDataPlitka = () =>
+    ({type: CLEAR_DATA_PLITKA})
 
