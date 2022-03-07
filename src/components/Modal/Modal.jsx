@@ -28,7 +28,7 @@ const Modal = ({onClose, clearDataPlitka}) => {
                 }}>
                     <p style={{marginBottom: 20}}>Вы уверены?</p>
                     <p>
-                        <Button onClick={() => clearDataPlitka}>Удалить</Button>
+                        <Button onClick={clearDataPlitka}>Удалить</Button>
                         <Button onClick={onClose}>Отмена</Button>
                     </p>
 

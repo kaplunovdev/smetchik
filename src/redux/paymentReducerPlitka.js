@@ -1,51 +1,109 @@
-const PLITKA_COUNT_WORK = 'PLITKA_COUNT_WORK';
-const PLITKA_PRICE_WORK = 'PLITKA_PRICE_WORK';
+import {isVisible} from "@testing-library/user-event/dist/utils";
+
+const COUNT = 'COUNT';
+const PRICE = 'PRICE';
 const PLITKA_PRICE = 'PLITKA_PRICE';
 const PLITKA_PRICE_PESOK = 'PLITKA_PRICE_PESOK';
 const PLITKA_PRICE_SHEBEN = 'PLITKA_PRICE_SHEBEN';
 const PLITKA_PRICE_CEMENT = 'PLITKA_PRICE_CEMENT';
-const PLITKA_IS_VISIBLE = 'PLITKA_IS_VISIBLE';
-const CLEAR_DATA_PLITKA = 'CLEAR_DATA_PLITKA';
+const IS_VISIBLE = 'IS_VISIBLE';
+const CLEAR_DATA = 'CLEAR_DATA';
 
 const initialState = {
-    plitkaCount: '',
-    plitkaPriceWork: '',
-    isVisiblePlitka: false
+
+    cards: [
+        {
+            title: 'Тротуарная плитка',
+            count: '',
+            price: '',
+            isVisible: false,
+        },
+        {
+            title: 'Поребрик',
+            count: '',
+            price: '',
+            isVisible: false,
+        },
+    ]
 
 }
 
 
-
 export const paymentReducerPlitka = (state = initialState, action) => {
     switch (action.type) {
-        case PLITKA_COUNT_WORK:
-            return {...state, plitkaCount: action.count}
-        case PLITKA_PRICE_WORK:
-            return {...state, plitkaPriceWork: action.price}
+        case COUNT:
+            return {
+                ...state,
+                cards: state.cards.map(el => {
+                    if (el.title === action.title) {
+                        return {
+                            ...el,
+                            count: action.count
+                        }
 
-        case PLITKA_IS_VISIBLE:
-            return {...state, isVisiblePlitka: action.payload}
-        case CLEAR_DATA_PLITKA:
-            return {...state,
-                plitkaCount:'',
-                plitkaPriceWork:'',
-                isVisiblePlitka: false
+                    }
+                    return el
+                })
+
+            }
+
+
+        case PRICE:
+            return {
+                ...state,
+                cards: state.cards.map(el => {
+                    if (el.title === action.title) {
+                        return {
+                            ...el,
+                            price: action.price
+                        }
+
+                    }
+                    return el
+                })
+            }
+
+        case IS_VISIBLE:
+            return {
+                ...state, cards: state.cards.map(el => {
+                    if (el.title === action.title) {
+                        return {
+                            ...el, isVisible: action.payload
+                        }
+                    }
+                    return el
+                })
+            }
+        case CLEAR_DATA:
+            return {
+                ...state, cards: state.cards.map(el => {
+                    if (el.title === action.payload) {
+                        return {
+                            ...el,
+                            count: '',
+                            price: '',
+                            isVisible: false
+                        }
+                    }
+                    return el
+                })
+
             }
         default:
             return state;
     }
 }
 
-export const actionCountPlitkaWork = (count) =>
-    ({type: PLITKA_COUNT_WORK, count})
+export const actionCountPlitkaWork = (count, title) =>
+    ({type: COUNT, count, title})
 
-export const actionPricePlitkaWork = (price) =>
-    ({type: PLITKA_PRICE_WORK, price})
+export const actionPricePlitkaWork = (price, title) =>
+    ({type: PRICE, price, title})
 
 
-export const actionIsVisiblePlitka = (payload) =>
-    ({type: PLITKA_IS_VISIBLE, payload})
+export const actionIsVisiblePlitka = (payload, title) =>
+    ({type: IS_VISIBLE, payload, title})
 
-export const actionClearDataPlitka = () =>
-    ({type: CLEAR_DATA_PLITKA})
+export const actionClearDataPlitka = ( payload) =>
+    ({type: CLEAR_DATA,payload} )
 

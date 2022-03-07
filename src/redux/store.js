@@ -15,6 +15,7 @@ let store = createStore(
     )
 );
 window.store = store
+ console.log(store.getState().paymentPage.cards)
 export default store;
 
 

@@ -29,30 +29,30 @@ import {
     actionIsVisiblePlitka,
     actionPricePlitkaWork
 } from "../../redux/paymentReducerPlitka";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector, useStore} from "react-redux";
 import {actionClearDataMaterials, actionIsVisibleMaterials} from "../../redux/reducerMaterials";
 
 
-export const Payment = (state) => {
+export const Payment = () => {
     const [openModal, setOpenModal] = React.useState(false);
     const handleOpen = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false);
     const dispatch = useDispatch();
-
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
-    const openMaterials=(action)=>{
+    const openMaterials = (action) => {
         dispatch(actionIsVisibleMaterials(true))
     }
 
     const handleClose = () => {
         setAnchorEl(null);
     };
-    const clearDataPlitka = () => {
-        dispatch(actionClearDataPlitka(false))
+    const clearDataPlitka = (title) => {
+        dispatch(actionClearDataPlitka(title))
+        setOpenModal(false)
     }
     const clearDataMaterials = () => {
         dispatch(actionClearDataMaterials())
@@ -61,7 +61,7 @@ export const Payment = (state) => {
         dispatch(actionIsVisiblePlitka(action))
         handleClose();
         setOpenModal(false);
-       // clearDataPlitka();
+        // clearDataPlitka();
     }
     const [expanded, setExpanded] = React.useState(false);
 
@@ -69,8 +69,8 @@ export const Payment = (state) => {
         setExpanded(isExpanded ? panel : false);
     };
 
-    const count = useSelector(state => state.paymentPage.plitkaCount)
-    const plitkaPriceWork = useSelector(state => state.paymentPage.plitkaPriceWork)
+    const count = useSelector(state => state.paymentPage.cards)
+    const price = useSelector(state => state.paymentPage.price)
     const plitkaPrice = useSelector(state => state.materialPage.plitkaPrice)
     const porebrikPrice = useSelector(state => state.materialPage.porebrikPrice)
     const priceCement = useSelector(state => state.materialPage.priceCement)
@@ -78,12 +78,18 @@ export const Payment = (state) => {
     const isVisibleMaterials = useSelector(state => state.materialPage.isVisible)
     const priceSheben = useSelector(state => state.materialPage.priceSheben)
     const pricePesok = useSelector(state => state.materialPage.pricePesok)
-    const totalWork = plitkaPriceWork * count;
+    const totalWork = price * count;
 
-
-    const setCount = (e) => {
-        const value = e.target.value
-        dispatch(actionCountPlitkaWork(value))
+    // const setCount = (e) => {
+    //     const value = e.target.value
+    //     dispatch(actionCountPlitkaWork(value))
+    //
+    // }
+    const store = useStore();
+    const state = store.getState();
+    const setVisible = (payload, title) => {
+        dispatch(actionIsVisiblePlitka(payload, title))
+        handleClose()
     }
 
     const setPrice = (e) => {
@@ -96,9 +102,11 @@ export const Payment = (state) => {
         return {name, price, count};
     }
 
-    const works = [
-        createData('Плитка', plitkaPriceWork, count),
-    ];
+    const works = state.paymentPage.cards.map(el =>
+        createData(el.title, el.price, el.count)
+    )
+
+
 
     const materialsCount = {
         plitka: count,
@@ -128,6 +136,7 @@ export const Payment = (state) => {
         }
         return result;
     }
+
 
     return (
         <div className={style.paymentBox}>
@@ -211,13 +220,19 @@ export const Payment = (state) => {
                                     horizontal: 'left',
                                 }}
                             >
-                                <MenuItem disabled={isVisiblePlitka} onClick={() => tooglePlitkaPanel(true)}>Тротуарная
+                                <MenuItem
+
+                                    onClick={() => setVisible(true, 'Тротуарная плитка')}>Тротуарная
                                     плитка</MenuItem>
-                                <MenuItem onClick={handleClose}>Поребрик</MenuItem>
+                                <MenuItem
+                                    onClick={() => setVisible(true, 'Поребрик')}>Поребрик</MenuItem>
+                                <MenuItem onClick={handleClose}>Бордюр</MenuItem>
                             </Menu>
 
-                            {isVisiblePlitka &&
-                                <Accordion expanded={expanded === 'panel1'} onChange={handleChangeToogle('panel1')}>
+                            {state.paymentPage.cards.map((el) =>
+                                el.isVisible &&
+                                <Accordion key={el.title} expanded={expanded === el.title}
+                                           onChange={handleChangeToogle(el.title)}>
                                     <AccordionSummary
                                         expandIcon={<ExpandMoreIcon/>}
 
@@ -226,7 +241,7 @@ export const Payment = (state) => {
                                     >
 
                                         <Typography sx={{width: '33%', flexShrink: 0}}>
-                                            Тротуарная плитка
+                                            {el.title}
                                         </Typography>
 
                                     </AccordionSummary>
@@ -237,33 +252,36 @@ export const Payment = (state) => {
                                                 <div style={{display: "flex", gap: 15, alignItems: 'center'}}>
                                                     <TextField
                                                         className={errors.countS && style.errorInput}
-                                                        value={count}
-                                                        onChange={setCount}
+                                                        // value={el.count}
+                                                        onChange={(e) =>
+                                                            dispatch(actionCountPlitkaWork(e.target.value, el.title))
+                                                        }
+
+
                                                         name='countS'
                                                         type="input"
                                                         label="Площадь укладки"
-
                                                     />
-                                                    {errors.countS && <p className={style.error}>Заполните поле</p>}
+
                                                     <TextField
                                                         className={errors.price && style.errorInput}
-                                                        value={plitkaPriceWork}
-                                                        onChange={setPrice}
+                                                       // value={el.price}
+                                                        onChange={(e)=>
+                                                            dispatch(actionPricePlitkaWork(e.target.value, el.title))}
                                                         type="input"
                                                         name='price'
                                                         label="Стоимость 1м2"
                                                     />
                                                 </div>
-                                                <TrashIcon onClick={() => setOpenModal(true)}/>
-
+                                                <TrashIcon  onClick={() => setOpenModal(true)}/>
 
                                             </div>
-                                            {errors.price && <p className={style.error}>Заполните поле</p>}
+
 
                                             {openModal && <Modal
                                                 open={openModal}
                                                 onClose={handleCloseModal}
-                                                clearDataPlitka={clearDataPlitka}
+                                                clearDataPlitka={()=>clearDataPlitka(el.title)}
                                                 aria-labelledby="modal-modal-title"
                                                 aria-describedby="modal-modal-description"
                                             >
@@ -271,12 +289,14 @@ export const Payment = (state) => {
                                         </Typography>
                                     </AccordionDetails>
                                 </Accordion>
+                            )
+
                             }
                             {isVisibleMaterials &&
-                                <Accordion expanded={expanded === 'materials'} onChange={handleChangeToogle('materials')}>
+                                <Accordion expanded={expanded === 'materials'}
+                                           onChange={handleChangeToogle('materials')}>
                                     <AccordionSummary
                                         expandIcon={<ExpandMoreIcon/>}
-
                                         aria-controls="panel1bh-content"
                                         id="panel1bh-header"
                                     >
@@ -295,9 +315,6 @@ export const Payment = (state) => {
                                             <div className={style.panelPlitka}>
                                                 <TrashIcon onClick={() => setOpenModal(true)}/>
                                             </div>
-                                            {errors.price && <p className={style.error}>Заполните поле</p>}
-
-
 
                                         </Typography>
                                         {plitkaPrice === '' && pricePesok === '' &&
@@ -317,32 +334,33 @@ export const Payment = (state) => {
 
                         <TableContainer component={Paper} style={{marginBottom: 20, marginTop: 20}}>
 
-                            {count > 0 && plitkaPriceWork &&
-                                <Table sx={{minWidth: 300}} size="small" aria-label="simple table">
-                                    <TableHead>
-                                        <TableRow>Стоимость работ</TableRow>
-                                        <TableRow style={{background: '#29d9b085'}}>
-                                            <TableCell>Позиция</TableCell>
-                                            <TableCell align="right">Кол-во</TableCell>
-                                            <TableCell align="right">Стоимость</TableCell>
-                                            <TableCell align="right">Всего</TableCell>
+
+                            <Table sx={{minWidth: 300}} size="small" aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>Стоимость работ</TableRow>
+                                    <TableRow style={{background: '#29d9b085'}}>
+                                        <TableCell>Позиция</TableCell>
+                                        <TableCell align="right">Кол-во</TableCell>
+                                        <TableCell align="right">Стоимость</TableCell>
+                                        <TableCell align="right">Всего</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {works.map((el) => (
+                                        el.count && el.price &&
+                                        <TableRow
+                                            key={el.name}
+                                            sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                        >
+                                            <TableCell component="th" scope="row">{el.name}</TableCell>
+                                            <TableCell align="right">{el.count}</TableCell>
+                                            <TableCell align="right">{el.price}</TableCell>
+                                            <TableCell align="right">{el.count * el.price}</TableCell>
                                         </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {works.map((row) => (
-                                            <TableRow
-                                                key={row.name}
-                                                sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                                            >
-                                                <TableCell component="th" scope="row">{row.name}</TableCell>
-                                                <TableCell align="right">{row.count}</TableCell>
-                                                <TableCell align="right">{row.price}</TableCell>
-                                                <TableCell align="right">{row.count * row.price}</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            }
+                                    ))}
+                                </TableBody>
+                            </Table>
+
 
                             {plitkaPrice > 0 &&
                                 <Table style={{marginTop: 20}} sx={{minWidth: 300}} size="small"
