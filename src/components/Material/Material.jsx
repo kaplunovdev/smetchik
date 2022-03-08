@@ -18,15 +18,13 @@ export const Material = () => {
 
     const dispatch = useDispatch();
 
-
     return (
         <div>
             <div className={style.formInputs}>
                 <div className={style.formInputsItem}>
                     <TextField
-
                         onChange={e => dispatch(actionPricePlitka(e.target.value))}
-                        value={plitkaPrice}
+                       value={plitkaPrice}
                         label="Цена плитки"
                     />
                 </div>

@@ -1,5 +1,5 @@
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
-import {clearReducer, paymentReducerPlitka} from "./paymentReducerPlitka";
+import {paymentReducerPlitka} from "./paymentReducerPlitka";
 import thunkMiddleware from "redux-thunk";
 import {reducerMaterials} from "./reducerMaterials";
 
@@ -15,7 +15,6 @@ let store = createStore(
     )
 );
 window.store = store
- console.log(store.getState().paymentPage.cards)
 export default store;
 
 

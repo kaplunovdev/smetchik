@@ -57,28 +57,28 @@ export const Payment = () => {
     const clearDataMaterials = () => {
         dispatch(actionClearDataMaterials())
     }
-    const tooglePlitkaPanel = (action) => {
-        dispatch(actionIsVisiblePlitka(action))
-        handleClose();
-        setOpenModal(false);
-        // clearDataPlitka();
-    }
+    // const tooglePlitkaPanel = (action) => {
+    //     dispatch(actionIsVisiblePlitka(action))
+    //     handleClose();
+    //     setOpenModal(false);
+    //     // clearDataPlitka();
+    // }
     const [expanded, setExpanded] = React.useState(false);
 
     const handleChangeToogle = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
 
-    const count = useSelector(state => state.paymentPage.cards)
+    const cards = useSelector(state => state.paymentPage.cards)
     const price = useSelector(state => state.paymentPage.price)
     const plitkaPrice = useSelector(state => state.materialPage.plitkaPrice)
     const porebrikPrice = useSelector(state => state.materialPage.porebrikPrice)
     const priceCement = useSelector(state => state.materialPage.priceCement)
-    const isVisiblePlitka = useSelector(state => state.paymentPage.isVisiblePlitka)
     const isVisibleMaterials = useSelector(state => state.materialPage.isVisible)
     const priceSheben = useSelector(state => state.materialPage.priceSheben)
     const pricePesok = useSelector(state => state.materialPage.pricePesok)
-    const totalWork = price * count;
+    const pricePorebrik = useSelector(state => state.materialPage.porebrikPrice)
+    // const totalWork = price * count;
 
     // const setCount = (e) => {
     //     const value = e.target.value
@@ -92,10 +92,10 @@ export const Payment = () => {
         handleClose()
     }
 
-    const setPrice = (e) => {
-        const value = e.target.value
-        dispatch(actionPricePlitkaWork(value))
-    }
+    // const setPrice = (e) => {
+    //     const value = e.target.value
+    //     dispatch(actionPricePlitkaWork(value))
+    // }
 
 
     function createData(name, price, count) {
@@ -107,36 +107,48 @@ export const Payment = () => {
     )
 
 
+// const plitka = count.map(el=>{
+//     if(el.title === 'Тротуарная плитка'){
+//         return el.count
+//     }
+// })
+
 
     const materialsCount = {
-        plitka: count,
-        cement: Math.ceil(count / 9),
-        pesok: Math.ceil(count * 0.05 * 1.8),
-        sheben: Math.ceil(count * 0.05 * 1.8),
+        plitka: parseInt(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Тротуарная плитка')).map(el => el.count)),
+        cement: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Тротуарная плитка')).map(el => el.count) / 9),
+        pesok: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Тротуарная плитка')).map(el => el.count) * 0.05 * 1.8),
+        sheben: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Тротуарная плитка')).map(el => el.count) * 0.05 * 1.8),
+        porebrik: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Поребрик')).map(el => el.count)),
     }
 
-
     const materials = [
-        plitkaPrice !== '' ? createData('Плитка', plitkaPrice, count) : null,
+        plitkaPrice !== '' ? createData('Плитка', plitkaPrice, materialsCount.plitka) : null,
         priceCement !== '' ? createData('Цемент', priceCement, materialsCount.cement) : null,
         priceSheben !== '' ? createData('Щебень', priceSheben, materialsCount.sheben) : null,
         pricePesok !== '' ? createData('Песок', pricePesok, materialsCount.pesok) : null,
+        pricePorebrik !== '' ? createData('Поребрик', pricePorebrik, materialsCount.porebrik) : null,
     ];
-
     const materialsFilter = materials.filter(elem => elem !== null)
 
     let totalMaterialPrice = materialsFilter.map((elem) => {
         return elem.price * elem.count
     });
+    let totalWorkPrice = cards.map((elem) => {
+        return elem.count * elem.price
+    });
+
 
     const sum = () => {
         let result = 0;
         for (let i = 0; i < totalMaterialPrice.length; i++) {
             result += totalMaterialPrice[i]
         }
+        for (let i = 0; i < totalWorkPrice.length; i++) {
+            result += totalWorkPrice[i]
+        }
         return result;
     }
-
 
     return (
         <div className={style.paymentBox}>
@@ -265,15 +277,15 @@ export const Payment = () => {
 
                                                     <TextField
                                                         className={errors.price && style.errorInput}
-                                                       // value={el.price}
-                                                        onChange={(e)=>
+                                                        // value={el.price}
+                                                        onChange={(e) =>
                                                             dispatch(actionPricePlitkaWork(e.target.value, el.title))}
                                                         type="input"
                                                         name='price'
                                                         label="Стоимость 1м2"
                                                     />
                                                 </div>
-                                                <TrashIcon  onClick={() => setOpenModal(true)}/>
+                                                <TrashIcon onClick={() => setOpenModal(true)}/>
 
                                             </div>
 
@@ -281,7 +293,7 @@ export const Payment = () => {
                                             {openModal && <Modal
                                                 open={openModal}
                                                 onClose={handleCloseModal}
-                                                clearDataPlitka={()=>clearDataPlitka(el.title)}
+                                                clearDataPlitka={() => clearDataPlitka(el.title)}
                                                 aria-labelledby="modal-modal-title"
                                                 aria-describedby="modal-modal-description"
                                             >
@@ -362,40 +374,38 @@ export const Payment = () => {
                             </Table>
 
 
-                            {plitkaPrice > 0 &&
-                                <Table style={{marginTop: 20}} sx={{minWidth: 300}} size="small"
-                                       aria-label="simple table">
-                                    <TableHead>
-                                        <TableRow>Стоимость материалов</TableRow>
-                                        <TableRow style={{background: 'rgb(60 181 255 / 52%)'}}>
-                                            <TableCell>Позиция</TableCell>
-                                            <TableCell>Кол-во</TableCell>
-                                            <TableCell align="right">Стоимость</TableCell>
-                                            <TableCell align="right">Всего</TableCell>
+                            <Table style={{marginTop: 20}} sx={{minWidth: 300}} size="small"
+                                   aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>Стоимость материалов</TableRow>
+                                    <TableRow style={{background: 'rgb(60 181 255 / 52%)'}}>
+                                        <TableCell>Позиция</TableCell>
+                                        <TableCell>Кол-во</TableCell>
+                                        <TableCell align="right">Стоимость</TableCell>
+                                        <TableCell align="right">Всего</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {materialsFilter.map((elem) => (
+                                        <TableRow key={elem.name}
+                                                  sx={{'&:last-child td, &:last-child th': {border: 0}}}>
+                                            <TableCell>{elem.name}</TableCell>
+                                            <TableCell>{elem.count}</TableCell>
+                                            <TableCell align="right">{elem.price}</TableCell>
+                                            <TableCell align="right">{parseInt(elem.count) * elem.price}</TableCell>
                                         </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {materialsFilter.map((elem) => (
-                                            <TableRow key={elem.name}
-                                                      sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-                                                <TableCell>{elem.name}</TableCell>
-                                                <TableCell>{elem.count}</TableCell>
-                                                <TableCell align="right">{elem.price}</TableCell>
-                                                <TableCell align="right">{parseInt(elem.count) * elem.price}</TableCell>
-                                            </TableRow>
-                                        ))
-                                        }
-                                    </TableBody>
-                                    <TableHead>
-                                        <TableRow style={{background: '#e9424285'}}>
-                                            <TableCell
-                                                colspan={4}
-                                                align="right">Итого: {sum() + totalWork}
-                                            </TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                </Table>
-                            }
+                                    ))
+                                    }
+                                </TableBody>
+                                <TableHead>
+                                    <TableRow style={{background: '#e9424285'}}>
+                                        <TableCell
+                                            colspan={4}
+                                            align="right">Итого: {sum()}
+                                        </TableCell>
+                                    </TableRow>
+                                </TableHead>
+                            </Table>
 
 
                         </TableContainer>

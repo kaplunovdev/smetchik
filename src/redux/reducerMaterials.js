@@ -1,9 +1,8 @@
-const PLITKA_PRICE_WORK = 'PLITKA_PRICE_WORK';
+const PRICE_PLITKA = 'PRICE_PLITKA';
 const PRICE_PESOK = 'PRICE_PESOK';
-const PLITKA_PRICE = 'PLITKA_PRICE';
 const PRICE_SHEBEN = 'PRICE_SHEBEN';
 const PRICE_CEMENT = 'PRICE_CEMENT';
-const POREBRIK_PRICE = 'PLITKA_COUNT_WORK';
+const PRICE_POREBRIK = 'PRICE_POREBRIK';
 const IS_VISIBLE_MATERIALS = 'IS_VISIBLE_MATERIALS';
 const CLEAR_DATA_MATERIALS = 'CLEAR_DATA_MATERIALS';
 
@@ -19,12 +18,9 @@ const initialState = {
 
 export const reducerMaterials = (state = initialState, action) => {
     switch (action.type) {
-
-        case PLITKA_PRICE_WORK:
-            return {...state, plitkaPriceWork: action.price}
-        case POREBRIK_PRICE:
+        case PRICE_POREBRIK:
             return {...state, porebrikPrice: action.price}
-        case PLITKA_PRICE:
+        case PRICE_PLITKA:
             return {...state, plitkaPrice: action.price}
         case PRICE_PESOK:
             return {...state, pricePesok: action.price}
@@ -36,8 +32,12 @@ export const reducerMaterials = (state = initialState, action) => {
             return {...state, isVisible: true}
         case CLEAR_DATA_MATERIALS:
             return {...state,
-                plitkaCount:'',
-                plitkaPriceWork:'',
+                plitkaPrice: '',
+                porebrikPrice: '',
+                pricePesok: '',
+                priceSheben: '',
+                priceCement: '',
+                isVisible:false
             }
         default:
             return state;
@@ -48,13 +48,10 @@ export const reducerMaterials = (state = initialState, action) => {
      ({type: IS_VISIBLE_MATERIALS})
 
 export const actionPricePorebrik = (price) =>
-    ({type: POREBRIK_PRICE, price})
-
-export const actionPricePlitkaWork = (price) =>
-    ({type: PLITKA_PRICE_WORK, price})
+    ({type: PRICE_POREBRIK, price})
 
 export const actionPricePlitka = (price) =>
-    ({type: PLITKA_PRICE, price})
+    ({type: PRICE_PLITKA, price})
 
 export const actionPricePesok = (price) =>
     ({type: PRICE_PESOK, price})

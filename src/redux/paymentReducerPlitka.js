@@ -1,11 +1,5 @@
-import {isVisible} from "@testing-library/user-event/dist/utils";
-
 const COUNT = 'COUNT';
 const PRICE = 'PRICE';
-const PLITKA_PRICE = 'PLITKA_PRICE';
-const PLITKA_PRICE_PESOK = 'PLITKA_PRICE_PESOK';
-const PLITKA_PRICE_SHEBEN = 'PLITKA_PRICE_SHEBEN';
-const PLITKA_PRICE_CEMENT = 'PLITKA_PRICE_CEMENT';
 const IS_VISIBLE = 'IS_VISIBLE';
 const CLEAR_DATA = 'CLEAR_DATA';
 
