@@ -6,11 +6,11 @@
 }
 .formInputs{
     display: flex;
+    flex-direction: column;
     padding: 15px 0;
 }
 .formInputsItem{
     margin: 5px;
-    max-width: 20%;
 
 }
 .formInputsItem span{

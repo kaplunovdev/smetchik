@@ -21,7 +21,7 @@
 }
 .panelPlitka{
     display: flex;
-    align-items: center;
+    align-items: end;
     justify-content: space-between;
     cursor: pointer;
 
@@ -44,9 +44,31 @@
 }
 .accordion{
     display: flex;
+
+}
+.materials{
+    margin-top: 10px;
+    border:1px solid #c4f1c4;
 }
 .infoMaterials{
     font-size: 12px;
     color: green;
 
+}
+.buttonMaterials{
+    color: green !important;
+}
+button.buttonMaterials:disabled{
+    color: gray!important;
+    opacity: 0.8;
+}
+.topBar{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+}
+.materialsPanel{
+    position: absolute;
+    right: 0;
+    z-index: 2;
 }

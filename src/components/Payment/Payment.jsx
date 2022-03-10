@@ -35,7 +35,14 @@ import {actionClearDataMaterials, actionIsVisibleMaterials} from "../../redux/re
 
 export const Payment = () => {
     const [openModal, setOpenModal] = React.useState(false);
-    const handleOpen = () => setOpenModal(true);
+    const [openModalMaterials, setOpenModalMaterials] = React.useState(false);
+    console.log('openModal', openModal)
+    const handleOpen = () => {
+        setOpenModal(true);
+    }
+    const handleOpenMaterials = () => {
+        setOpenModalMaterials(true);
+    }
     const handleCloseModal = () => setOpenModal(false);
     const dispatch = useDispatch();
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -55,14 +62,10 @@ export const Payment = () => {
         setOpenModal(false)
     }
     const clearDataMaterials = () => {
-        dispatch(actionClearDataMaterials())
+        setOpenModal(false)
+        dispatch(actionClearDataMaterials(false))
     }
-    // const tooglePlitkaPanel = (action) => {
-    //     dispatch(actionIsVisiblePlitka(action))
-    //     handleClose();
-    //     setOpenModal(false);
-    //     // clearDataPlitka();
-    // }
+
     const [expanded, setExpanded] = React.useState(false);
 
     const handleChangeToogle = (panel) => (event, isExpanded) => {
@@ -78,25 +81,13 @@ export const Payment = () => {
     const priceSheben = useSelector(state => state.materialPage.priceSheben)
     const pricePesok = useSelector(state => state.materialPage.pricePesok)
     const pricePorebrik = useSelector(state => state.materialPage.porebrikPrice)
-    // const totalWork = price * count;
 
-    // const setCount = (e) => {
-    //     const value = e.target.value
-    //     dispatch(actionCountPlitkaWork(value))
-    //
-    // }
     const store = useStore();
     const state = store.getState();
     const setVisible = (payload, title) => {
         dispatch(actionIsVisiblePlitka(payload, title))
         handleClose()
     }
-
-    // const setPrice = (e) => {
-    //     const value = e.target.value
-    //     dispatch(actionPricePlitkaWork(value))
-    // }
-
 
     function createData(name, price, count) {
         return {name, price, count};
@@ -105,13 +96,6 @@ export const Payment = () => {
     const works = state.paymentPage.cards.map(el =>
         createData(el.title, el.price, el.count)
     )
-
-
-// const plitka = count.map(el=>{
-//     if(el.title === 'Тротуарная плитка'){
-//         return el.count
-//     }
-// })
 
 
     const materialsCount = {
@@ -182,25 +166,77 @@ export const Payment = () => {
                   }) => (
                     <form onSubmit={handleSubmit} className={style.paymentBox}>
                         <div>
-                            <Button
-                                id="work"
-                                aria-controls={open ? 'work_control' : undefined}
-                                aria-haspopup="true"
-                                aria-expanded={open ? 'true' : undefined}
-                                onClick={handleClick}
-                            >
-                                + Добавить работу
-                            </Button>
-                            <Button
-                                id="material"
-                                aria-controls={open ? 'material_control' : undefined}
-                                aria-haspopup="true"
-                                aria-expanded={open ? 'true' : undefined}
-                                onClick={openMaterials}
-                                disabled={isVisibleMaterials}
-                            >
-                                + Добавить материалы
-                            </Button>
+                            <div className={style.topBar}>
+                                <div style={{width:"300px",marginBottom:"20px"}}>
+                                    <Button
+                                        id="work"
+                                        aria-controls={open ? 'work_control' : undefined}
+                                        aria-haspopup="true"
+                                        aria-expanded={open ? 'true' : undefined}
+                                        onClick={handleClick}
+                                    >
+                                        + Добавить работу
+                                    </Button>
+                                    <Button
+                                        className={style.buttonMaterials}
+                                        id="material"
+                                        aria-controls={open ? 'material_control' : undefined}
+                                        aria-haspopup="true"
+                                        aria-expanded={open ? 'true' : undefined}
+                                        onClick={openMaterials}
+                                        disabled={isVisibleMaterials}
+                                    >
+                                        + Добавить материалы
+                                    </Button>
+                                </div>
+                                <div className={style.materialsPanel}>
+                                    {isVisibleMaterials &&
+                                        <Accordion className={style.materials} expanded={expanded === 'materials'}
+                                                   onChange={handleChangeToogle('materials')}>
+                                            <AccordionSummary
+                                                expandIcon={<ExpandMoreIcon/>}
+                                                aria-controls="panel1bh-content"
+                                                id="panel1bh-header"
+                                            >
+
+                                                <Typography sx={{width: '33%', flexShrink: 0}}>
+                                                    Стоимость материалов
+
+                                                </Typography>
+
+                                            </AccordionSummary>
+
+                                            <AccordionDetails>
+                                                <Typography className={style.accordion}>
+                                                    <Material
+                                                    />
+
+                                                    <div className={style.panelPlitka}>
+                                                        <TrashIcon onClick={handleOpen}/>
+                                                    </div>
+                                                    {openModal && <Modal
+                                                        handleOpenMaterials={handleOpenMaterials}
+                                                        open={handleOpenMaterials}
+                                                        clearDataMaterials={clearDataMaterials}
+                                                        onClose={handleCloseModal}
+                                                        aria-labelledby="modal-modal-title"
+                                                        aria-describedby="modal-modal-description"
+                                                    >
+                                                    </Modal>}
+                                                </Typography>
+                                                {plitkaPrice === '' && pricePesok === '' &&
+                                                    priceCement === '' && priceSheben === '' && porebrikPrice === '' &&
+                                                    <p className={style.infoMaterials}>Заполните нужные вам поля</p>
+
+                                                }
+                                            </AccordionDetails>
+                                        </Accordion>
+                                    }
+                                </div>
+                            </div>
+
+
+
                             <Menu
                                 id="work_control"
                                 aria-labelledby="work"
@@ -304,39 +340,7 @@ export const Payment = () => {
                             )
 
                             }
-                            {isVisibleMaterials &&
-                                <Accordion expanded={expanded === 'materials'}
-                                           onChange={handleChangeToogle('materials')}>
-                                    <AccordionSummary
-                                        expandIcon={<ExpandMoreIcon/>}
-                                        aria-controls="panel1bh-content"
-                                        id="panel1bh-header"
-                                    >
 
-                                        <Typography sx={{width: '33%', flexShrink: 0}}>
-                                            Стоимость материалов
-
-                                        </Typography>
-
-                                    </AccordionSummary>
-
-                                    <AccordionDetails>
-                                        <Typography className={style.accordion}>
-                                            <Material/>
-
-                                            <div className={style.panelPlitka}>
-                                                <TrashIcon onClick={() => setOpenModal(true)}/>
-                                            </div>
-
-                                        </Typography>
-                                        {plitkaPrice === '' && pricePesok === '' &&
-                                            priceCement === '' && priceSheben === '' && porebrikPrice === '' &&
-                                            <p className={style.infoMaterials}>Заполните нужные вам поля</p>
-
-                                        }
-                                    </AccordionDetails>
-                                </Accordion>
-                            }
 
                         </div>
 

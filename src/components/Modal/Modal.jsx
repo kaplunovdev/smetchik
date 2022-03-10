@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import {Box, Button} from "@mui/material";
 
 
-const Modal = ({onClose, clearDataPlitka}) => {
+const Modal = ({onClose, clearDataPlitka, clearDataMaterials, handleOpenMaterials}) => {
     const style = {
         position: 'absolute',
         top: '50%',
@@ -28,7 +28,7 @@ const Modal = ({onClose, clearDataPlitka}) => {
                 }}>
                     <p style={{marginBottom: 20}}>Вы уверены?</p>
                     <p>
-                        <Button onClick={clearDataPlitka}>Удалить</Button>
+                        <Button onClick={handleOpenMaterials ? clearDataMaterials : clearDataPlitka}>Удалить</Button>
                         <Button onClick={onClose}>Отмена</Button>
                     </p>
 

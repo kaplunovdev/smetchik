@@ -12,7 +12,7 @@ const initialState = {
     pricePesok: '',
     priceSheben: '',
     priceCement: '',
-    isVisible:false
+    isVisible: false
 
 }
 
@@ -31,21 +31,22 @@ export const reducerMaterials = (state = initialState, action) => {
         case IS_VISIBLE_MATERIALS:
             return {...state, isVisible: true}
         case CLEAR_DATA_MATERIALS:
-            return {...state,
+            return {
+                ...state,
                 plitkaPrice: '',
                 porebrikPrice: '',
                 pricePesok: '',
                 priceSheben: '',
                 priceCement: '',
-                isVisible:false
+                isVisible: action.payload
             }
         default:
             return state;
     }
 }
 
- export const actionIsVisibleMaterials = () =>
-     ({type: IS_VISIBLE_MATERIALS})
+export const actionIsVisibleMaterials = () =>
+    ({type: IS_VISIBLE_MATERIALS})
 
 export const actionPricePorebrik = (price) =>
     ({type: PRICE_POREBRIK, price})
@@ -62,8 +63,8 @@ export const actionPriceSheben = (price) =>
 export const actionPriceCement = (price) =>
     ({type: PRICE_CEMENT, price})
 
-export const actionClearDataMaterials = () =>
-    ({type: CLEAR_DATA_MATERIALS})
+export const actionClearDataMaterials = (payload) =>
+    ({type: CLEAR_DATA_MATERIALS, payload})
 
 
 

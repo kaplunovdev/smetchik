@@ -8,6 +8,7 @@ import {
     actionPricePorebrik,
     actionPriceSheben
 } from "../../redux/reducerMaterials";
+import Modal from "../Modal/Modal";
 
 export const Material = () => {
     const plitkaPrice = useSelector(state => state.materialPage.plitkaPrice)
