@@ -2,12 +2,10 @@
     width: 50%;
     display: flex;
     flex-wrap: nowrap;
-    margin-bottom: 10px;
 }
 .formInputs{
     display: flex;
     flex-direction: column;
-    padding: 15px 0;
 }
 .formInputsItem{
     margin: 5px;

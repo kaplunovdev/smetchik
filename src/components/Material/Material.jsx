@@ -4,11 +4,11 @@ import {TextField} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {
     actionPriceCement,
-    actionPricePesok, actionPricePlitka,
+    actionPricePesok,
+    actionPricePlitka,
     actionPricePorebrik,
     actionPriceSheben
 } from "../../redux/reducerMaterials";
-import Modal from "../Modal/Modal";
 
 export const Material = () => {
     const plitkaPrice = useSelector(state => state.materialPage.plitkaPrice)

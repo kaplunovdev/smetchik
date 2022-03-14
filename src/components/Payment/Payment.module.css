@@ -47,16 +47,24 @@
 
 }
 .materials{
-    margin-top: 10px;
-    border:1px solid #c4f1c4;
+    border:1px solid #e7e7e7;
+
 }
 .infoMaterials{
     font-size: 12px;
     color: green;
+    margin-left: 5px;
+    min-height: 18px;
 
 }
 .buttonMaterials{
     color: green !important;
+}
+.buttonMaterialsDelete{
+    color: tomato !important;
+}
+.css-1d5w0op{
+ position: initial !important;
 }
 button.buttonMaterials:disabled{
     color: gray!important;
@@ -66,9 +74,25 @@ button.buttonMaterials:disabled{
     position: relative;
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
 }
 .materialsPanel{
-    position: absolute;
-    right: 0;
-    z-index: 2;
+    /*margin-bottom: 15px;*/
+}
+p.materialTitle {
+    width: 100%;
+}
+
+
+
+@media screen and (min-width: 590px) {
+    .materialsPanel {
+        position: absolute;
+        right: 0;
+        z-index: 2;
+        margin-bottom: 0;
+    }
+    .topBar{
+        flex-direction: row;
+    }
 }

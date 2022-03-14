@@ -36,14 +36,18 @@ import {actionClearDataMaterials, actionIsVisibleMaterials} from "../../redux/re
 export const Payment = () => {
     const [openModal, setOpenModal] = React.useState(false);
     const [openModalMaterials, setOpenModalMaterials] = React.useState(false);
-    console.log('openModal', openModal)
+    console.log('openModalMaterials', openModalMaterials)
     const handleOpen = () => {
         setOpenModal(true);
     }
+
     const handleOpenMaterials = () => {
         setOpenModalMaterials(true);
     }
     const handleCloseModal = () => setOpenModal(false);
+    const handleCloseModalMaterial = () => setOpenModalMaterials(false);
+
+
     const dispatch = useDispatch();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -62,7 +66,7 @@ export const Payment = () => {
         setOpenModal(false)
     }
     const clearDataMaterials = () => {
-        setOpenModal(false)
+        setOpenModalMaterials(false)
         dispatch(actionClearDataMaterials(false))
     }
 
@@ -167,7 +171,7 @@ export const Payment = () => {
                     <form onSubmit={handleSubmit} className={style.paymentBox}>
                         <div>
                             <div className={style.topBar}>
-                                <div style={{width:"300px",marginBottom:"20px"}}>
+                                <div style={{width: "300px", marginBottom: "20px"}}>
                                     <Button
                                         id="work"
                                         aria-controls={open ? 'work_control' : undefined}
@@ -178,15 +182,14 @@ export const Payment = () => {
                                         + Добавить работу
                                     </Button>
                                     <Button
-                                        className={style.buttonMaterials}
+                                        className={!isVisibleMaterials ? style.buttonMaterials : style.buttonMaterialsDelete}
                                         id="material"
                                         aria-controls={open ? 'material_control' : undefined}
                                         aria-haspopup="true"
                                         aria-expanded={open ? 'true' : undefined}
-                                        onClick={openMaterials}
-                                        disabled={isVisibleMaterials}
+                                        onClick={!isVisibleMaterials ? openMaterials : handleOpenMaterials}
                                     >
-                                        + Добавить материалы
+                                        {isVisibleMaterials ? '- Удалить материалы' : '+ Добавить материалы'}
                                     </Button>
                                 </div>
                                 <div className={style.materialsPanel}>
@@ -199,7 +202,7 @@ export const Payment = () => {
                                                 id="panel1bh-header"
                                             >
 
-                                                <Typography sx={{width: '33%', flexShrink: 0}}>
+                                                <Typography sx={{flexShrink: 0}}>
                                                     Стоимость материалов
 
                                                 </Typography>
@@ -207,34 +210,34 @@ export const Payment = () => {
                                             </AccordionSummary>
 
                                             <AccordionDetails>
-                                                <Typography className={style.accordion}>
-                                                    <Material
-                                                    />
-
-                                                    <div className={style.panelPlitka}>
-                                                        <TrashIcon onClick={handleOpen}/>
-                                                    </div>
-                                                    {openModal && <Modal
-                                                        handleOpenMaterials={handleOpenMaterials}
-                                                        open={handleOpenMaterials}
-                                                        clearDataMaterials={clearDataMaterials}
-                                                        onClose={handleCloseModal}
-                                                        aria-labelledby="modal-modal-title"
-                                                        aria-describedby="modal-modal-description"
-                                                    >
-                                                    </Modal>}
-                                                </Typography>
                                                 {plitkaPrice === '' && pricePesok === '' &&
                                                     priceCement === '' && priceSheben === '' && porebrikPrice === '' &&
                                                     <p className={style.infoMaterials}>Заполните нужные вам поля</p>
 
                                                 }
+                                                <Typography className={style.accordion}>
+
+                                                    <Material
+                                                    />
+
+                                                </Typography>
+
                                             </AccordionDetails>
+
                                         </Accordion>
                                     }
-                                </div>
-                            </div>
 
+                                </div>
+                                {openModalMaterials && <Modal
+                                    openModalMaterials={openModalMaterials}
+                                    handleOpenMaterials={handleOpenMaterials}
+                                    clearDataMaterials={clearDataMaterials}
+                                    onCloseMaterial={handleCloseModalMaterial}
+                                    aria-labelledby="modal-modal-title"
+                                    aria-describedby="modal-modal-description"
+                                >
+                                </Modal>}
+                            </div>
 
 
                             <Menu
@@ -288,7 +291,7 @@ export const Payment = () => {
                                         id="panel1bh-header"
                                     >
 
-                                        <Typography sx={{width: '33%', flexShrink: 0}}>
+                                        <Typography sx={{flexShrink: 0}}>
                                             {el.title}
                                         </Typography>
 
@@ -321,7 +324,7 @@ export const Payment = () => {
                                                         label="Стоимость 1м2"
                                                     />
                                                 </div>
-                                                <TrashIcon onClick={() => setOpenModal(true)}/>
+                                                <TrashIcon onClick={handleOpen}/>
 
                                             </div>
 
@@ -355,10 +358,10 @@ export const Payment = () => {
                                 <TableHead>
                                     <TableRow>Стоимость работ</TableRow>
                                     <TableRow style={{background: '#29d9b085'}}>
-                                        <TableCell>Позиция</TableCell>
-                                        <TableCell align="right">Кол-во</TableCell>
-                                        <TableCell align="right">Стоимость</TableCell>
-                                        <TableCell align="right">Всего</TableCell>
+                                        <TableCell style={{minWidth: 100}}>Позиция</TableCell>
+                                        <TableCell style={{minWidth: 100}} align="right">Кол-во</TableCell>
+                                        <TableCell style={{minWidth: 100}} align="right">Стоимость</TableCell>
+                                        <TableCell style={{minWidth: 100}} align="right">Всего</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -383,10 +386,10 @@ export const Payment = () => {
                                 <TableHead>
                                     <TableRow>Стоимость материалов</TableRow>
                                     <TableRow style={{background: 'rgb(60 181 255 / 52%)'}}>
-                                        <TableCell>Позиция</TableCell>
-                                        <TableCell>Кол-во</TableCell>
-                                        <TableCell align="right">Стоимость</TableCell>
-                                        <TableCell align="right">Всего</TableCell>
+                                        <TableCell style={{minWidth: 100}}>Позиция</TableCell>
+                                        <TableCell style={{minWidth: 100}}>Кол-во</TableCell>
+                                        <TableCell style={{minWidth: 100}} align="right">Стоимость</TableCell>
+                                        <TableCell style={{minWidth: 100}} lign="right">Всего</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
