@@ -8,12 +8,16 @@ const initialState = {
     cards: [
         {
             title: 'Тротуарная плитка',
+            placeholderCount:'Площадь укладки',
+            placeholderPrice:'Стоимость 1м²',
             count: '',
             price: '',
             isVisible: false,
         },
         {
             title: 'Поребрик',
+            placeholderCount:'Кол-во метров',
+            placeholderPrice:'Стоимость 1м²',
             count: '',
             price: '',
             isVisible: false,

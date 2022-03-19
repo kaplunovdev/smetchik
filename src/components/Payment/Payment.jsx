@@ -36,7 +36,6 @@ import {actionClearDataMaterials, actionIsVisibleMaterials} from "../../redux/re
 export const Payment = () => {
     const [openModal, setOpenModal] = React.useState(false);
     const [openModalMaterials, setOpenModalMaterials] = React.useState(false);
-    console.log('openModalMaterials', openModalMaterials)
     const handleOpen = () => {
         setOpenModal(true);
     }
@@ -100,7 +99,16 @@ export const Payment = () => {
     const works = state.paymentPage.cards.map(el =>
         createData(el.title, el.price, el.count)
     )
-
+    const checkDataWorks = state.paymentPage.cards.map(el => {
+        if (el.count > 0 && el.price > 0) return true
+    })
+    const checkDataWorksCount = state.paymentPage.cards.map(el => {
+        if(el.count > 0){
+            return true
+        }else {
+            return false
+        }
+    })
 
     const materialsCount = {
         plitka: parseInt(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Тротуарная плитка')).map(el => el.count)),
@@ -126,7 +134,7 @@ export const Payment = () => {
         return elem.count * elem.price
     });
 
-
+console.log('checkDataWorksCount',checkDataWorksCount)
     const sum = () => {
         let result = 0;
         for (let i = 0; i < totalMaterialPrice.length; i++) {
@@ -307,11 +315,9 @@ export const Payment = () => {
                                                         onChange={(e) =>
                                                             dispatch(actionCountPlitkaWork(e.target.value, el.title))
                                                         }
-
-
                                                         name='countS'
                                                         type="input"
-                                                        label="Площадь укладки"
+                                                        label={el.placeholderCount}
                                                     />
 
                                                     <TextField
@@ -321,7 +327,7 @@ export const Payment = () => {
                                                             dispatch(actionPricePlitkaWork(e.target.value, el.title))}
                                                         type="input"
                                                         name='price'
-                                                        label="Стоимость 1м2"
+                                                        label={el.placeholderPrice}
                                                     />
                                                 </div>
                                                 <TrashIcon onClick={handleOpen}/>
@@ -353,67 +359,70 @@ export const Payment = () => {
 
                         <TableContainer component={Paper} style={{marginBottom: 20, marginTop: 20}}>
 
+                            {checkDataWorks[0] === true &&
 
-                            <Table sx={{minWidth: 300}} size="small" aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>Стоимость работ</TableRow>
-                                    <TableRow style={{background: '#29d9b085'}}>
-                                        <TableCell style={{minWidth: 100}}>Позиция</TableCell>
-                                        <TableCell style={{minWidth: 100}} align="right">Кол-во</TableCell>
-                                        <TableCell style={{minWidth: 100}} align="right">Стоимость</TableCell>
-                                        <TableCell style={{minWidth: 100}} align="right">Всего</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {works.map((el) => (
-                                        el.count && el.price &&
-                                        <TableRow
-                                            key={el.name}
-                                            sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                                        >
-                                            <TableCell component="th" scope="row">{el.name}</TableCell>
-                                            <TableCell align="right">{el.count}</TableCell>
-                                            <TableCell align="right">{el.price}</TableCell>
-                                            <TableCell align="right">{el.count * el.price}</TableCell>
+                                <Table sx={{minWidth: 300}} size="small" aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>Стоимость работ</TableRow>
+                                        <TableRow style={{background: '#29d9b085'}}>
+                                            <TableCell style={{minWidth: 100}}>Позиция</TableCell>
+                                            <TableCell style={{minWidth: 100}} align="right">Кол-во</TableCell>
+                                            <TableCell style={{minWidth: 100}} align="right">Стоимость</TableCell>
+                                            <TableCell style={{minWidth: 100}} align="right">Всего</TableCell>
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
+                                    </TableHead>
+                                    <TableBody>
+                                        {works.map((el) => (
+                                            el.count && el.price &&
+                                            <TableRow
+                                                key={el.name}
+                                                sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                            >
+                                                <TableCell component="th" scope="row">{el.name}</TableCell>
+                                                <TableCell align="right">{el.count}</TableCell>
+                                                <TableCell align="right">{el.price}</TableCell>
+                                                <TableCell align="right">{el.count * el.price}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            }
+                            { checkDataWorksCount[0] === true &&
 
-
-                            <Table style={{marginTop: 20}} sx={{minWidth: 300}} size="small"
-                                   aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>Стоимость материалов</TableRow>
-                                    <TableRow style={{background: 'rgb(60 181 255 / 52%)'}}>
-                                        <TableCell style={{minWidth: 100}}>Позиция</TableCell>
-                                        <TableCell style={{minWidth: 100}}>Кол-во</TableCell>
-                                        <TableCell style={{minWidth: 100}} align="right">Стоимость</TableCell>
-                                        <TableCell style={{minWidth: 100}} lign="right">Всего</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {materialsFilter.map((elem) => (
-                                        <TableRow key={elem.name}
-                                                  sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-                                            <TableCell>{elem.name}</TableCell>
-                                            <TableCell>{elem.count}</TableCell>
-                                            <TableCell align="right">{elem.price}</TableCell>
-                                            <TableCell align="right">{parseInt(elem.count) * elem.price}</TableCell>
+                                <Table sx={{minWidth: 300}} size="small"
+                                       aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>Стоимость материалов</TableRow>
+                                        <TableRow style={{background: 'rgb(60 181 255 / 52%)'}}>
+                                            <TableCell style={{minWidth: 100}}>Позиция</TableCell>
+                                            <TableCell style={{minWidth: 100}} align="right">Кол-во</TableCell>
+                                            <TableCell style={{minWidth: 100}} align="right">Стоимость</TableCell>
+                                            <TableCell style={{minWidth: 100}} align="right">Всего</TableCell>
                                         </TableRow>
-                                    ))
-                                    }
-                                </TableBody>
-                                <TableHead>
-                                    <TableRow style={{background: '#e9424285'}}>
-                                        <TableCell
-                                            colspan={4}
-                                            align="right">Итого: {sum()}
-                                        </TableCell>
-                                    </TableRow>
-                                </TableHead>
-                            </Table>
-
+                                    </TableHead>
+                                    <TableBody>
+                                        {materialsFilter.map((elem) => (
+                                            elem.count > 0 &&
+                                            <TableRow key={elem.name}
+                                                      sx={{'&:last-child td, &:last-child th': {border: 0}}}>
+                                                <TableCell>{elem.name}</TableCell>
+                                                <TableCell align="right">{elem.count}</TableCell>
+                                                <TableCell align="right">{elem.price}</TableCell>
+                                                <TableCell align="right">{parseInt(elem.count) * elem.price}</TableCell>
+                                            </TableRow>
+                                        ))
+                                        }
+                                    </TableBody>
+                                    <TableHead>
+                                        <TableRow style={{background: '#e9424285'}}>
+                                            <TableCell
+                                                colspan={4}
+                                                align="right">Итого: {sum()}
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                </Table>
+                            }
 
                         </TableContainer>
                     </form>
