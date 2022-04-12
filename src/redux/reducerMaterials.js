@@ -7,6 +7,7 @@ const IS_VISIBLE_MATERIALS = 'IS_VISIBLE_MATERIALS';
 const CLEAR_DATA_MATERIALS = 'CLEAR_DATA_MATERIALS';
 
 const initialState = {
+
     plitkaPrice: '',
     porebrikPrice: '',
     pricePesok: '',
@@ -15,7 +16,6 @@ const initialState = {
     isVisible: false
 
 }
-
 export const reducerMaterials = (state = initialState, action) => {
     switch (action.type) {
         case PRICE_POREBRIK:

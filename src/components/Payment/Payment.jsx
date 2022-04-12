@@ -103,12 +103,13 @@ export const Payment = () => {
         if (el.count > 0 && el.price > 0) return true
     })
     const checkDataWorksCount = state.paymentPage.cards.map(el => {
-        if(el.count > 0){
+        if (el.count > 0) {
             return true
-        }else {
+        } else {
             return false
         }
     })
+
 
     const materialsCount = {
         plitka: parseInt(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Тротуарная плитка')).map(el => el.count)),
@@ -134,7 +135,6 @@ export const Payment = () => {
         return elem.count * elem.price
     });
 
-console.log('checkDataWorksCount',checkDataWorksCount)
     const sum = () => {
         let result = 0;
         for (let i = 0; i < totalMaterialPrice.length; i++) {
@@ -280,9 +280,12 @@ console.log('checkDataWorksCount',checkDataWorksCount)
                                 }}
                             >
                                 <MenuItem
+                                    onClick={() => setVisible(true, 'Тротуарная плитка')}
 
-                                    onClick={() => setVisible(true, 'Тротуарная плитка')}>Тротуарная
-                                    плитка</MenuItem>
+                                >
+                                    Тротуарная
+                                    плитка
+                                </MenuItem>
                                 <MenuItem
                                     onClick={() => setVisible(true, 'Поребрик')}>Поребрик</MenuItem>
                                 <MenuItem onClick={handleClose}>Бордюр</MenuItem>
@@ -291,7 +294,8 @@ console.log('checkDataWorksCount',checkDataWorksCount)
                             {state.paymentPage.cards.map((el) =>
                                 el.isVisible &&
                                 <Accordion key={el.title} expanded={expanded === el.title}
-                                           onChange={handleChangeToogle(el.title)}>
+                                           onChange={handleChangeToogle(el.title)}
+                                >
                                     <AccordionSummary
                                         expandIcon={<ExpandMoreIcon/>}
 
@@ -387,8 +391,13 @@ console.log('checkDataWorksCount',checkDataWorksCount)
                                     </TableBody>
                                 </Table>
                             }
-                            { checkDataWorksCount[0] === true &&
 
+                            {(state.materialPage.plitkaPrice > 0 ||
+                                    state.materialPage.porebrikPrice > 0 ||
+                                    state.materialPage.pricePesok > 0 ||
+                                    state.materialPage.priceSheben > 0 ||
+                                    state.materialPage.priceCement > 0
+                                ) && materialsCount.plitka > 0 &&
                                 <Table sx={{minWidth: 300}} size="small"
                                        aria-label="simple table">
                                     <TableHead>
@@ -413,6 +422,13 @@ console.log('checkDataWorksCount',checkDataWorksCount)
                                         ))
                                         }
                                     </TableBody>
+                                </Table>
+                            }
+
+
+                            {checkDataWorks[0] === true &&
+                                < Table sx={{minWidth: 300}} size="small"
+                                        aria-label="simple table">
                                     <TableHead>
                                         <TableRow style={{background: '#e9424285'}}>
                                             <TableCell
