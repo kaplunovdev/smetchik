@@ -110,6 +110,12 @@ export const Payment = () => {
         }
     })
 
+    const elemsWorks = [
+        'Тротуарная плитка',
+        'Поребрик',
+        'Бордюр',
+    ]
+
 
     const materialsCount = {
         plitka: parseInt(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Тротуарная плитка')).map(el => el.count)),
@@ -120,7 +126,7 @@ export const Payment = () => {
     }
 
     const materials = [
-        plitkaPrice !== '' ? createData('Плитка', plitkaPrice, materialsCount.plitka) : null,
+        plitkaPrice !== '' ? createData('Тротуарная плитка', plitkaPrice, materialsCount.plitka) : null,
         priceCement !== '' ? createData('Цемент', priceCement, materialsCount.cement) : null,
         priceSheben !== '' ? createData('Щебень', priceSheben, materialsCount.sheben) : null,
         pricePesok !== '' ? createData('Песок', pricePesok, materialsCount.pesok) : null,
@@ -281,16 +287,16 @@ export const Payment = () => {
                                     horizontal: 'left',
                                 }}
                             >
-                                <MenuItem
-                                    onClick={() => setVisible(true, 'Тротуарная плитка')}
+                                {elemsWorks.map(el =>
+                                    <MenuItem
+                                        key={el}
+                                        onClick={() => setVisible(true, el)}
 
-                                >
-                                    Тротуарная
-                                    плитка
-                                </MenuItem>
-                                <MenuItem
-                                    onClick={() => setVisible(true, 'Поребрик')}>Поребрик</MenuItem>
-                                <MenuItem onClick={handleClose}>Бордюр</MenuItem>
+                                    >
+                                        {el}
+                                    </MenuItem>
+                                )}
+
                             </Menu>
 
                             {state.paymentPage.cards.map((el) =>
@@ -389,9 +395,10 @@ export const Payment = () => {
                                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                             >
                                                 <TableCell component="th" scope="row">{el.name}</TableCell>
-                                                <TableCell align="right">{el.count}</TableCell>
-                                                <TableCell align="right">{el.price}</TableCell>
-                                                <TableCell align="right">{el.count * el.price}</TableCell>
+                                                <TableCell
+                                                    align="right">{el.count}{el.name === 'Поребрик' ? ' м' : ' м²'} </TableCell>
+                                                <TableCell align="right">{el.price} ₽</TableCell>
+                                                <TableCell align="right">{el.count * el.price} ₽</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -425,9 +432,16 @@ export const Payment = () => {
                                             <TableRow key={elem.name}
                                                       sx={{'&:last-child td, &:last-child th': {border: 0}}}>
                                                 <TableCell>{elem.name}</TableCell>
-                                                <TableCell align="right">{elem.count}</TableCell>
-                                                <TableCell align="right">{elem.price}</TableCell>
-                                                <TableCell align="right">{parseInt(elem.count) * elem.price}</TableCell>
+                                                <TableCell align="right">{elem.count}
+                                                    {
+                                                        elem.name === 'Поребрик' ? ' м' :
+                                                            elem.name === 'Тротуарная плитка' ? ' м²' :
+                                                                elem.name === 'Цемент' ? ' шт' : 'т'
+
+                                                    } </TableCell>
+                                                <TableCell align="right">{elem.price} ₽</TableCell>
+                                                <TableCell
+                                                    align="right">{parseInt(elem.count) * elem.price} ₽</TableCell>
                                             </TableRow>
                                         ))
                                         }
