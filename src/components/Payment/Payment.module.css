@@ -1,25 +1,29 @@
 
-.paymentBox{
+.paymentBox {
     display: flex;
     width: 100%;
 
     flex-direction: column;
     justify-content: space-between;
-    min-height: 100%;
+    min-height: 75%;
 }
-.error{
-    color:tomato;
+
+.error {
+    color: tomato;
     font-size: 12px;
 }
-.errorInput{
+
+.errorInput {
     border: 1px solid tomato;
 }
-.materialBtn{
+
+.materialBtn {
     padding: 5px;
     border: 1px solid tomato;
     cursor: pointer;
 }
-.panelPlitka{
+
+.panelPlitka {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -27,62 +31,95 @@
 
 
 }
-.panelPlitka svg{
+
+.result {
+    display: flex;
+    align-items: center;
+    padding: 5px 0 10px;
+    color: #000000;
+    font-size: 16px;
+    font-weight: 700;
+}
+.resultNum{
+    padding: 5px 10px;
+    background: tomato;
+    border-radius: 5px;
+    color: white;
+    font-size: 18px;
+    margin-left: 5px;
+}
+
+.panelPlitka svg {
     fill: tomato;
     font-size: 2rem;
 }
-.panelPlitka svg:hover{
+
+.panelPlitka svg:hover {
     opacity: 0.8;
     transition: opacity .2s;
 }
-.title{
+
+.title {
     font-size: 35px;
     text-transform: uppercase;
     color: tomato;
     text-align: center;
     margin-bottom: 20px;
 }
-.accordion{
+
+.accordion {
     display: flex;
 
 }
-.materials{
-    border:1px solid #e7e7e7;
+
+.materials {
+    border: 1px solid #e7e7e7;
 
 }
-.infoMaterials{
+
+.infoMaterials {
     font-size: 12px;
     color: green;
     margin-left: 5px;
+
+}
+
+.infoPanel {
     min-height: 18px;
 
 }
-.buttonMaterials{
+
+.buttonMaterials {
     color: green !important;
 }
-.buttonMaterialsDelete{
+
+.buttonMaterialsDelete {
     color: tomato !important;
 }
-.css-1d5w0op{
- position: initial !important;
+
+.css-1d5w0op {
+    position: initial !important;
 }
-button.buttonMaterials:disabled{
-    color: gray!important;
+
+button.buttonMaterials:disabled {
+    color: gray !important;
     opacity: 0.8;
 }
-.topBar{
+
+.topBar {
     position: relative;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
 }
-.materialsPanel{
+
+.materialsPanel {
     /*margin-bottom: 15px;*/
 }
+
 p.materialTitle {
     width: 100%;
 }
-
 
 
 @media screen and (min-width: 590px) {
@@ -92,7 +129,8 @@ p.materialTitle {
         z-index: 2;
         margin-bottom: 0;
     }
-    .topBar{
+
+    .topBar {
         flex-direction: row;
     }
 }

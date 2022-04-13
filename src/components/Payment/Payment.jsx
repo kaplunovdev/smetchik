@@ -218,11 +218,13 @@ export const Payment = () => {
                                             </AccordionSummary>
 
                                             <AccordionDetails>
-                                                {plitkaPrice === '' && pricePesok === '' &&
-                                                    priceCement === '' && priceSheben === '' && porebrikPrice === '' &&
-                                                    <p className={style.infoMaterials}>Заполните нужные вам поля</p>
+                                                <div className={style.infoPanel}>
+                                                    {plitkaPrice === '' && pricePesok === '' &&
+                                                        priceCement === '' && priceSheben === '' && porebrikPrice === '' &&
+                                                        <p className={style.infoMaterials}>Заполните нужные вам поля</p>
+                                                    }
+                                                </div>
 
-                                                }
                                                 <Typography className={style.accordion}>
 
                                                     <Material
@@ -365,7 +367,11 @@ export const Payment = () => {
 
                             {checkDataWorks[0] === true &&
 
-                                <Table sx={{minWidth: 300}} size="small" aria-label="simple table">
+                                <Table
+                                    sx={{minWidth: 300}}
+                                    size="small"
+                                    aria-label="simple table"
+                                >
                                     <TableHead>
                                         <TableRow>Стоимость работ</TableRow>
                                         <TableRow style={{background: '#29d9b085'}}>
@@ -398,8 +404,12 @@ export const Payment = () => {
                                     state.materialPage.priceSheben > 0 ||
                                     state.materialPage.priceCement > 0
                                 ) && materialsCount.plitka > 0 &&
-                                <Table sx={{minWidth: 300}} size="small"
-                                       aria-label="simple table">
+                                <Table sx={{minWidth: 300}}
+                                       size="small"
+                                       aria-label="simple table"
+                                       style={{marginTop: 20}}
+
+                                >
                                     <TableHead>
                                         <TableRow>Стоимость материалов</TableRow>
                                         <TableRow style={{background: 'rgb(60 181 255 / 52%)'}}>
@@ -424,23 +434,16 @@ export const Payment = () => {
                                     </TableBody>
                                 </Table>
                             }
-
-
-                            {checkDataWorks[0] === true &&
-                                < Table sx={{minWidth: 300}} size="small"
-                                        aria-label="simple table">
-                                    <TableHead>
-                                        <TableRow style={{background: '#e9424285'}}>
-                                            <TableCell
-                                                colspan={4}
-                                                align="right">Итого: {sum()}
-                                            </TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                </Table>
-                            }
-
                         </TableContainer>
+                        {checkDataWorks[0] === true &&
+                            <div className={style.result}>
+                                <span>Итого: </span>
+                                <span>
+                                     <span className={style.resultNum}>{sum()} ₽</span>
+                                </span>
+                            </div>
+
+                        }
                     </form>
                 )}
             < /Formik>
