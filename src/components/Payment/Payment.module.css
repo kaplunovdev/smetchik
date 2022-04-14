@@ -120,6 +120,9 @@ button.buttonMaterials:disabled {
 p.materialTitle {
     width: 100%;
 }
+.moreBtnMenu{
+    background: rgba(220, 220, 220, 0.71);
+}
 
 
 @media screen and (min-width: 590px) {

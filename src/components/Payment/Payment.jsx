@@ -24,6 +24,7 @@ import {
     TextField,
 } from "@mui/material";
 import {
+    actionAddCustom,
     actionClearDataPlitka,
     actionCountPlitkaWork,
     actionIsVisiblePlitka,
@@ -31,11 +32,23 @@ import {
 } from "../../redux/paymentReducerPlitka";
 import {useDispatch, useSelector, useStore} from "react-redux";
 import {actionClearDataMaterials, actionIsVisibleMaterials} from "../../redux/reducerMaterials";
+import SelectUnits from "../SelectForm/SelectUnits";
 
 
 export const Payment = () => {
     const [openModal, setOpenModal] = React.useState(false);
     const [openModalMaterials, setOpenModalMaterials] = React.useState(false);
+    const [customWorkTitle, setCustomWorkTitle] = React.useState('');
+    const [customWorkCount, setCustomWorkCount] = React.useState('');
+    const [customWorkPrice, setCustomWorkPrice] = React.useState('');
+    const [placeholderCount, setPlaceholderCount] = React.useState('');
+    const [customAccordion, setCustomAccordion] = React.useState(false);
+
+    const addCustomWork = () => {
+        dispatch(actionAddCustom(customWorkCount,customWorkTitle,customWorkPrice))
+    }
+
+
     const handleOpen = () => {
         setOpenModal(true);
     }
@@ -64,10 +77,12 @@ export const Payment = () => {
         dispatch(actionClearDataPlitka(title))
         setOpenModal(false)
     }
+
     const clearDataMaterials = () => {
         setOpenModalMaterials(false)
         dispatch(actionClearDataMaterials(false))
     }
+
 
     const [expanded, setExpanded] = React.useState(false);
 
@@ -102,13 +117,13 @@ export const Payment = () => {
     const checkDataWorks = state.paymentPage.cards.map(el => {
         if (el.count > 0 && el.price > 0) return true
     })
-    const checkDataWorksCount = state.paymentPage.cards.map(el => {
-        if (el.count > 0) {
-            return true
-        } else {
-            return false
-        }
-    })
+    // const checkDataWorksCount = state.paymentPage.cards.map(el => {
+    //     if (el.count > 0) {
+    //         return true
+    //     } else {
+    //         return false
+    //     }
+    // })
 
     const elemsWorks = [
         'Тротуарная плитка',
@@ -296,6 +311,12 @@ export const Payment = () => {
                                         {el}
                                     </MenuItem>
                                 )}
+                                <MenuItem
+                                    className={style.moreBtnMenu}
+                                    onClick={() => setCustomAccordion(true)}
+                                >
+                                    Другое ...
+                                </MenuItem>
 
                             </Menu>
 
@@ -323,7 +344,7 @@ export const Payment = () => {
                                                 <div style={{display: "flex", gap: 15, alignItems: 'center'}}>
                                                     <TextField
                                                         className={errors.countS && style.errorInput}
-                                                        // value={el.count}
+                                                         value={el.count}
                                                         onChange={(e) =>
                                                             dispatch(actionCountPlitkaWork(e.target.value, el.title))
                                                         }
@@ -334,7 +355,7 @@ export const Payment = () => {
 
                                                     <TextField
                                                         className={errors.price && style.errorInput}
-                                                        // value={el.price}
+                                                         value={el.price}
                                                         onChange={(e) =>
                                                             dispatch(actionPricePlitkaWork(e.target.value, el.title))}
                                                         type="input"
@@ -360,6 +381,74 @@ export const Payment = () => {
                                 </Accordion>
                             )
 
+                            }
+                            {customAccordion &&
+                                <Accordion expanded={expanded === false}
+                                           onChange={handleChangeToogle('more')}
+                                >
+
+                                    <AccordionDetails>
+                                        <Typography>
+                                            <div className={style.panelPlitka}>
+                                                <div style={{display: "flex", gap: 15, alignItems: 'center'}}>
+                                                    <TextField
+                                                        className={errors.countS && style.errorInput}
+                                                        value={customWorkTitle}
+                                                        onChange={(e) =>
+                                                            setCustomWorkTitle(e.target.value)
+                                                        }
+                                                        name='countS'
+                                                        type="input"
+                                                        label='Название'
+                                                    />
+                                                    <TextField
+                                                        className={errors.countS && style.errorInput}
+                                                        value={customWorkCount}
+                                                        onChange={(e) =>
+                                                            setCustomWorkCount(e.target.value)
+                                                        }
+                                                        name='countS'
+                                                        type="input"
+                                                        label='Кол-во'
+                                                    />
+
+                                                    <TextField
+                                                        className={errors.price && style.errorInput}
+                                                        value={customWorkPrice}
+                                                        onChange={(e) =>
+                                                            setCustomWorkPrice(e.target.value)
+                                                        }
+                                                        type="input"
+                                                        name='price'
+                                                        label='Стоимость'
+                                                    />
+
+                                                    <SelectUnits/>
+
+                                                </div>
+
+
+                                            </div>
+                                            <Button variant="contained"
+                                                    onClick={addCustomWork}
+                                            >
+                                                Добавить
+
+                                            </Button>
+                                            <Button variant="text">Отмена</Button>
+
+
+                                            {openModal && <Modal
+                                                open={openModal}
+                                                onClose={handleCloseModal}
+                                                // clearDataPlitka={() => clearDataPlitka(el.title)}
+                                                aria-labelledby="modal-modal-title"
+                                                aria-describedby="modal-modal-description"
+                                            >
+                                            </Modal>}
+                                        </Typography>
+                                    </AccordionDetails>
+                                </Accordion>
                             }
 
 
@@ -436,7 +525,7 @@ export const Payment = () => {
                                                     {
                                                         elem.name === 'Поребрик' ? ' м' :
                                                             elem.name === 'Тротуарная плитка' ? ' м²' :
-                                                                elem.name === 'Цемент' ? ' шт' : 'т'
+                                                                elem.name === 'Цемент' ? ` шт (${elem.count * 50} кг)` : ' т'
 
                                                     } </TableCell>
                                                 <TableCell align="right">{elem.price} ₽</TableCell>

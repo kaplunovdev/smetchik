@@ -2,22 +2,23 @@ const COUNT = 'COUNT';
 const PRICE = 'PRICE';
 const IS_VISIBLE = 'IS_VISIBLE';
 const CLEAR_DATA = 'CLEAR_DATA';
+const ADD_CUSTOM = 'ADD_CUSTOM';
 
 const initialState = {
 
     cards: [
         {
             title: 'Тротуарная плитка',
-            placeholderCount:'Площадь укладки',
-            placeholderPrice:'Стоимость 1м²',
+            placeholderCount: 'Площадь укладки',
+            placeholderPrice: 'Стоимость 1м²',
             count: '',
             price: '',
             isVisible: false,
         },
         {
             title: 'Поребрик',
-            placeholderCount:'Кол-во метров',
-            placeholderPrice:'Стоимость 1м²',
+            placeholderCount: 'Кол-во метров',
+            placeholderPrice: 'Стоимость 1м²',
             count: '',
             price: '',
             isVisible: false,
@@ -29,6 +30,20 @@ const initialState = {
 
 export const paymentReducerPlitka = (state = initialState, action) => {
     switch (action.type) {
+        case ADD_CUSTOM:
+            return {
+                ...state,
+                ...state.cards
+                    .push({
+                        title: action.title,
+                        count: action.count,
+                        price: action.price,
+                        placeholderCount:'Кол-во',
+                        placeholderPrice: 'Стоимость',
+                        isVisible: true,
+                    })
+
+            }
         case COUNT:
             return {
                 ...state,
@@ -95,6 +110,9 @@ export const paymentReducerPlitka = (state = initialState, action) => {
 export const actionCountPlitkaWork = (count, title) =>
     ({type: COUNT, count, title})
 
+export const actionAddCustom = (count, title, price) =>
+    ({type: ADD_CUSTOM, count, title, price})
+
 export const actionPricePlitkaWork = (price, title) =>
     ({type: PRICE, price, title})
 
@@ -102,6 +120,6 @@ export const actionPricePlitkaWork = (price, title) =>
 export const actionIsVisiblePlitka = (payload, title) =>
     ({type: IS_VISIBLE, payload, title})
 
-export const actionClearDataPlitka = ( payload) =>
-    ({type: CLEAR_DATA,payload} )
+export const actionClearDataPlitka = (payload) =>
+    ({type: CLEAR_DATA, payload})
 
