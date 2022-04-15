@@ -42,17 +42,21 @@ export const Payment = () => {
     const [customWorkCount, setCustomWorkCount] = React.useState('');
     const [customWorkPrice, setCustomWorkPrice] = React.useState('');
     const [placeholderCount, setPlaceholderCount] = React.useState('');
+    const [typeUnits, setTypeUnits] = React.useState('');
     const [customAccordion, setCustomAccordion] = React.useState(false);
 
     const addCustomWork = () => {
-        dispatch(actionAddCustom(customWorkCount, customWorkTitle, customWorkPrice))
+        dispatch(actionAddCustom(customWorkCount, customWorkTitle, customWorkPrice,typeUnits))
         setCustomAccordion(false)
         setCustomWorkCount('')
         setCustomWorkPrice('')
         setCustomWorkTitle('')
+        setTypeUnits('')
     }
-
-
+const updateUnits = (value) => {
+    setTypeUnits(value)
+}
+console.log(typeUnits)
     const handleOpen = () => {
         setOpenModal(true);
     }
@@ -358,7 +362,7 @@ export const Payment = () => {
                                                         }
                                                         name='countS'
                                                         type="input"
-                                                        label={el.placeholderCount}
+                                                        label={el.placeholderCount + ' ' + el.typeUnits}
                                                     />
 
                                                     <TextField
@@ -431,7 +435,10 @@ export const Payment = () => {
                                                         label='Стоимость'
                                                     />
 
-                                                    <SelectUnits/>
+                                                    <SelectUnits
+                                                        updateUnits={updateUnits}
+
+                                                    />
 
                                                 </div>
 

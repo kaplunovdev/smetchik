@@ -3,12 +3,14 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from '@mui/material/Select';
 import React from "react";
 
-const SelectUnits =()=> {
-    const [age, setAge] = React.useState('');
+const SelectUnits =({updateUnits})=> {
+    const [typeUnits, setTypeUnits] = React.useState('');
 
     const handleChange = (event) => {
-        setAge(event.target.value);
+        updateUnits(event.target.value);
+        setTypeUnits(event.target.value)
     };
+    console.log(typeUnits)
 
     return (
         <FormControl sx={{m: 1, minWidth: 100}}>
@@ -16,15 +18,15 @@ const SelectUnits =()=> {
             <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={age}
+                value={typeUnits}
                 label='Ед.изм.'
                 onChange={handleChange}
             >
-                <MenuItem value={10}>м</MenuItem>
-                <MenuItem value={20}>м²</MenuItem>
-                <MenuItem value={30}>м³</MenuItem>
-                <MenuItem value={30}>шт</MenuItem>
-                <MenuItem value={30}>т</MenuItem>
+                <MenuItem value='м'>м</MenuItem>
+                <MenuItem value='м²'>м²</MenuItem>
+                <MenuItem value='м³'>м³</MenuItem>
+                <MenuItem value='шт'>шт</MenuItem>
+                <MenuItem value='т'>т</MenuItem>
             </Select>
         </FormControl>
     );

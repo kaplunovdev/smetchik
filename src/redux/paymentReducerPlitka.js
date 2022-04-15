@@ -13,6 +13,7 @@ const initialState = {
             placeholderPrice: 'Стоимость 1м²',
             count: '',
             price: '',
+            typeUnits:'',
             isVisible: false,
         },
         {
@@ -21,6 +22,7 @@ const initialState = {
             placeholderPrice: 'Стоимость 1м²',
             count: '',
             price: '',
+            typeUnits:'',
             isVisible: false,
         },
     ]
@@ -38,6 +40,7 @@ export const paymentReducerPlitka = (state = initialState, action) => {
                         title: action.title,
                         count: action.count,
                         price: action.price,
+                        typeUnits:action.typeUnits,
                         placeholderCount:'Кол-во',
                         placeholderPrice: 'Стоимость',
                         isVisible: true,
@@ -110,8 +113,8 @@ export const paymentReducerPlitka = (state = initialState, action) => {
 export const actionCountPlitkaWork = (count, title) =>
     ({type: COUNT, count, title})
 
-export const actionAddCustom = (count, title, price) =>
-    ({type: ADD_CUSTOM, count, title, price})
+export const actionAddCustom = (count, title, price,typeUnits) =>
+    ({type: ADD_CUSTOM, count, title, price,typeUnits})
 
 export const actionPricePlitkaWork = (price, title) =>
     ({type: PRICE, price, title})
