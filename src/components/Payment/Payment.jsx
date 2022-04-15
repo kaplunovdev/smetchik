@@ -45,7 +45,11 @@ export const Payment = () => {
     const [customAccordion, setCustomAccordion] = React.useState(false);
 
     const addCustomWork = () => {
-        dispatch(actionAddCustom(customWorkCount,customWorkTitle,customWorkPrice))
+        dispatch(actionAddCustom(customWorkCount, customWorkTitle, customWorkPrice))
+        setCustomAccordion(false)
+        setCustomWorkCount('')
+        setCustomWorkPrice('')
+        setCustomWorkTitle('')
     }
 
 
@@ -82,7 +86,10 @@ export const Payment = () => {
         setOpenModalMaterials(false)
         dispatch(actionClearDataMaterials(false))
     }
-
+    const selectItemMenu = () => {
+        setCustomAccordion(true)
+        handleClose()
+    }
 
     const [expanded, setExpanded] = React.useState(false);
 
@@ -129,6 +136,7 @@ export const Payment = () => {
         'Тротуарная плитка',
         'Поребрик',
         'Бордюр',
+
     ]
 
 
@@ -313,7 +321,7 @@ export const Payment = () => {
                                 )}
                                 <MenuItem
                                     className={style.moreBtnMenu}
-                                    onClick={() => setCustomAccordion(true)}
+                                    onClick={selectItemMenu}
                                 >
                                     Другое ...
                                 </MenuItem>
@@ -344,7 +352,7 @@ export const Payment = () => {
                                                 <div style={{display: "flex", gap: 15, alignItems: 'center'}}>
                                                     <TextField
                                                         className={errors.countS && style.errorInput}
-                                                         value={el.count}
+                                                        value={el.count}
                                                         onChange={(e) =>
                                                             dispatch(actionCountPlitkaWork(e.target.value, el.title))
                                                         }
@@ -355,7 +363,7 @@ export const Payment = () => {
 
                                                     <TextField
                                                         className={errors.price && style.errorInput}
-                                                         value={el.price}
+                                                        value={el.price}
                                                         onChange={(e) =>
                                                             dispatch(actionPricePlitkaWork(e.target.value, el.title))}
                                                         type="input"
@@ -435,7 +443,11 @@ export const Payment = () => {
                                                 Добавить
 
                                             </Button>
-                                            <Button variant="text">Отмена</Button>
+                                            <Button variant="text"
+                                            onClick={()=>setCustomAccordion(false)}
+                                            >
+                                                Отмена
+                                            </Button>
 
 
                                             {openModal && <Modal
