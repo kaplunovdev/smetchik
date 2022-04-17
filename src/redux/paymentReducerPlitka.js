@@ -92,17 +92,7 @@ export const paymentReducerPlitka = (state = initialState, action) => {
             }
         case CLEAR_DATA:
             return {
-                ...state, cards: state.cards.map(el => {
-                    if (el.title === action.payload) {
-                        return {
-                            ...el,
-                            count: '',
-                            price: '',
-                            isVisible: false
-                        }
-                    }
-                    return el
-                })
+                ...state, cards: state.cards.filter(el=>el.title !== action.payload)
 
             }
         default:

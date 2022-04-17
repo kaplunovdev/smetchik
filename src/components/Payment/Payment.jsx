@@ -128,6 +128,7 @@ console.log(typeUnits)
     const checkDataWorks = state.paymentPage.cards.map(el => {
         if (el.count > 0 && el.price > 0) return true
     })
+    console.log('state.paymentPage.cards',state.paymentPage.cards)
     // const checkDataWorksCount = state.paymentPage.cards.map(el => {
     //     if (el.count > 0) {
     //         return true
