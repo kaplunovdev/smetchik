@@ -41,21 +41,21 @@ export const Payment = () => {
     const [customWorkTitle, setCustomWorkTitle] = React.useState('');
     const [customWorkCount, setCustomWorkCount] = React.useState('');
     const [customWorkPrice, setCustomWorkPrice] = React.useState('');
-    const [placeholderCount, setPlaceholderCount] = React.useState('');
+    // const [placeholderCount, setPlaceholderCount] = React.useState('');
     const [typeUnits, setTypeUnits] = React.useState('');
     const [customAccordion, setCustomAccordion] = React.useState(false);
 
     const addCustomWork = () => {
-        dispatch(actionAddCustom(customWorkCount, customWorkTitle, customWorkPrice,typeUnits))
+        dispatch(actionAddCustom(customWorkCount, customWorkTitle, customWorkPrice, typeUnits))
         setCustomAccordion(false)
         setCustomWorkCount('')
         setCustomWorkPrice('')
         setCustomWorkTitle('')
         setTypeUnits('')
     }
-const updateUnits = (value) => {
-    setTypeUnits(value)
-}
+    const updateUnits = (value) => {
+        setTypeUnits(value)
+    }
     const handleOpen = () => {
         setOpenModal(true);
     }
@@ -101,7 +101,7 @@ const updateUnits = (value) => {
     };
 
     const cards = useSelector(state => state.paymentPage.cards)
-    const price = useSelector(state => state.paymentPage.price)
+    //const price = useSelector(state => state.paymentPage.price)
     const plitkaPrice = useSelector(state => state.materialPage.plitkaPrice)
     const porebrikPrice = useSelector(state => state.materialPage.porebrikPrice)
     const priceCement = useSelector(state => state.materialPage.priceCement)
@@ -124,25 +124,12 @@ const updateUnits = (value) => {
     const works = state.paymentPage.cards.map(el =>
         createData(el.title, el.price, el.count)
     )
-    const checkDataWorks = state.paymentPage.cards.map(el => {
-        if (el.count > 0 && el.price > 0) return Boolean(true)
-    })
-    console.log('state.paymentPage.cards',state.paymentPage.cards)
-    // const checkDataWorksCount = state.paymentPage.cards.map(el => {
-    //     if (el.count > 0) {
-    //         return true
-    //     } else {
-    //         return false
-    //     }
-    // })
-
-    const elemsWorks = [
-        'Тротуарная плитка',
-        'Поребрик',
-        'Бордюр',
-        'Изоляция'
-
-    ]
+    let checkDataWorks
+    for (let key of cards) {
+        if (key.count > 0 && key.price > 0) {
+            checkDataWorks = true
+        }
+    }
 
 
     const materialsCount = {
@@ -179,7 +166,7 @@ const updateUnits = (value) => {
         }
         return result;
     }
-    console.log('checkDataWorks', checkDataWorks)
+
 
     return (
         <div className={style.paymentBox}>
@@ -316,13 +303,13 @@ const updateUnits = (value) => {
                                     horizontal: 'left',
                                 }}
                             >
-                                {elemsWorks.map(el =>
+                                {cards.map(el =>
                                     <MenuItem
                                         key={el}
-                                        onClick={() => setVisible(true, el)}
-
+                                        onClick={() => setVisible(true, el.title)}
+                                        disabled={el.isVisible}
                                     >
-                                        {el}
+                                        {el.title}
                                     </MenuItem>
                                 )}
                                 <MenuItem
@@ -347,7 +334,8 @@ const updateUnits = (value) => {
                                     >
 
                                         <Typography sx={{flexShrink: 0}}>
-                                            {el.title} {(el.count === ''  || el.price === '') && <span className={style.warningTitle}>Введите данные (!)</span>}
+                                            {el.title} {(el.count === '' || el.price === '') &&
+                                            <span className={style.warningTitle}>Введите данные (!)</span>}
                                         </Typography>
 
                                     </AccordionSummary>
@@ -453,7 +441,7 @@ const updateUnits = (value) => {
 
                                             </Button>
                                             <Button variant="text"
-                                            onClick={()=>setCustomAccordion(false)}
+                                                    onClick={() => setCustomAccordion(false)}
                                             >
                                                 Отмена
                                             </Button>
@@ -481,7 +469,7 @@ const updateUnits = (value) => {
 
                         <TableContainer component={Paper} style={{marginBottom: 20, marginTop: 20}}>
 
-                            {checkDataWorks[0] === true &&
+                            {checkDataWorks &&
 
                                 <Table
                                     sx={{minWidth: 300}}
@@ -506,7 +494,12 @@ const updateUnits = (value) => {
                                             >
                                                 <TableCell component="th" scope="row">{el.name}</TableCell>
                                                 <TableCell
-                                                    align="right">{el.count}{el.name === 'Поребрик' ? ' м' : ' м²'} </TableCell>
+                                                    align="right">{el.count}
+                                                    {el.name === 'Поребрик' ? ' м' :
+                                                        el.name === 'Люки' ? ' шт' :
+                                                            el.name === 'Люки' ? ' шт' : ' м²'
+                                                    }
+                                                </TableCell>
                                                 <TableCell align="right">{el.price} ₽</TableCell>
                                                 <TableCell align="right">{el.count * el.price} ₽</TableCell>
                                             </TableRow>
@@ -546,7 +539,7 @@ const updateUnits = (value) => {
                                                     {
                                                         elem.name === 'Поребрик' ? ' м' :
                                                             elem.name === 'Тротуарная плитка' ? ' м²' :
-                                                                elem.name === 'Цемент' ? ` шт (${elem.count * 50} кг)` : ' т'
+                                                                elem.name === 'Цемент' ? ` шт (50 кг)` : ' т'
 
                                                     } </TableCell>
                                                 <TableCell align="right">{elem.price} ₽</TableCell>
@@ -559,7 +552,7 @@ const updateUnits = (value) => {
                                 </Table>
                             }
                         </TableContainer>
-                        {checkDataWorks[0] === true &&
+                        {checkDataWorks &&
                             <div className={style.result}>
                                 <span>Итого: </span>
                                 <span>
