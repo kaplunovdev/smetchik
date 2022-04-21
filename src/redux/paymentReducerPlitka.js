@@ -13,7 +13,7 @@ const initialState = {
             placeholderPrice: 'Стоимость 1м²',
             count: '',
             price: '',
-            typeUnits:'',
+            typeUnits: '',
             isVisible: false,
         },
         {
@@ -22,7 +22,16 @@ const initialState = {
             placeholderPrice: 'Стоимость 1м²',
             count: '',
             price: '',
-            typeUnits:'',
+            typeUnits: '',
+            isVisible: false,
+        },
+        {
+            title: 'Изоляция',
+            placeholderCount: 'Кол-во метров',
+            placeholderPrice: 'Стоимость 1м²',
+            count: '',
+            price: '',
+            typeUnits: '',
             isVisible: false,
         },
     ]
@@ -40,8 +49,8 @@ export const paymentReducerPlitka = (state = initialState, action) => {
                         title: action.title,
                         count: action.count,
                         price: action.price,
-                        typeUnits:action.typeUnits,
-                        placeholderCount:'Кол-во',
+                        typeUnits: action.typeUnits,
+                        placeholderCount: 'Кол-во',
                         placeholderPrice: 'Стоимость',
                         isVisible: true,
                     })
@@ -90,11 +99,37 @@ export const paymentReducerPlitka = (state = initialState, action) => {
                     return el
                 })
             }
-        case CLEAR_DATA:
+        // case CLEAR_DATA:
+        //     return {
+        //         ...state, cards: state.cards.map(el => {
+        //             if (el.title === action.payload) {
+        //                 return {
+        //                     ...el,
+        //                     count: '',
+        //                     price: '',
+        //                     isVisible: false
+        //                 }
+        //             }
+        //             return el
+        //         })
+        //
+        //     }
+            case CLEAR_DATA:
             return {
-                ...state, cards: state.cards.filter(el=>el.title !== action.payload)
+                ...state, cards: state.cards.map(el => {
+                    if (el.title === action.payload) {
+                        return {
+                            ...el,
+                            count: '',
+                            price: '',
+                            isVisible: false
+                        }
+                    }
+                    return el
+                })
 
             }
+
         default:
             return state;
     }
@@ -103,8 +138,8 @@ export const paymentReducerPlitka = (state = initialState, action) => {
 export const actionCountPlitkaWork = (count, title) =>
     ({type: COUNT, count, title})
 
-export const actionAddCustom = (count, title, price,typeUnits) =>
-    ({type: ADD_CUSTOM, count, title, price,typeUnits})
+export const actionAddCustom = (count, title, price, typeUnits) =>
+    ({type: ADD_CUSTOM, count, title, price, typeUnits})
 
 export const actionPricePlitkaWork = (price, title) =>
     ({type: PRICE, price, title})

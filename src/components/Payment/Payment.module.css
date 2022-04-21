@@ -123,6 +123,12 @@ p.materialTitle {
 .moreBtnMenu{
     background: rgba(220, 220, 220, 0.71);
 }
+.warningTitle{
+    color: tomato;
+    font-size: 14px;
+    font-family: sans-serif;
+    margin-left: 20px;
+}
 
 
 @media screen and (min-width: 590px) {

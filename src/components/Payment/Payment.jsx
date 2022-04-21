@@ -56,7 +56,6 @@ export const Payment = () => {
 const updateUnits = (value) => {
     setTypeUnits(value)
 }
-console.log(typeUnits)
     const handleOpen = () => {
         setOpenModal(true);
     }
@@ -74,7 +73,7 @@ console.log(typeUnits)
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
-    const openMaterials = (action) => {
+    const openMaterials = () => {
         dispatch(actionIsVisibleMaterials(true))
     }
 
@@ -126,7 +125,7 @@ console.log(typeUnits)
         createData(el.title, el.price, el.count)
     )
     const checkDataWorks = state.paymentPage.cards.map(el => {
-        if (el.count > 0 && el.price > 0) return true
+        if (el.count > 0 && el.price > 0) return Boolean(true)
     })
     console.log('state.paymentPage.cards',state.paymentPage.cards)
     // const checkDataWorksCount = state.paymentPage.cards.map(el => {
@@ -141,6 +140,7 @@ console.log(typeUnits)
         'Тротуарная плитка',
         'Поребрик',
         'Бордюр',
+        'Изоляция'
 
     ]
 
@@ -179,6 +179,7 @@ console.log(typeUnits)
         }
         return result;
     }
+    console.log('checkDataWorks', checkDataWorks)
 
     return (
         <div className={style.paymentBox}>
@@ -346,7 +347,7 @@ console.log(typeUnits)
                                     >
 
                                         <Typography sx={{flexShrink: 0}}>
-                                            {el.title}
+                                            {el.title} {(el.count === ''  || el.price === '') && <span className={style.warningTitle}>Введите данные (!)</span>}
                                         </Typography>
 
                                     </AccordionSummary>
