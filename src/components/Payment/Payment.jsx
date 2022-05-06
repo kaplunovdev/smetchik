@@ -335,7 +335,7 @@ export const Payment = () => {
 
                                         <Typography sx={{flexShrink: 0}}>
                                             {el.title} {(el.count === '' || el.price === '') &&
-                                            <span className={style.warningTitle}>Введите данные (!)</span>}
+                                            <span className={style.warningTitle}>Нет данных!</span>}
                                         </Typography>
 
                                     </AccordionSummary>
@@ -343,7 +343,7 @@ export const Payment = () => {
                                     <AccordionDetails>
                                         <Typography>
                                             <div className={style.panelPlitka}>
-                                                <div style={{display: "flex", gap: 15, alignItems: 'center'}}>
+                                                <div className={style.panelPlitkaInputs}>
                                                     <TextField
                                                         className={errors.countS && style.errorInput}
                                                         value={el.count}
@@ -477,7 +477,7 @@ export const Payment = () => {
                                     aria-label="simple table"
                                 >
                                     <TableHead>
-                                        <TableRow>Стоимость работ</TableRow>
+                                        <TableRow style={{minWidth: 150}}>Стоимость работ</TableRow>
                                         <TableRow style={{background: '#29d9b085'}}>
                                             <TableCell style={{minWidth: 100}}>Позиция</TableCell>
                                             <TableCell style={{minWidth: 100}} align="right">Кол-во</TableCell>

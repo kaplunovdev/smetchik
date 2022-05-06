@@ -1,6 +1,7 @@
 {
   "name": "smetchik",
   "version": "0.1.0",
+  "homepage": "https://kaplunovdev.github.io/smetchik",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.7.1",
@@ -27,7 +28,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "node server/server.js",
-    "client": "npm start"
+    "client": "npm start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -49,6 +52,7 @@
   },
   "devDependencies": {
     "concurrently": "^7.0.0",
+    "gh-pages": "^3.2.3",
     "react-scripts": "^5.0.0",
     "webpack": "^5.70.0"
   }
