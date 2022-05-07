@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/%7Brepo-name%7D/static/css/main.be2149ba.css",
-    "main.js": "/%7Brepo-name%7D/static/js/main.2b8de04c.js",
-    "index.html": "/%7Brepo-name%7D/index.html",
-    "main.be2149ba.css.map": "/%7Brepo-name%7D/static/css/main.be2149ba.css.map",
-    "main.2b8de04c.js.map": "/%7Brepo-name%7D/static/js/main.2b8de04c.js.map"
+    "main.css": "/smetchik/static/css/main.be2149ba.css",
+    "main.js": "/smetchik/static/js/main.f23b9957.js",
+    "index.html": "/smetchik/index.html",
+    "main.be2149ba.css.map": "/smetchik/static/css/main.be2149ba.css.map",
+    "main.f23b9957.js.map": "/smetchik/static/js/main.f23b9957.js.map"
   },
   "entrypoints": [
     "static/css/main.be2149ba.css",
-    "static/js/main.2b8de04c.js"
+    "static/js/main.f23b9957.js"
   ]
 }
