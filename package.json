@@ -29,7 +29,7 @@
     "eject": "react-scripts eject",
     "server": "node server/server.js",
     "client": "npm start",
-    "predeploy": "npm run build",
+    "predeploy": "react-scripts build",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {

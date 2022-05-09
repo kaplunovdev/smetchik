@@ -189,13 +189,13 @@ export const Payment = () => {
                     }}
             >
                 {({
-                      values,
+                      //values,
                       errors,
-                      touched,
-                      handleChange,
-                      handleBlur,
+                      //touched,
+                      //handleChange,
+                      //handleBlur,
                       handleSubmit,
-                      isSubmitting,
+                     // isSubmitting,
 
                   }) => (
                     <form onSubmit={handleSubmit} className={style.paymentBox}>
