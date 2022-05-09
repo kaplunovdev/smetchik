@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/smetchik/static/css/main.be2149ba.css",
-    "main.js": "/smetchik/static/js/main.1c58ead0.js",
-    "index.html": "/smetchik/index.html",
-    "main.be2149ba.css.map": "/smetchik/static/css/main.be2149ba.css.map",
-    "main.1c58ead0.js.map": "/smetchik/static/js/main.1c58ead0.js.map"
+    "main.css": "/static/css/main.be2149ba.css",
+    "main.js": "/static/js/main.1c58ead0.js",
+    "index.html": "/index.html",
+    "main.be2149ba.css.map": "/static/css/main.be2149ba.css.map",
+    "main.1c58ead0.js.map": "/static/js/main.1c58ead0.js.map"
   },
   "entrypoints": [
     "static/css/main.be2149ba.css",
