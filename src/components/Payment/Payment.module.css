@@ -28,6 +28,22 @@
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
+}
+.panelPlitkaCustom {
+    display: flex;
+    padding-top: 10px;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+}
+.panelPlitkaCustomInputs{
+    display: flex;
+    gap: 15px;
+    alignItems: center;
+    justify-content: space-between;
+
+    flex-direction: column;
 
 
 }
@@ -138,7 +154,7 @@ p.materialTitle {
     .materialsPanel {
         position: absolute;
         right: 0;
-        z-index: 2;
+        z-index: 3;
         margin-bottom: 0;
     }
 
@@ -151,11 +167,30 @@ p.materialTitle {
     flex-direction: column;
     gap: 15px;
 }
+.panelButtons{
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+}
+th{
+    background-color: #32e5a4 !important;
+}
 
 @media screen and (min-width: 400px) {
     .panelPlitkaInputs {
         flex-direction: row;
     }
 
+    .panelButtons{
+        justify-content: start;
+    }
+
+}
+@media screen and (min-width: 565px) {
+
+    .panelPlitkaCustomInputs{
+        flex-direction: row;
+        align-items: center;
+    }
 
 }

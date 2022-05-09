@@ -10,10 +10,9 @@ const SelectUnits =({updateUnits})=> {
         updateUnits(event.target.value);
         setTypeUnits(event.target.value)
     };
-    console.log(typeUnits)
 
     return (
-        <FormControl sx={{m: 1, minWidth: 100}}>
+        <FormControl  sx={{m: 0, minWidth: 100}}>
             <InputLabel id="demo-simple-select-label">Ед.изм</InputLabel>
             <Select
                 labelId="demo-simple-select-label"

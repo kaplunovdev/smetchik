@@ -195,7 +195,7 @@ export const Payment = () => {
                       //handleChange,
                       //handleBlur,
                       handleSubmit,
-                     // isSubmitting,
+                      // isSubmitting,
 
                   }) => (
                     <form onSubmit={handleSubmit} className={style.paymentBox}>
@@ -391,8 +391,8 @@ export const Payment = () => {
 
                                     <AccordionDetails>
                                         <Typography>
-                                            <div className={style.panelPlitka}>
-                                                <div style={{display: "flex", gap: 15, alignItems: 'center'}}>
+                                            <div className={style.panelPlitkaCustom}>
+                                                <div className={style.panelPlitkaCustomInputs}>
                                                     <TextField
                                                         className={errors.countS && style.errorInput}
                                                         value={customWorkTitle}
@@ -426,6 +426,7 @@ export const Payment = () => {
                                                     />
 
                                                     <SelectUnits
+
                                                         updateUnits={updateUnits}
 
                                                     />
@@ -434,17 +435,19 @@ export const Payment = () => {
 
 
                                             </div>
-                                            <Button variant="contained"
-                                                    onClick={addCustomWork}
-                                            >
-                                                Добавить
+                                            <div className={style.panelButtons}>
+                                                <Button variant="contained"
+                                                        onClick={addCustomWork}
+                                                >
+                                                    Добавить
 
-                                            </Button>
-                                            <Button variant="text"
-                                                    onClick={() => setCustomAccordion(false)}
-                                            >
-                                                Отмена
-                                            </Button>
+                                                </Button>
+                                                <Button variant="text"
+                                                        onClick={() => setCustomAccordion(false)}
+                                                >
+                                                    Отмена
+                                                </Button>
+                                            </div>
 
 
                                             {openModal && <Modal
@@ -467,18 +470,19 @@ export const Payment = () => {
                             {/*<button type="submit" disabled={isSubmitting}>Отправить</button>*/}
                         </div>
 
-                        <TableContainer component={Paper} style={{marginBottom: 20, marginTop: 20}}>
+                        <TableContainer sx={{maxHeight: 400}} component={Paper}
+                                        style={{marginBottom: 20, marginTop: 20}}>
 
                             {checkDataWorks &&
 
                                 <Table
                                     sx={{minWidth: 300}}
                                     size="small"
-                                    aria-label="simple table"
+                                    //aria-label="simple table"
+                                    stickyHeader aria-label="sticky table"
                                 >
                                     <TableHead>
-                                        <TableRow style={{minWidth: 150}}>Стоимость работ</TableRow>
-                                        <TableRow style={{background: '#29d9b085'}}>
+                                        <TableRow>
                                             <TableCell style={{minWidth: 100}}>Позиция</TableCell>
                                             <TableCell style={{minWidth: 100}} align="right">Кол-во</TableCell>
                                             <TableCell style={{minWidth: 100}} align="right">Стоимость</TableCell>
@@ -492,7 +496,7 @@ export const Payment = () => {
                                                 key={el.name}
                                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                             >
-                                                <TableCell component="th" scope="row">{el.name}</TableCell>
+                                                <TableCell component="td" scope="row">{el.name}</TableCell>
                                                 <TableCell
                                                     align="right">{el.count}
                                                     {el.name === 'Поребрик' ? ' м' :
@@ -516,35 +520,43 @@ export const Payment = () => {
                                 ) && materialsCount.plitka > 0 &&
                                 <Table sx={{minWidth: 300}}
                                        size="small"
-                                       aria-label="simple table"
+                                       stickyHeader aria-label="sticky table"
                                        style={{marginTop: 20}}
 
                                 >
-                                    <TableHead>
-                                        <TableRow>Стоимость материалов</TableRow>
-                                        <TableRow style={{background: 'rgb(60 181 255 / 52%)'}}>
-                                            <TableCell style={{minWidth: 100}}>Позиция</TableCell>
-                                            <TableCell style={{minWidth: 100}} align="right">Кол-во</TableCell>
-                                            <TableCell style={{minWidth: 100}} align="right">Стоимость</TableCell>
-                                            <TableCell style={{minWidth: 100}} align="right">Всего</TableCell>
+
+                                        <TableRow>
+                                            <TableCell colSpan={4} style={{padding: '10px',color:'#d46832'}}>Стоимость
+                                                материалов</TableCell>
                                         </TableRow>
-                                    </TableHead>
+                                        {/*<TableRow style={{background: 'rgb(60 181 255 / 52%)'}}>*/}
+                                        {/*    <TableCell style={{minWidth: 100}}>Позиция</TableCell>*/}
+                                        {/*    <TableCell style={{minWidth: 100}} align="right">Кол-во</TableCell>*/}
+                                        {/*    <TableCell style={{minWidth: 100}} align="right">Стоимость</TableCell>*/}
+                                        {/*    <TableCell style={{minWidth: 100}} align="right">Всего</TableCell>*/}
+                                        {/*</TableRow>*/}
+
                                     <TableBody>
                                         {materialsFilter.map((elem) => (
                                             elem.count > 0 &&
                                             <TableRow key={elem.name}
                                                       sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-                                                <TableCell>{elem.name}</TableCell>
-                                                <TableCell align="right">{elem.count}
+                                                <TableCell style={{minWidth: 100}}>{elem.name}</TableCell>
+                                                <TableCell style={{minWidth: 100}} align="right">{elem.count}
                                                     {
                                                         elem.name === 'Поребрик' ? ' м' :
                                                             elem.name === 'Тротуарная плитка' ? ' м²' :
                                                                 elem.name === 'Цемент' ? ` шт (50 кг)` : ' т'
 
-                                                    } </TableCell>
-                                                <TableCell align="right">{elem.price} ₽</TableCell>
+                                                    }
+                                                </TableCell>
+                                                <TableCell style={{minWidth: 100}}
+                                                           align="right">{elem.price} ₽
+                                                </TableCell>
                                                 <TableCell
-                                                    align="right">{parseInt(elem.count) * elem.price} ₽</TableCell>
+                                                    style={{minWidth: 100}}
+                                                    align="right">{parseInt(elem.count) * elem.price} ₽
+                                                </TableCell>
                                             </TableRow>
                                         ))
                                         }
@@ -564,7 +576,6 @@ export const Payment = () => {
                     </form>
                 )}
             < /Formik>
-            {/*<NavBottom/>*/}
         </div>
     )
 }
