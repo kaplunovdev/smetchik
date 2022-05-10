@@ -49,21 +49,32 @@
 }
 
 .result {
-    display: flex;
+    max-width: 200px;
+    /*display: flex;*/
     align-items: center;
     padding: 5px 0 10px;
     color: #000000;
     font-size: 16px;
     font-weight: 700;
+    gap: 10px;
+}
+.resultItem{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }
 
 .resultNum {
-    padding: 5px 10px;
+    padding: 0px 5px;
     background: tomato;
     border-radius: 5px;
     color: white;
     font-size: 18px;
     margin-left: 5px;
+}
+.resultItem.greenItem{
+    background: #32e5a4;
 }
 
 .panelPlitka svg {

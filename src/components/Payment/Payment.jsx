@@ -147,8 +147,8 @@ export const Payment = () => {
         betonPesok: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Бетон')).map(el => el.count) * 4.5),
         betonSheben: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Бетон')).map(el => el.count) * 0.9),
         porebrikPesok: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Поребрик')).map(el => el.count) / 14 * 0.150),
-        porebrikSheben: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Поребрик')).map(el => el.count) * 0.021 + ( 0.03 * 0.25 * 1.8  )),
-        bordurSheben: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Бордюр')).map(el => el.count) * 0.021 + ( 0.03 * 0.25 * 1.8  )),
+        porebrikSheben: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Поребрик')).map(el => el.count) * 0.021 + (0.03 * 0.25 * 1.8)),
+        bordurSheben: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Бордюр')).map(el => el.count) * 0.021 + (0.03 * 0.25 * 1.8)),
     }
 
     const materials = [
@@ -164,19 +164,23 @@ export const Payment = () => {
         return elem.price * elem.count
     });
     let totalWorkPrice = cards.map((elem) => {
-        return elem.count * elem.price
-    });
 
+            return elem.count * elem.price
+
+
+    });
+    let resultWorks = 0;
+    let resultMaterials = 0;
     const sum = () => {
-        let result = 0;
+
         for (let i = 0; i < totalMaterialPrice.length; i++) {
-            result += totalMaterialPrice[i]
+            resultMaterials += totalMaterialPrice[i]
         }
         for (let i = 0; i < totalWorkPrice.length; i++) {
-            result += totalWorkPrice[i]
+            resultWorks += totalWorkPrice[i]
         }
-        return result;
     }
+    sum()
 
 
     return (
@@ -537,37 +541,27 @@ export const Payment = () => {
                                 // state.materialPage.pricePesok > 0
                                 // &&
                                 (materialsCount.plitka > 0 ||
-                                materialsCount.beton > 0 ||
-                                materialsCount.porebrik > 0 ||
-                                materialsCount.bordur > 0
+                                    materialsCount.beton > 0 ||
+                                    materialsCount.porebrik > 0 ||
+                                    materialsCount.bordur > 0
 
                                 ) &&
-                              (  state.materialPage.plitkaPrice > 0 ||
+                                (state.materialPage.plitkaPrice > 0 ||
                                     state.materialPage.porebrikPrice > 0 ||
-
                                     state.materialPage.pricePesok > 0 ||
                                     state.materialPage.priceSheben > 0 ||
                                     state.materialPage.priceCement > 0)
-
                                 &&
                                 <Table sx={{minWidth: 300}}
                                        size="small"
                                        stickyHeader aria-label="sticky table"
                                        style={{marginTop: 20}}
-
                                 >
 
                                     <TableRow>
                                         <TableCell colSpan={4} style={{padding: '10px', color: '#d46832'}}>Необходимые
                                             материалы:</TableCell>
                                     </TableRow>
-                                    {/*<TableRow style={{background: 'rgb(60 181 255 / 52%)'}}>*/}
-                                    {/*    <TableCell style={{minWidth: 100}}>Позиция</TableCell>*/}
-                                    {/*    <TableCell style={{minWidth: 100}} align="right">Кол-во</TableCell>*/}
-                                    {/*    <TableCell style={{minWidth: 100}} align="right">Стоимость</TableCell>*/}
-                                    {/*    <TableCell style={{minWidth: 100}} align="right">Всего</TableCell>*/}
-                                    {/*</TableRow>*/}
-
                                     <TableBody>
                                         {materialsFilter.map((elem) => (
                                             elem.count > 0 &&
@@ -598,10 +592,18 @@ export const Payment = () => {
                         </TableContainer>
                         {checkDataWorks &&
                             <div className={style.result}>
-                                <span>Итого: </span>
-                                <span>
-                                     <span className={style.resultNum}>{sum()} ₽</span>
-                                </span>
+                                <p className={style.resultItem }>
+                                    <span>Работа:</span>
+                                    <span className={style.resultNum} >{resultWorks} ₽</span>
+                                </p>
+                                <p className={style.resultItem}>
+                                    <span>Материалы:</span>
+                                    <span className={style.resultNum}>{resultMaterials} ₽</span>
+                                </p>
+                                <p className={style.resultItem}>
+                                    <span>Итого:</span>
+                                    <span className={style.resultNum}>{resultWorks + resultMaterials} ₽</span>
+                                </p>
                             </div>
 
                         }
