@@ -13,7 +13,7 @@ const Modal = ({onClose, clearDataPlitka, clearDataMaterials, onCloseMaterial,op
         bgcolor: 'background.paper',
         boxShadow: 24,
         p: 4,
-        zIndex: 2
+        zIndex: 3
     };
 
 

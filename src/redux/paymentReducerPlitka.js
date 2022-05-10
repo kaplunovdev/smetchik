@@ -26,9 +26,9 @@ const initialState = {
             isVisible: false,
         },
         {
-            title: 'Изоляция',
-            placeholderCount: 'Кол-во метров',
-            placeholderPrice: 'Стоимость 1м',
+            title: 'Бетон',
+            placeholderCount: 'Кол-во м³',
+            placeholderPrice: 'Стоимость 1м³',
             count: '',
             price: '',
             typeUnits: '',
