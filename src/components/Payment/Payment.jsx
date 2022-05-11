@@ -13,8 +13,8 @@ import TrashIcon from '@mui/icons-material/RestoreFromTrash'
 import Modal from '../Modal/Modal'
 
 import {
-    Button,
-    Paper,
+    Button, FormControlLabel,
+    Paper, Switch,
     Table,
     TableBody,
     TableCell,
@@ -41,10 +41,15 @@ export const Payment = () => {
     const [customWorkTitle, setCustomWorkTitle] = React.useState('');
     const [customWorkCount, setCustomWorkCount] = React.useState('');
     const [customWorkPrice, setCustomWorkPrice] = React.useState('');
+    const [checked, setChecked] = React.useState(false);
     // const [placeholderCount, setPlaceholderCount] = React.useState('');
     const [typeUnits, setTypeUnits] = React.useState('');
     const [customAccordion, setCustomAccordion] = React.useState(false);
+    console.log(checked)
+const handleChecked = (event) => {
+    setChecked(event.target.checked)
 
+}
     const addCustomWork = () => {
         dispatch(actionAddCustom(customWorkCount, customWorkTitle, customWorkPrice, typeUnits))
         setCustomAccordion(false)
@@ -115,7 +120,6 @@ export const Payment = () => {
         dispatch(actionIsVisiblePlitka(payload, title))
         handleClose()
     }
-    console.log('state', state)
 
     function createData(name, price, count) {
         return {name, price, count};
@@ -379,6 +383,18 @@ export const Payment = () => {
                                                         name='price'
                                                         label={el.placeholderPrice}
                                                     />
+                                                    {el.title === 'Бетон' &&
+                                                        <FormControlLabel
+                                                            control={
+                                                            <Switch
+                                                                checked={checked}
+                                                                defaultChecked
+                                                                size="small"
+                                                                onChange={handleChecked}
+
+                                                            />
+                                                        } label="Материалы" />
+                                                    }
                                                 </div>
                                                 <TrashIcon onClick={handleOpen}/>
 
@@ -541,7 +557,7 @@ export const Payment = () => {
                                 // state.materialPage.pricePesok > 0
                                 // &&
                                 (materialsCount.plitka > 0 ||
-                                    materialsCount.beton > 0 ||
+                                    materialsCount.beton > 0 && checked ||
                                     materialsCount.porebrik > 0 ||
                                     materialsCount.bordur > 0
 
@@ -550,7 +566,9 @@ export const Payment = () => {
                                     state.materialPage.porebrikPrice > 0 ||
                                     state.materialPage.pricePesok > 0 ||
                                     state.materialPage.priceSheben > 0 ||
-                                    state.materialPage.priceCement > 0)
+                                    state.materialPage.priceCement > 0
+
+                                )
                                 &&
                                 <Table sx={{minWidth: 300}}
                                        size="small"
