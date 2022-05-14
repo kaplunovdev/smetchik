@@ -119,6 +119,19 @@
 
 .buttonMaterials {
     color: green !important;
+    position: relative;
+}
+.alertWarning{
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 72px;
+    padding: 4px;
+    color: #663c00;
+    font-size: 13px;
+    background: #fff4e5;
+    border-radius: 5px;
+
 }
 
 .buttonMaterialsDelete {
@@ -139,6 +152,7 @@ button.buttonMaterials:disabled {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
+    margin-bottom: 50px;
 }
 
 .materialsPanel {
@@ -160,19 +174,6 @@ p.materialTitle {
     margin-left: 10px;
 }
 
-
-@media screen and (min-width: 590px) {
-    .materialsPanel {
-        position: absolute;
-        right: 0;
-        z-index: 3;
-        margin-bottom: 0;
-    }
-
-    .topBar {
-        flex-direction: row;
-    }
-}
 .panelPlitkaInputs{
     display: flex;
     flex-direction: column;
@@ -187,15 +188,34 @@ th{
     background-color: #32e5a4 !important;
 }
 
-@media screen and (min-width: 400px) {
-    .panelPlitkaInputs {
-        flex-direction: row;
+
+@media screen and (min-width: 590px) {
+    .materialsPanel {
+        position: absolute;
+        right: 0;
+        z-index: 3;
+        margin-bottom: 0;
     }
 
+    .topBar {
+        flex-direction: row;
+    }
+}
+
+
+@media screen and (min-width: 400px) {
     .panelButtons{
         justify-content: start;
     }
+    .topBar{
+        margin-bottom: 40px;
+    }
 
+}
+@media screen and (min-width: 500px) {
+    .panelPlitkaInputs {
+        flex-direction: row;
+    }
 }
 @media screen and (min-width: 565px) {
 

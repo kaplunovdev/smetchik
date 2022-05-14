@@ -11,9 +11,11 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import TrashIcon from '@mui/icons-material/RestoreFromTrash'
 import Modal from '../Modal/Modal'
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 import {
-    Button, FormControlLabel,
+    Alert,
+    Button, FormControlLabel, Icon,
     Paper, Switch,
     Table,
     TableBody,
@@ -42,14 +44,32 @@ export const Payment = () => {
     const [customWorkCount, setCustomWorkCount] = React.useState('');
     const [customWorkPrice, setCustomWorkPrice] = React.useState('');
     const [checked, setChecked] = React.useState(false);
+    const [alertWarning, setAlertWarning] = React.useState(false);
     // const [placeholderCount, setPlaceholderCount] = React.useState('');
     const [typeUnits, setTypeUnits] = React.useState('');
     const [customAccordion, setCustomAccordion] = React.useState(false);
-    console.log(checked)
-const handleChecked = (event) => {
-    setChecked(event.target.checked)
 
-}
+    const handleChecked = (event) => {
+        if (state.materialPage.pricePesok > 0 ||
+            state.materialPage.priceSheben > 0 ||
+            state.materialPage.priceCement > 0) {
+
+            setChecked(event.target.checked)
+            setAlertWarning(false)
+        } else if (state.materialPage.pricePesok === "" &&
+            state.materialPage.priceSheben === "" &&
+            state.materialPage.priceCement === "") {
+            setAlertWarning(true)
+            setTimeout(()=>{
+                setAlertWarning(false)
+            },3000)
+            setChecked(false)
+        }
+
+    }
+
+
+
     const addCustomWork = () => {
         dispatch(actionAddCustom(customWorkCount, customWorkTitle, customWorkPrice, typeUnits))
         setCustomAccordion(false)
@@ -169,7 +189,7 @@ const handleChecked = (event) => {
     });
     let totalWorkPrice = cards.map((elem) => {
 
-            return elem.count * elem.price
+        return elem.count * elem.price
 
 
     });
@@ -220,7 +240,7 @@ const handleChecked = (event) => {
                     <form onSubmit={handleSubmit} className={style.paymentBox}>
                         <div>
                             <div className={style.topBar}>
-                                <div style={{width: "300px", marginBottom: "20px"}}>
+                                <div style={{width: "300px"}}>
                                     <Button
                                         id="work"
                                         aria-controls={open ? 'work_control' : undefined}
@@ -240,6 +260,14 @@ const handleChecked = (event) => {
                                     >
                                         {isVisibleMaterials ? '- Удалить материалы' : '+ Добавить материалы'}
                                     </Button>
+                                    {
+                                        alertWarning &&
+                                        <div className={style.alertWarning}>
+                                            <Icon component={ArrowUpwardIcon}></Icon>
+                                            <p>Добавьте цены на материалы, нужные для бетона</p>
+                                        </div>
+
+                                    }
                                 </div>
                                 <div className={style.materialsPanel}>
                                     {isVisibleMaterials &&
@@ -386,14 +414,14 @@ const handleChecked = (event) => {
                                                     {el.title === 'Бетон' &&
                                                         <FormControlLabel
                                                             control={
-                                                            <Switch
-                                                                checked={checked}
-                                                                defaultChecked
-                                                                size="small"
-                                                                onChange={handleChecked}
+                                                                <Switch
+                                                                    checked={checked}
+                                                                    defaultChecked
+                                                                    size="small"
+                                                                    onChange={handleChecked}
 
-                                                            />
-                                                        } label="Материалы" />
+                                                                />
+                                                            } label="Материалы"/>
                                                     }
                                                 </div>
                                                 <TrashIcon onClick={handleOpen}/>
@@ -610,17 +638,17 @@ const handleChecked = (event) => {
                         </TableContainer>
                         {checkDataWorks &&
                             <div className={style.result}>
-                                <p className={style.resultItem }>
+                                <p className={style.resultItem}>
                                     <span>Работа:</span>
-                                    <span className={style.resultNum} >{resultWorks} ₽</span>
+                                    <span className={style.resultNum}>{resultWorks} ₽</span>
                                 </p>
                                 <p className={style.resultItem}>
                                     <span>Материалы:</span>
-                                    <span className={style.resultNum}>{resultMaterials} ₽</span>
+                                    <span className={style.resultNum}>{checked ? resultMaterials : 0} ₽</span>
                                 </p>
                                 <p className={style.resultItem}>
                                     <span>Итого:</span>
-                                    <span className={style.resultNum}>{resultWorks + resultMaterials} ₽</span>
+                                    <span className={style.resultNum}>{resultWorks + (checked ? resultMaterials : 0)} ₽</span>
                                 </p>
                             </div>
 
