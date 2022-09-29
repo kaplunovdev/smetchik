@@ -644,18 +644,18 @@ export const Payment = () => {
                                 </p>
                                 <p className={style.resultItem}>
                                     <span>Материалы:</span>
-                                    <span className={style.resultNum}>{checked ? resultMaterials : 0} ₽</span>
+                                    <span className={style.resultNum}>{ resultMaterials} ₽</span>
                                 </p>
                                 <p className={style.resultItem}>
                                     <span>Итого:</span>
-                                    <span className={style.resultNum}>{resultWorks + (checked ? resultMaterials : 0)} ₽</span>
+                                    <span className={style.resultNum}>{resultWorks + resultMaterials} ₽</span>
                                 </p>
                             </div>
 
                         }
                     </form>
                 )}
-            < /Formik>
+            </Formik>
         </div>
     )
 }
