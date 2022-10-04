@@ -54,8 +54,7 @@
     align-items: center;
     padding: 5px 0 10px;
     color: #000000;
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 17px;
     gap: 10px;
 }
 .resultItem{
@@ -67,11 +66,12 @@
 
 .resultNum {
     padding: 0px 5px;
-    background: tomato;
+    background: #EEE3CB;
     border-radius: 5px;
-    color: white;
+    color: #967E76;
     font-size: 18px;
     margin-left: 5px;
+    font-weight: 700;
 }
 .resultItem.greenItem{
     background: #32e5a4;
@@ -90,7 +90,7 @@
 .title {
     font-size: 35px;
     text-transform: uppercase;
-    color: tomato;
+    color: #B7C4CF;
     text-align: center;
     margin-bottom: 20px;
 }
@@ -118,9 +118,14 @@
 }
 
 .buttonMaterials {
-    color: green !important;
+    color: #000000 !important;
     position: relative;
 }
+
+.buttonWork{
+    color: #967E76 !important;
+}
+
 .alertWarning{
     display: flex;
     align-items: center;
@@ -185,7 +190,7 @@ p.materialTitle {
     padding-top: 20px;
 }
 th{
-    background-color: #32e5a4 !important;
+    background-color: #D7C0AE !important;
 }
 
 

@@ -247,6 +247,7 @@ export const Payment = () => {
                             <div className={style.topBar}>
                                 <div style={{width: "300px"}}>
                                     <Button
+                                        className={style.buttonWork}
                                         id="work"
                                         aria-controls={open ? 'work_control' : undefined}
                                         aria-haspopup="true"
@@ -611,7 +612,7 @@ export const Payment = () => {
                                 >
 
                                     <TableRow>
-                                        <TableCell colSpan={4} style={{padding: '10px', color: '#d46832'}}>Необходимые
+                                        <TableCell colSpan={4} style={{padding: '10px', color: '#967E76'}}>Необходимые
                                             материалы:</TableCell>
                                     </TableRow>
                                     <TableBody>
