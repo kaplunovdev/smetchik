@@ -168,20 +168,25 @@ export const Payment = () => {
         bordurCement: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Бордюр')).map(el => el.count) / 14),
         bordurPesok: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Бордюр')).map(el => el.count) / 14 * 0.150),
         betonCement: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Бетон')).map(el => el.count) * 3.3),
-        betonPesok: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Бетон')).map(el => el.count) * 4.5),
-        betonSheben: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Бетон')).map(el => el.count) * 0.9),
+        betonPesok: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Бетон')).map(el => el.count) * 0,864),
+        betonSheben: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Бетон')).map(el => el.count) * 1,2),
         porebrikPesok: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Поребрик')).map(el => el.count) / 14 * 0.150),
-        porebrikSheben: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Поребрик')).map(el => el.count) * 0.021 + (0.03 * 0.25 * 1.8)),
-        bordurSheben: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Бордюр')).map(el => el.count) * 0.021 + (0.03 * 0.25 * 1.8)),
+        porebrikSheben: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Поребрик')).map(el => el.count) * 14,2),
+        bordurSheben: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Бордюр')).map(el => el.count) * 14,2 ),
     }
 
     const materials = [
         plitkaPrice !== '' ? createData('Тротуарная плитка', plitkaPrice, materialsCount.plitka) : null,
-        priceCement !== '' ? createData('Цемент (50кг)', priceCement, materialsCount.plitkaCement + materialsCount.porebrikCement + materialsCount.bordurCement + materialsCount.betonCement) : null,
-        priceSheben !== '' ? createData('Щебень', priceSheben, materialsCount.sheben + materialsCount.betonSheben + materialsCount.porebrikSheben + materialsCount.bordurSheben) : null,
-        pricePesok !== '' ? createData('Песок', pricePesok, materialsCount.pesok + materialsCount.betonPesok + materialsCount.porebrikPesok + materialsCount.bordurPesok) : null,
+        priceCement !== '' ? createData('Цемент (50кг)', priceCement, materialsCount.plitkaCement + materialsCount.porebrikCement + materialsCount.bordurCement + (checked && materialsCount.betonCement)) : null,
+        priceSheben !== '' ? createData('Щебень', priceSheben, materialsCount.sheben + (checked && materialsCount.betonSheben) + materialsCount.porebrikSheben + materialsCount.bordurSheben) : null,
+        pricePesok !== '' ? createData('Песок', pricePesok, materialsCount.pesok + (checked && materialsCount.betonPesok) + materialsCount.porebrikPesok + materialsCount.bordurPesok) : null,
         pricePorebrik !== '' ? createData('Поребрик', pricePorebrik, materialsCount.porebrik) : null,
     ];
+    console.log('materials',materials[2])
+    console.log('materialsCount',materialsCount)
+   
+
+
     const materialsFilter = materials.filter(elem => elem !== null)
 
     let totalMaterialPrice = materialsFilter.map((elem) => {
@@ -562,6 +567,7 @@ export const Payment = () => {
                                                     align="right">{el.count}
                                                     {el.name === 'Поребрик' ? ' м' :
                                                         el.name === 'Люки' ? ' шт' :
+                                                        el.name === 'Бетон' ? ' м³' :
                                                             el.name === 'Люки' ? ' шт' : ' м²'
                                                     }
                                                 </TableCell>
@@ -644,7 +650,7 @@ export const Payment = () => {
                                 </p>
                                 <p className={style.resultItem}>
                                     <span>Материалы:</span>
-                                    <span className={style.resultNum}>{ resultMaterials} ₽</span>
+                                    <span className={ style.resultNum}>{resultMaterials} ₽</span>
                                 </p>
                                 <p className={style.resultItem}>
                                     <span>Итого:</span>
