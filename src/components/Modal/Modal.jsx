@@ -17,7 +17,7 @@ const Modal = ({
     maxWidth: 400,
     bgcolor: "background.paper",
     boxShadow: 24,
-    p: 4,
+    p: 2,
     zIndex: 3,
   };
 
@@ -46,7 +46,7 @@ const Modal = ({
           }}
         >
           <p style={{ marginBottom: 20 }}>Вы уверены?</p>
-          <p>
+          <p style={{ display: "flex" }}>
             <Button
               onClick={
                 openModalMaterials ? clearDataMaterials : clearDataPlitka
