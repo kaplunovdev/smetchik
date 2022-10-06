@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/smetchik/static/css/main.f74cd9a8.css",
-    "main.js": "/smetchik/static/js/main.54c4bec3.js",
+    "main.css": "/smetchik/static/css/main.898a3cbe.css",
+    "main.js": "/smetchik/static/js/main.9c770b05.js",
     "static/js/787.f9ab83f1.chunk.js": "/smetchik/static/js/787.f9ab83f1.chunk.js",
     "index.html": "/smetchik/index.html",
-    "main.f74cd9a8.css.map": "/smetchik/static/css/main.f74cd9a8.css.map",
-    "main.54c4bec3.js.map": "/smetchik/static/js/main.54c4bec3.js.map",
+    "main.898a3cbe.css.map": "/smetchik/static/css/main.898a3cbe.css.map",
+    "main.9c770b05.js.map": "/smetchik/static/js/main.9c770b05.js.map",
     "787.f9ab83f1.chunk.js.map": "/smetchik/static/js/787.f9ab83f1.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f74cd9a8.css",
-    "static/js/main.54c4bec3.js"
+    "static/css/main.898a3cbe.css",
+    "static/js/main.9c770b05.js"
   ]
 }
