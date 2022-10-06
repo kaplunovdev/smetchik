@@ -171,12 +171,12 @@ export const Payment = () => {
         betonPesok: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Бетон')).map(el => el.count) * 0,864),
         betonSheben: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Бетон')).map(el => el.count) * 1,2),
         porebrikPesok: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Поребрик')).map(el => el.count) / 14 * 0.150),
-        porebrikSheben: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Поребрик')).map(el => el.count) * 14,2),
-        bordurSheben: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Бордюр')).map(el => el.count) * 14,2 ),
+        porebrikSheben: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Поребрик')).map(el => el.count) * 0.0142),
+        bordurSheben: Math.ceil(useSelector(state => state.paymentPage.cards.filter(el => el.title === 'Бордюр')).map(el => el.count) *  0.0142 ),
     }
 
     const materials = [
-        plitkaPrice !== '' ? createData('Тротуарная плитка', plitkaPrice, materialsCount.plitka) : null,
+        plitkaPrice !== '' ? createData('Тротуарная плитка', plitkaPrice, materialsCount.plitka > 0 && materialsCount.plitka) : null,
         priceCement !== '' ? createData('Цемент (50кг)', priceCement, materialsCount.plitkaCement + materialsCount.porebrikCement + materialsCount.bordurCement + (checked && materialsCount.betonCement)) : null,
         priceSheben !== '' ? createData('Щебень', priceSheben, materialsCount.sheben + (checked && materialsCount.betonSheben) + materialsCount.porebrikSheben + materialsCount.bordurSheben) : null,
         pricePesok !== '' ? createData('Песок', pricePesok, materialsCount.pesok + (checked && materialsCount.betonPesok) + materialsCount.porebrikPesok + materialsCount.bordurPesok) : null,
