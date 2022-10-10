@@ -1,31 +1,59 @@
-const PRICE_PLITKA = "PRICE_PLITKA";
-const PRICE_PESOK = "PRICE_PESOK";
-const PRICE_SHEBEN = "PRICE_SHEBEN";
-const PRICE_CEMENT = "PRICE_CEMENT";
-const PRICE_POREBRIK = "PRICE_POREBRIK";
 const IS_VISIBLE_MATERIALS = "IS_VISIBLE_MATERIALS";
 const CLEAR_DATA_MATERIALS = "CLEAR_DATA_MATERIALS";
+const ACTION_PRICE = "ACTION_PRICE";
+const CLEAR_PRICE_MATERIAL = "CLEAR_PRICE_MATERIAL";
 
 const initialState = {
-  plitkaPrice: "750",
-  porebrikPrice: "250",
-  pricePesok: "650",
-  priceSheben: "750",
-  priceCement: "350",
+  priceMaterials: [
+    {
+      title: "Плитка, ",
+      label: "1м²",
+      price: "750",
+      isVisible: false,
+    },
+    {
+      title: "Поребрик, ",
+      label: "1м",
+      price: "250",
+      isVisible: false,
+    },
+    {
+      title: "Песок, ",
+      label: "1т",
+      price: "650",
+      isVisible: false,
+    },
+    {
+      title: "Щебень, ",
+      label: "1т",
+      price: "750",
+      isVisible: false,
+    },
+    {
+      title: "Цемент, ",
+      label: "1шт (50кг)",
+      price: "350",
+      isVisible: false,
+    },
+  ],
   isVisible: false,
 };
 export const reducerMaterials = (state = initialState, action) => {
   switch (action.type) {
-    case PRICE_POREBRIK:
-      return { ...state, porebrikPrice: action.price };
-    case PRICE_PLITKA:
-      return { ...state, plitkaPrice: action.price };
-    case PRICE_PESOK:
-      return { ...state, pricePesok: action.price };
-    case PRICE_SHEBEN:
-      return { ...state, priceSheben: action.price };
-    case PRICE_CEMENT:
-      return { ...state, priceCement: action.price };
+    case ACTION_PRICE:
+      return {
+        ...state,
+        priceMaterials: state.priceMaterials.map((el) => {
+          if (el.title === action.title) {
+            return {
+              ...el,
+              price: action.price,
+            };
+          }
+          return el;
+        }),
+      };
+
     case IS_VISIBLE_MATERIALS:
       return { ...state, isVisible: true };
     case CLEAR_DATA_MATERIALS:
@@ -38,22 +66,28 @@ export const reducerMaterials = (state = initialState, action) => {
         priceCement: "",
         isVisible: action.payload,
       };
+    case CLEAR_PRICE_MATERIAL:
+      return {
+        ...state,
+        priceMaterials: state.priceMaterials.filter(
+          (el) => el.title !== action.title
+        ),
+      };
     default:
       return state;
   }
 };
 
+export const actionPrice = (title, price) => ({
+  type: ACTION_PRICE,
+  title,
+  price,
+});
+export const actionClearPrice = (title) => ({
+  type: CLEAR_PRICE_MATERIAL,
+  title,
+});
 export const actionIsVisibleMaterials = () => ({ type: IS_VISIBLE_MATERIALS });
-
-export const actionPricePorebrik = (price) => ({ type: PRICE_POREBRIK, price });
-
-export const actionPricePlitka = (price) => ({ type: PRICE_PLITKA, price });
-
-export const actionPricePesok = (price) => ({ type: PRICE_PESOK, price });
-
-export const actionPriceSheben = (price) => ({ type: PRICE_SHEBEN, price });
-
-export const actionPriceCement = (price) => ({ type: PRICE_CEMENT, price });
 
 export const actionClearDataMaterials = (payload) => ({
   type: CLEAR_DATA_MATERIALS,

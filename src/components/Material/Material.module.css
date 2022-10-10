@@ -9,6 +9,7 @@
 }
 .formInputsItem {
   margin: 5px;
+  position: relative;
 }
 .formInputsItem span {
   margin-left: 10px;
@@ -31,4 +32,11 @@ span.formInputRatio {
   height: 30px !important;
   cursor: pointer;
   color: rgba(0, 0, 0, 0.6);
+}
+.RemoveIconMaterials {
+  position: absolute;
+  left: 86%;
+  top: 16px;
+  cursor: pointer;
+  color: rgba(236, 123, 123, 0.42) !important;
 }

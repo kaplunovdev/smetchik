@@ -155,6 +155,7 @@ button.buttonMaterials:disabled {
 
 .materialsPanel {
   margin-bottom: 10px;
+  color: #000000;
 }
 
 p.materialTitle {

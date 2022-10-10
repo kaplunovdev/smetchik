@@ -1,68 +1,37 @@
 import React from "react";
 import style from "./Material.module.css";
 import { TextField } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  actionPriceCement,
-  actionPricePesok,
-  actionPricePlitka,
-  actionPricePorebrik,
-  actionPriceSheben,
-} from "../../redux/reducerMaterials";
+import { useDispatch } from "react-redux";
+import { actionPrice, actionClearPrice } from "../../redux/reducerMaterials";
+
 import AddIconMaterials from "@mui/icons-material/AddCircleOutline";
-
-export const Material = () => {
-  const plitkaPrice = useSelector((state) => state.materialPage.plitkaPrice);
-  const pricePesok = useSelector((state) => state.materialPage.pricePesok);
-  const priceSheben = useSelector((state) => state.materialPage.priceSheben);
-  const porebrikPrice = useSelector(
-    (state) => state.materialPage.porebrikPrice
-  );
-  const priceCement = useSelector((state) => state.materialPage.priceCement);
-
+import RemoveIconMaterials from "@mui/icons-material/RemoveCircle";
+export const Material = ({ stateMaterials }) => {
   const dispatch = useDispatch();
 
+  console.log("stateMaterials", stateMaterials);
   return (
     <div>
       <div className={style.formInputs}>
-        <div className={style.formInputsItem}>
-          <TextField
-            onChange={(e) => dispatch(actionPricePlitka(e.target.value))}
-            value={plitkaPrice}
-            label="Цена плитки"
-          />
-        </div>
-        <div className={style.formInputsItem}>
-          <TextField
-            onChange={(e) => dispatch(actionPricePesok(e.target.value))}
-            value={pricePesok}
-            label="Цена песка"
-          />
-        </div>
-        <div className={style.formInputsItem}>
-          <TextField
-            onChange={(e) => dispatch(actionPriceSheben(e.target.value))}
-            value={priceSheben}
-            label="Цена щебня"
-          />
-        </div>
-        <div className={style.formInputsItem}>
-          <TextField
-            onChange={(e) => dispatch(actionPricePorebrik(e.target.value))}
-            value={porebrikPrice}
-            label="Цена поребрика "
-          />
-        </div>
-
-        <div className={style.formInputsItem}>
-          <TextField
-            onChange={(e) => dispatch(actionPriceCement(e.target.value))}
-            value={priceCement}
-            label="Цена цемента"
-          />
-        </div>
+        {stateMaterials.map((el) => (
+          <div className={style.formInputsItem}>
+            <TextField
+              onChange={(e) => dispatch(actionPrice(el.title, e.target.value))}
+              value={el.price}
+              label={el.title + el.label}
+              key={el.title}
+            />
+            <RemoveIconMaterials
+              className={style.RemoveIconMaterials}
+              onClick={() => dispatch(actionClearPrice(el.title))}
+            />
+          </div>
+        ))}
       </div>
-      <AddIconMaterials className={style.AddIconMaterials} />
+      <AddIconMaterials
+        className={style.AddIconMaterials}
+        onClick={() => alert(777)}
+      />
     </div>
   );
 };

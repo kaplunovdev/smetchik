@@ -153,6 +153,7 @@ export const Payment = () => {
 
   const store = useStore();
   const state = store.getState();
+
   const setVisible = (payload, title) => {
     dispatch(actionIsVisiblePlitka(payload, title));
     handleClose();
@@ -305,8 +306,7 @@ export const Payment = () => {
       ? createData("Поребрик", pricePorebrik, materialsCount.porebrik)
       : null,
   ];
-  console.log("materials", materials[2]);
-  console.log("materialsCount", materialsCount);
+  console.log("state", state);
 
   const materialsFilter = materials.filter((elem) => elem !== null);
 
@@ -427,7 +427,9 @@ export const Payment = () => {
                         </div>
 
                         <Typography className={style.accordion}>
-                          <Material />
+                          <Material
+                            stateMaterials={state.materialPage.priceMaterials}
+                          />
                         </Typography>
                       </AccordionDetails>
                     </Accordion>
