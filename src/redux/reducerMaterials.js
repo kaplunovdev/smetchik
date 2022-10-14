@@ -2,35 +2,36 @@ const IS_VISIBLE_MATERIALS = "IS_VISIBLE_MATERIALS";
 const CLEAR_DATA_MATERIALS = "CLEAR_DATA_MATERIALS";
 const ACTION_PRICE = "ACTION_PRICE";
 const CLEAR_PRICE_MATERIAL = "CLEAR_PRICE_MATERIAL";
+const ADD_PRICE_MATERIAL = "ADD_PRICE_MATERIAL";
 
 const initialState = {
   priceMaterials: [
     {
-      title: "Плитка, ",
+      title: "Плитка",
       label: "1м²",
       price: "750",
       isVisible: false,
     },
     {
-      title: "Поребрик, ",
+      title: "Поребрик",
       label: "1м",
       price: "250",
       isVisible: false,
     },
     {
-      title: "Песок, ",
+      title: "Песок",
       label: "1т",
       price: "650",
       isVisible: false,
     },
     {
-      title: "Щебень, ",
+      title: "Щебень",
       label: "1т",
       price: "750",
       isVisible: false,
     },
     {
-      title: "Цемент, ",
+      title: "Цемент",
       label: "1шт (50кг)",
       price: "350",
       isVisible: false,
@@ -82,6 +83,12 @@ export const actionPrice = (title, price) => ({
   type: ACTION_PRICE,
   title,
   price,
+});
+export const actionAddPrice = (title, price, label) => ({
+  type: ADD_PRICE_MATERIAL,
+  title,
+  price,
+  label,
 });
 export const actionClearPrice = (title) => ({
   type: CLEAR_PRICE_MATERIAL,

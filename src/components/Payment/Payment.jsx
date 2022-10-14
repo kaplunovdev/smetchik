@@ -41,6 +41,7 @@ import {
   actionIsVisibleMaterials,
 } from "../../redux/reducerMaterials";
 import SelectUnits from "../SelectForm/SelectUnits";
+import { AddMaterial } from "../Material/AddMaterial/AddMaterial";
 
 export const Payment = () => {
   const [openModal, setOpenModal] = React.useState(false);
@@ -135,29 +136,38 @@ export const Payment = () => {
   const handleChangeToogle = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+  const store = useStore();
+  const state = store.getState();
+
+  const priceMaterials = state.materialPage.priceMaterials;
 
   const cards = useSelector((state) => state.paymentPage.cards);
-  const plitkaPrice = useSelector((state) => state.materialPage.plitkaPrice);
-  const porebrikPrice = useSelector(
-    (state) => state.materialPage.porebrikPrice
-  );
-  const priceCement = useSelector((state) => state.materialPage.priceCement);
+  const plitkaPrice = priceMaterials.filter((el) => el.title === "Плитка")[0]
+    .price;
+  const porebrikPrice = priceMaterials.filter(
+    (el) => el.title === "Поребрик"
+  )[0].price;
+  const priceCement = priceMaterials.filter((el) => el.title === "Цемент")[0]
+    .price;
   const isVisibleMaterials = useSelector(
     (state) => state.materialPage.isVisible
   );
-  const priceSheben = useSelector((state) => state.materialPage.priceSheben);
-  const pricePesok = useSelector((state) => state.materialPage.pricePesok);
-  const pricePorebrik = useSelector(
-    (state) => state.materialPage.porebrikPrice
-  );
-
-  const store = useStore();
-  const state = store.getState();
+  const priceSheben = priceMaterials.filter((el) => el.title === "Щебень")[0]
+    .price;
+  const pricePesok = priceMaterials.filter((el) => el.title === "Песок")[0]
+    .price;
+  const pricePorebrik = priceMaterials.filter(
+    (el) => el.title === "Поребрик"
+  )[0].price;
 
   const setVisible = (payload, title) => {
     dispatch(actionIsVisiblePlitka(payload, title));
     handleClose();
   };
+
+  const ttt = priceMaterials.filter((el) => el.title === "Плитка")[0].price;
+  console.log("priceMaterials", priceMaterials);
+  console.log("isVisibleMaterials", isVisibleMaterials);
 
   function createData(name, price, count) {
     return { name, price, count };
@@ -306,7 +316,6 @@ export const Payment = () => {
       ? createData("Поребрик", pricePorebrik, materialsCount.porebrik)
       : null,
   ];
-  console.log("state", state);
 
   const materialsFilter = materials.filter((elem) => elem !== null);
 
@@ -331,6 +340,7 @@ export const Payment = () => {
   return (
     <div className={style.paymentBox}>
       <h2 className={style.title}>Сметчик</h2>
+
       <Formik
         initialValues={{}}
         validate={(values) => {
@@ -386,7 +396,7 @@ export const Payment = () => {
                     }
                   >
                     {isVisibleMaterials
-                      ? "- Удалить материалы"
+                      ? "- Скрыть материалы"
                       : "+ Добавить материалы"}
                   </Button>
                   {alertWarning && (
@@ -735,11 +745,12 @@ export const Payment = () => {
                   (materialsCount.beton > 0 && checked) ||
                   materialsCount.porebrik > 0 ||
                   materialsCount.bordur > 0) &&
-                  (state.materialPage.plitkaPrice > 0 ||
-                    state.materialPage.porebrikPrice > 0 ||
-                    state.materialPage.pricePesok > 0 ||
-                    state.materialPage.priceSheben > 0 ||
-                    state.materialPage.priceCement > 0) && (
+                  isVisibleMaterials &&
+                  (plitkaPrice > 0 ||
+                    porebrikPrice > 0 ||
+                    pricePesok > 0 ||
+                    priceSheben > 0 ||
+                    priceCement > 0) && (
                     <Table
                       sx={{ minWidth: 300 }}
                       size="small"
@@ -811,7 +822,9 @@ export const Payment = () => {
                 </p>
                 <p className={style.resultItem}>
                   <span>Материалы:</span>
-                  <span className={style.resultNum}>{resultMaterials} ₽</span>
+                  <span className={style.resultNum}>
+                    {isVisibleMaterials ? resultMaterials : 0} ₽
+                  </span>
                 </p>
                 <p className={style.resultItem}>
                   <span>Итого:</span>
