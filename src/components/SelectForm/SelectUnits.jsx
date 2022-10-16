@@ -1,9 +1,9 @@
-import {FormControl, InputLabel, } from "@mui/material";
+import { FormControl, InputLabel, } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Select from '@mui/material/Select';
 import React from "react";
 
-const SelectUnits =({updateUnits})=> {
+const SelectUnits = ({ updateUnits }) => {
     const [typeUnits, setTypeUnits] = React.useState('');
 
     const handleChange = (event) => {
@@ -12,7 +12,7 @@ const SelectUnits =({updateUnits})=> {
     };
 
     return (
-        <FormControl  sx={{m: 0, minWidth: 100}}>
+        <FormControl sx={{ m: 0, minWidth: 100 }}>
             <InputLabel id="demo-simple-select-label">Ед.изм</InputLabel>
             <Select
                 labelId="demo-simple-select-label"

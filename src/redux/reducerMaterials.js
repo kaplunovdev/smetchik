@@ -1,8 +1,11 @@
+import { SatelliteAltRounded } from "@mui/icons-material";
+
 const IS_VISIBLE_MATERIALS = "IS_VISIBLE_MATERIALS";
 const CLEAR_DATA_MATERIALS = "CLEAR_DATA_MATERIALS";
 const ACTION_PRICE = "ACTION_PRICE";
 const CLEAR_PRICE_MATERIAL = "CLEAR_PRICE_MATERIAL";
 const ADD_PRICE_MATERIAL = "ADD_PRICE_MATERIAL";
+const NEW_MATERIAL = "NEW_MATERIAL";
 
 const initialState = {
   priceMaterials: [
@@ -70,10 +73,21 @@ export const reducerMaterials = (state = initialState, action) => {
     case CLEAR_PRICE_MATERIAL:
       return {
         ...state,
-        priceMaterials: state.priceMaterials.filter(
-          (el) => el.title !== action.title
-        ),
+        priceMaterials:  state.priceMaterials.filter((el) => el.title !== action.payload),
+        
       };
+      case NEW_MATERIAL:
+      return {
+        ...state,
+        ...state.priceMaterials
+            .push({
+                title: action.title,
+                price: action.price,
+                label: action.label,
+            })
+
+    }
+
     default:
       return state;
   }
@@ -90,9 +104,9 @@ export const actionAddPrice = (title, price, label) => ({
   price,
   label,
 });
-export const actionClearPrice = (title) => ({
+export const actionClearPrice = (payload) => ({
   type: CLEAR_PRICE_MATERIAL,
-  title,
+  payload,
 });
 export const actionIsVisibleMaterials = () => ({ type: IS_VISIBLE_MATERIALS });
 
@@ -100,3 +114,12 @@ export const actionClearDataMaterials = (payload) => ({
   type: CLEAR_DATA_MATERIALS,
   payload,
 });
+
+export const actionNewMaterial = (title,price,label) => ({
+  type: NEW_MATERIAL,
+  title,
+  price,
+  label
+});
+
+

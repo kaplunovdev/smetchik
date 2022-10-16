@@ -75,7 +75,7 @@ export const paymentReducerPlitka = (state = initialState, action) => {
 
             }
         case COUNT:
-            return {
+            return { 
                 ...state,
                 cards: state.cards.map(el => {
                     if (el.title === action.title) {

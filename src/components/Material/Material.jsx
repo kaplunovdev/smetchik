@@ -8,11 +8,11 @@ import AddIconMaterials from "@mui/icons-material/AddCircleOutline";
 import RemoveIconMaterials from "@mui/icons-material/RemoveCircle";
 
 import { AddMaterial } from "../Material/AddMaterial/AddMaterial";
+
 export const Material = ({ stateMaterials }) => {
   const dispatch = useDispatch();
   const [modalAddMaterial, setModalAddMaterial] = React.useState(false);
 
-  console.log("stateMaterials", stateMaterials);
   return (
     <div>
       <div className={style.formInputs}>

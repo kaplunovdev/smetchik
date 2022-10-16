@@ -138,36 +138,29 @@ export const Payment = () => {
   };
   const store = useStore();
   const state = store.getState();
+  const isVisibleMaterials = useSelector(
+    (state) => state.materialPage.isVisible
+  );
 
   const priceMaterials = state.materialPage.priceMaterials;
 
   const cards = useSelector((state) => state.paymentPage.cards);
-  const plitkaPrice = priceMaterials.filter((el) => el.title === "Плитка")[0]
-    .price;
-  const porebrikPrice = priceMaterials.filter(
-    (el) => el.title === "Поребрик"
-  )[0].price;
-  const priceCement = priceMaterials.filter((el) => el.title === "Цемент")[0]
-    .price;
-  const isVisibleMaterials = useSelector(
-    (state) => state.materialPage.isVisible
-  );
-  const priceSheben = priceMaterials.filter((el) => el.title === "Щебень")[0]
-    .price;
-  const pricePesok = priceMaterials.filter((el) => el.title === "Песок")[0]
-    .price;
+  const plitkaPrice = useSelector((state) => state.materialPage.priceMaterials)
+    .filter(el => el.title === 'Плитка').map(el => el.price);
+
+  const priceCement = priceMaterials.filter((el) => el.title === "Цемент").map(el => el.price);
+
+  const priceSheben = priceMaterials.filter((el) => el.title === "Щебень").map(el => el.price);
+  const pricePesok = priceMaterials.filter((el) => el.title === "Песок").map(el => el.price);
   const pricePorebrik = priceMaterials.filter(
-    (el) => el.title === "Поребрик"
-  )[0].price;
+    (el) => el.title === "Поребрик").map(el => el.price);
 
   const setVisible = (payload, title) => {
     dispatch(actionIsVisiblePlitka(payload, title));
     handleClose();
   };
 
-  const ttt = priceMaterials.filter((el) => el.title === "Плитка")[0].price;
-  console.log("priceMaterials", priceMaterials);
-  console.log("isVisibleMaterials", isVisibleMaterials);
+
 
   function createData(name, price, count) {
     return { name, price, count };
@@ -203,15 +196,15 @@ export const Payment = () => {
       useSelector((state) =>
         state.paymentPage.cards.filter((el) => el.title === "Тротуарная плитка")
       ).map((el) => el.count) *
-        0.05 *
-        1.8
+      0.05 *
+      1.8
     ),
     sheben: Math.ceil(
       useSelector((state) =>
         state.paymentPage.cards.filter((el) => el.title === "Тротуарная плитка")
       ).map((el) => el.count) *
-        0.05 *
-        1.8
+      0.05 *
+      1.8
     ),
     porebrik: Math.ceil(
       useSelector((state) =>
@@ -238,7 +231,7 @@ export const Payment = () => {
         state.paymentPage.cards.filter((el) => el.title === "Бордюр")
       ).map((el) => el.count) /
         14) *
-        0.15
+      0.15
     ),
     betonCement: Math.ceil(
       useSelector((state) =>
@@ -260,7 +253,7 @@ export const Payment = () => {
         state.paymentPage.cards.filter((el) => el.title === "Поребрик")
       ).map((el) => el.count) /
         14) *
-        0.15
+      0.15
     ),
     porebrikSheben: Math.ceil(
       useSelector((state) =>
@@ -277,40 +270,40 @@ export const Payment = () => {
   const materials = [
     plitkaPrice !== ""
       ? createData(
-          "Тротуарная плитка",
-          plitkaPrice,
-          materialsCount.plitka > 0 && materialsCount.plitka
-        )
+        "Тротуарная плитка",
+        plitkaPrice,
+        materialsCount.plitka > 0 && materialsCount.plitka
+      )
       : null,
     priceCement !== ""
       ? createData(
-          "Цемент (50кг)",
-          priceCement,
-          materialsCount.plitkaCement +
-            materialsCount.porebrikCement +
-            materialsCount.bordurCement +
-            (checked && materialsCount.betonCement)
-        )
+        "Цемент (50кг)",
+        priceCement,
+        materialsCount.plitkaCement +
+        materialsCount.porebrikCement +
+        materialsCount.bordurCement +
+        (checked && materialsCount.betonCement)
+      )
       : null,
     priceSheben !== ""
       ? createData(
-          "Щебень",
-          priceSheben,
-          materialsCount.sheben +
-            (checked && materialsCount.betonSheben) +
-            materialsCount.porebrikSheben +
-            materialsCount.bordurSheben
-        )
+        "Щебень",
+        priceSheben,
+        materialsCount.sheben +
+        (checked && materialsCount.betonSheben) +
+        materialsCount.porebrikSheben +
+        materialsCount.bordurSheben
+      )
       : null,
     pricePesok !== ""
       ? createData(
-          "Песок",
-          pricePesok,
-          materialsCount.pesok +
-            (checked && materialsCount.betonPesok) +
-            materialsCount.porebrikPesok +
-            materialsCount.bordurPesok
-        )
+        "Песок",
+        pricePesok,
+        materialsCount.pesok +
+        (checked && materialsCount.betonPesok) +
+        materialsCount.porebrikPesok +
+        materialsCount.bordurPesok
+      )
       : null,
     pricePorebrik !== ""
       ? createData("Поребрик", pricePorebrik, materialsCount.porebrik)
@@ -429,7 +422,7 @@ export const Payment = () => {
                             pricePesok === "" &&
                             priceCement === "" &&
                             priceSheben === "" &&
-                            porebrikPrice === "" && (
+                            pricePorebrik === "" && (
                               <p className={style.infoMaterials}>
                                 Заполните нужные вам поля
                               </p>
@@ -604,7 +597,7 @@ export const Payment = () => {
                         pricePesok === "" &&
                         priceCement === "" &&
                         priceSheben === "" &&
-                        porebrikPrice === "" && (
+                        pricePorebrik === "" && (
                           <p className={style.infoMaterials}>Заполните поля</p>
                         )}
                       <div className={style.panelPlitkaCustom}>
@@ -712,12 +705,12 @@ export const Payment = () => {
                               {el.name === "Поребрик"
                                 ? " м"
                                 : el.name === "Люки"
-                                ? " шт"
-                                : el.name === "Бетон"
-                                ? " м³"
-                                : el.name === "Люки"
-                                ? " шт"
-                                : " м²"}
+                                  ? " шт"
+                                  : el.name === "Бетон"
+                                    ? " м³"
+                                    : el.name === "Люки"
+                                      ? " шт"
+                                      : " м²"}
                             </TableCell>
                             <TableCell align="right">{el.price} ₽</TableCell>
                             <TableCell align="right">
@@ -745,73 +738,73 @@ export const Payment = () => {
                   (materialsCount.beton > 0 && checked) ||
                   materialsCount.porebrik > 0 ||
                   materialsCount.bordur > 0) &&
-                  isVisibleMaterials &&
-                  (plitkaPrice > 0 ||
-                    porebrikPrice > 0 ||
-                    pricePesok > 0 ||
-                    priceSheben > 0 ||
-                    priceCement > 0) && (
-                    <Table
-                      sx={{ minWidth: 300 }}
-                      size="small"
-                      stickyHeader
-                      aria-label="sticky table"
-                      style={{ marginTop: 20 }}
-                    >
-                      <TableRow>
-                        <TableCell
-                          colSpan={4}
-                          style={{ padding: "10px", color: "#967E76" }}
-                        >
-                          Необходимые материалы:
-                        </TableCell>
-                      </TableRow>
-                      <TableBody>
-                        {materialsFilter.map(
-                          (elem) =>
-                            elem.count > 0 && (
-                              <TableRow
-                                key={elem.name}
-                                sx={{
-                                  "&:last-child td, &:last-child th": {
-                                    border: 0,
-                                  },
-                                }}
+                isVisibleMaterials &&
+                (plitkaPrice > 0 ||
+                  pricePorebrik > 0 ||
+                  pricePesok > 0 ||
+                  priceSheben > 0 ||
+                  priceCement > 0) && (
+                  <Table
+                    sx={{ minWidth: 300 }}
+                    size="small"
+                    stickyHeader
+                    aria-label="sticky table"
+                    style={{ marginTop: 20 }}
+                  >
+                    <TableRow>
+                      <TableCell
+                        colSpan={4}
+                        style={{ padding: "10px", color: "#967E76" }}
+                      >
+                        Необходимые материалы:
+                      </TableCell>
+                    </TableRow>
+                    <TableBody>
+                      {materialsFilter.map(
+                        (elem) =>
+                          elem.count > 0 && (
+                            <TableRow
+                              key={elem.name}
+                              sx={{
+                                "&:last-child td, &:last-child th": {
+                                  border: 0,
+                                },
+                              }}
+                            >
+                              <TableCell style={{ minWidth: 110 }}>
+                                {elem.name}
+                              </TableCell>
+                              <TableCell
+                                style={{ minWidth: 110 }}
+                                align="right"
                               >
-                                <TableCell style={{ minWidth: 110 }}>
-                                  {elem.name}
-                                </TableCell>
-                                <TableCell
-                                  style={{ minWidth: 110 }}
-                                  align="right"
-                                >
-                                  {elem.count}
-                                  {elem.name === "Поребрик"
-                                    ? " м"
-                                    : elem.name === "Тротуарная плитка"
+                                {elem.count}
+                                {elem.name === "Поребрик"
+                                  ? " м"
+                                  : elem.name === "Тротуарная плитка"
                                     ? " м²"
                                     : elem.name === "Цемент (50кг)"
-                                    ? ` шт`
-                                    : " т"}
-                                </TableCell>
-                                <TableCell
-                                  style={{ minWidth: 110 }}
-                                  align="right"
-                                >
-                                  {elem.price} ₽
-                                </TableCell>
-                                <TableCell
-                                  style={{ minWidth: 110 }}
-                                  align="right"
-                                >
-                                  {parseInt(elem.count) * elem.price} ₽
-                                </TableCell>
-                              </TableRow>
-                            )
-                        )}
-                      </TableBody>
-                    </Table>
-                  )
+                                      ? ` шт`
+                                      : " т"}
+                              </TableCell>
+                              <TableCell
+                                style={{ minWidth: 110 }}
+                                align="right"
+                              >
+                                {elem.price} ₽
+                              </TableCell>
+                              <TableCell
+                                style={{ minWidth: 110 }}
+                                align="right"
+                              >
+                                {parseInt(elem.count) * elem.price} ₽
+                              </TableCell>
+                            </TableRow>
+                          )
+                      )}
+                    </TableBody>
+                  </Table>
+                )
               }
             </TableContainer>
             {checkDataWorks && (
