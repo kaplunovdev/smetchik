@@ -55,18 +55,23 @@ export const Payment = () => {
   const [typeUnits, setTypeUnits] = React.useState("");
   const [customAccordion, setCustomAccordion] = React.useState(false);
 
+  const isVisibleMaterials = useSelector(
+    (state) => state.materialPage.isVisible
+  );
+  console.log(isVisibleMaterials)
   const handleChecked = (event) => {
     if (
-      state.materialPage.pricePesok > 0 ||
-      state.materialPage.priceSheben > 0 ||
-      state.materialPage.priceCement > 0
+
+      plitkaPrice > 0 ||
+      priceSheben > 0 ||
+      priceCement > 0
     ) {
-      setChecked(event.target.checked);
+      isVisibleMaterials && setChecked(event.target.checked);
       setAlertWarning(false);
     } else if (
-      state.materialPage.pricePesok === "" &&
-      state.materialPage.priceSheben === "" &&
-      state.materialPage.priceCement === ""
+      pricePesok === "" &&
+      priceSheben === "" &&
+      priceCement === ""
     ) {
       setAlertWarning(true);
       setTimeout(() => {
@@ -138,9 +143,6 @@ export const Payment = () => {
   };
   const store = useStore();
   const state = store.getState();
-  const isVisibleMaterials = useSelector(
-    (state) => state.materialPage.isVisible
-  );
 
   const priceMaterials = state.materialPage.priceMaterials;
 
@@ -268,14 +270,14 @@ export const Payment = () => {
   };
 
   const materials = [
-    plitkaPrice !== ""
+    plitkaPrice > 0
       ? createData(
         "Тротуарная плитка",
         plitkaPrice,
         materialsCount.plitka > 0 && materialsCount.plitka
       )
       : null,
-    priceCement !== ""
+    priceCement > 0
       ? createData(
         "Цемент (50кг)",
         priceCement,
@@ -285,7 +287,7 @@ export const Payment = () => {
         (checked && materialsCount.betonCement)
       )
       : null,
-    priceSheben !== ""
+    priceSheben > 0
       ? createData(
         "Щебень",
         priceSheben,
@@ -295,7 +297,7 @@ export const Payment = () => {
         materialsCount.bordurSheben
       )
       : null,
-    pricePesok !== ""
+    pricePesok > 0
       ? createData(
         "Песок",
         pricePesok,
@@ -305,7 +307,7 @@ export const Payment = () => {
         materialsCount.bordurPesok
       )
       : null,
-    pricePorebrik !== ""
+    pricePorebrik > 0
       ? createData("Поребрик", pricePorebrik, materialsCount.porebrik)
       : null,
   ];
@@ -822,7 +824,7 @@ export const Payment = () => {
                 <p className={style.resultItem}>
                   <span>Итого:</span>
                   <span className={style.resultNum}>
-                    {resultWorks + resultMaterials} ₽
+                    {resultWorks + (isVisibleMaterials && resultMaterials)} ₽
                   </span>
                 </p>
               </div>
